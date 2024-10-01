@@ -28,6 +28,11 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'lecturer') {
         <h2>Welcome, <?php echo $_SESSION['username']; ?>!</h2>
         <p>This is the lecturer dashboard where you can manage content.</p>
         <p><a href="logout.php">Logout</a></p>
+
+        <ul>
+            <li><a href="xxx.php">Certification Overview</a></li>
+            <li><a href="xxx.php">Registration Overview</a></li>
+        </ul>
     </section>
 
     
