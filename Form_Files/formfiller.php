@@ -14,9 +14,9 @@ echo "</pre></div>";
 
 // Configuration
 // Set location for FDF and PDF files
-$outputLocation = "form_output/";
+$outputLocation = "output/";
 // Location of original PDF form
-$pdfLocation = "output_template.pdf";
+$pdfLocation = "template.pdf";
 
 
 // Loop through the $_POST data, creating a new row in the FDF file for each key/value pair
@@ -68,6 +68,14 @@ foreach($_POST as $key => $value) {
         $fdf .= "<< /V /" . $value . " /T (" . $key . ") >>" . "\r\n";
     }
 
+    // Dropdown
+    else if(stringEndsWith($key, "_dropdown")) {
+        $key = str_replace("_dropdown", "", $key);
+        // Format:
+        // << /V (Option 2) /T (Dropdown) >>
+
+        $fdf .= "<< /V (" . $value . ") /T (" . $key . ") >>" . "\r\n";
+    }
     
     // Unknown type
     else {

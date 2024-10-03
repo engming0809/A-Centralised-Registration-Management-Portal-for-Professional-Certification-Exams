@@ -1,190 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
     <title>Certification Application Form</title>
-</head>
-<body>
-    <h1>Application for ISTQB / IREB (Foundation & Advanced) Level Certification</h1>
+  </head>
+  <body>
+    <form action="formfiller.php" method="post">
+      <h2>Certification Examination Type and Fee</h2>
+      <label for="type_radio">Select Certification Type:</label><br>
+      <input type="radio" name="type_radio" value="ctfl" required>ISTQB Certified Tester Foundation Level (CTFL) - RM 900.00<br>
+      <input type="radio" name="type_radio" value="cpre">IREB Certified Professional for Requirements Engineering Foundation Level (CPRE-FL) - RM 900.00<br>
+      <input type="radio" name="type_radio" value="agile">IREB RE@Agile Primer - RM 900.00<br>
+      <input type="radio" name="type_radio" value="advanced">IREB Advanced Level Requirements Elicitation - Practitioner - RM 1050.00<br><br>
+      <h2>Mode/Terms of Payment</h2>
+      <label for="payment_radio">Mode of Payment:</label><br>
+      <input type="radio" name="payment_radio" value="company">
+      <label for="payment_radio">Company Sponsored</label><br>
+      <input type="radio" name="payment_radio" value="cash_che">
+      <label for="payment_radio">Cash Cheque</label><br>
+      <input type="radio" name="payment_radio" value="self">
+      <label for="payment_radio">Self-Sponsored</label><br>
+      <input type="radio" name="payment_radio" value="bank_che">
+      <label for="payment_radio">Bankers' Cheque</label><br>
+      <input type="radio" name="payment_radio" value="jom">
+      <label for="payment_radio">JomPAY</label><br>
+      <input type="radio" name="payment_radio" value="credit">
+      <label for="payment_radio">Credit Card</label><br>
+      <input type="radio" name="payment_radio" value="online">
+      <label for="payment_radio">Online Payment</label><br><br>
+      <h2>Personal Information</h2>
+      <label for="full_name_textbox">Full Name (as per IC / passport):</label><br>
+      <input type="text" name="full_name_textbox" required><br><br>
 
-    <form action="formfiller.php" method="POST">
-        <h2>Certification Examination Type and Fee</h2>
-        <label for="type_radio">Select Certification Type:</label><br>
-        <input type="radio" name="type_radio" value="ctfl" required>ISTQB Certified Tester Foundation Level (CTFL) - RM 900.00<br>
-        <input type="radio" name="type_radio" value="cpre">IREB Certified Professional for Requirements Engineering Foundation Level (CPRE-FL) - RM 900.00<br>
-        <input type="radio" name="type_radio" value="agile">IREB RE@Agile Primer - RM 900.00<br>
-        <input type="radio" name="type_radio" value="advanced">IREB Advanced Level Requirements Elicitation - Practitioner - RM 1050.00<br><br>
-        <h2>Mode/Terms of Payment</h2>
+      <label for="nationality_textbox">Nationality:</label><br>
+      <input type="text" name="nationality_textbox" required><br><br>
 
-<label for="payment_radio">Mode of Payment:</label><br>
-<input type="radio" name="payment_radio" value="Company Sponsored">
-<label for="payment_radio">Company Sponsored</label><br>
-<input type="radio" name="payment_radio" value="Cash Cheque">
-<label for="payment_radio">Cash Cheque</label><br>
-<input type="radio" name="payment_radio" value="Self-Sponsored">
-<label for="payment_radio">Self-Sponsored</label><br>
-<input type="radio" name="payment_radio" value="Bankers Cheque">
-<label for="payment_radio">Bankers' Cheque</label><br>
-<input type="radio" name="payment_radio" value="JomPAY">
-<label for="payment_radio">JomPAY</label><br>
-<input type="radio" name="payment_radio" value="Credit Card">
-<label for="payment_radio">Credit Card</label><br>
-<input type="radio" name="payment_radio" value="Online Payment">
-<label for="payment_radio">Online Payment</label><br><br>
+      <label for="ic_num_textbox">New IC Number (Malaysian only):</label><br>
+      <input type="text" name="ic_num_textbox"><br><br>
 
-        <h2>Personal Information</h2>
-        <label for="full_name_textbox">Full Name (as per IC / passport):</label><br>
-        <input type="text" name="full_name_textbox" required><br><br>
+      <label for="pass_num_textbox">Passport Number (Non-Malaysian only):</label><br>
+      <input type="text" name="pass_num_textbox"><br><br>
 
-        <label for="nationality_textbox">Nationality:</label><br>
-        <input type="text" name="nationality_textbox" required><br><br>
+      <label for="dob_textbox">Date of Birth (dd/mm/yyyy):</label><br>
+      <input type="text" name="dob_textbox" required><br><br>
+      <label for="gender_radio">Gender:</label><br>
+      <input type="radio" name="gender_radio" value="male"> Male
+      <input type="radio" name="gender_radio" value="female"> Female<br><br>
 
-        <label for="ic_num_textbox">New IC Number (Malaysian only):</label><br>
-        <input type="text" name="ic_num_textbox"><br><br>
+      <label for="pob_textbox">Place of Birth:</label><br>
+      <input type="text" name="pob_textbox" required><br><br>
 
-        <label for="pass_num_textbox">Passport Number (Non-Malaysian only):</label><br>
-        <input type="text" name="pass_num_textbox"><br><br>
+      <label for="race_radio">Race:</label><br>
+      <input type="radio" name="race_radio" value="malay"> Malay
+      <input type="radio" name="race_radio" value="chinese"> Chinese
+      <input type="radio" name="race_radio" value="indian"> Indian
+      <input type="radio" name="race_radio" value="other"> Other: <input type="text" name="race_other_textbox"><br><br>
 
-        <label for="dob_textbox">Date of Birth (dd/mm/yyyy):</label><br>
-        <input type="text" name="dob_textbox" required><br><br>
+      <label for="company_name_textbox">Company Name:</label><br>
+      <input type="text" name="company_name_textbox" required><br><br>
 
-        <label for="gender_radio">Gender:</label><br>
-        <input type="radio" name="gender_radio" value="M"> Male
-        <input type="radio" name="gender_radio" value="F"> Female<br><br>
+      <label for="job_textbox">Job Title:</label><br>
+      <input type="text" name="job_textbox" required><br><br>
 
-        <label for="pob_textbox">Place of Birth:</label><br>
-        <input type="text" name="pob_textbox" required><br><br>
+      <label for="position_level_radio">Position Level:</label><br>
+      <input type="radio" name="position_level_radio" value="senior_man"> Senior Manager
+      <input type="radio" name="position_level_radio" value="manager"> Manager
+      <input type="radio" name="position_level_radio" value="senior_exec"> Senior Executive
+      <input type="radio" name="position_level_radio" value="exec"> Executive
+      <input type="radio" name="position_level_radio" value="fresh_entry"> Fresh/Entry Level
+      <input type="radio" name="position_level_radio" value="non_exec"> Non-Executive
+      <input type="radio" name="position_level_radio" value="pos_other"> Other: <input type="text" name="position_other_textbox"><br><br>
 
-        <label for="race_radio">Race:</label><br>
-        <input type="radio" name="race_radio" value="Malay"> Malay
-        <input type="radio" name="race_radio" value="Chinese"> Chinese
-        <input type="radio" name="race_radio" value="Indian"> Indian
-        <input type="radio" name="race_radio" value="Other"> Other: <input type="text" name="race_other_textbox"><br><br>
+      <label for="address_textbox">Correspondence Address:</label><br>
+      <input type="text" name="address_textbox" required><br><br>
 
-        <label for="company_name_textbox">Company Name:</label><br>
-        <input type="text" name="company_name_textbox" required><br><br>
+      <label for="city_textbox">City:</label><br>
+      <input type="text" name="city_textbox" required><br><br>
 
-        <label for="job_textbox">Job Title:</label><br>
-        <input type="text" name="job_textbox" required><br><br>
+      <label for="postcode_textbox">Postcode:</label><br>
+      <input type="text" name="postcode_textbox" required><br><br>
 
-        <label for="position_level_radio">Position Level:</label><br>
-        <input type="radio" name="position_level_radio" value="Senior Manager"> Senior Manager
-        <input type="radio" name="position_level_radio" value="Manager"> Manager
-        <input type="radio" name="position_level_radio" value="Senior Executive"> Senior Executive
-        <input type="radio" name="position_level_radio" value="Executive"> Executive
-        <input type="radio" name="position_level_radio" value="Fresh/Entry Level"> Fresh/Entry Level
-        <input type="radio" name="position_level_radio" value="Non-Executive"> Non-Executive
-        <input type="radio" name="position_level_radio" value="Other"> Other: <input type="text" name="position_other_textbox"><br><br>
+      <label for="state_country_textbox">State/Country:</label><br>
+      <input type="text" name="state_country_textbox" required><br><br>
 
-        <label for="address_textbox">Correspondence Address:</label><br>
-        <input type="text" name="address_textbox" required><br><br>
+      <label for="phone_textbox">Mobile Phone Number:</label><br>
+      <input type="text" name="phone_textbox" required><br><br>
 
-        <label for="city_textbox">City:</label><br>
-        <input type="text" name="city_textbox" required><br><br>
+      <label for="phone_alt_textbox">Alternate Phone Number:</label><br>
+      <input type="text" name="phone_alt_textbox"><br><br>
 
-        <label for="postcode_textbox">Postcode:</label><br>
-        <input type="text" name="postcode_textbox" required><br><br>
+      <label for="phone_work_textbox">Work Phone Number:</label><br>
+      <input type="text" name="phone_work_textbox"><br><br>
 
-        <label for="state_country_textbox">State/Country:</label><br>
-        <input type="text" name="state_country_textbox" required><br><br>
+      <label for="email_pri_textbox">Primary Email Address:</label><br>
+      <input type="text" name="email_pri_textbox" required><br><br>
 
-        <label for="phone_textbox">Mobile Phone Number:</label><br>
-        <input type="text" name="phone_textbox" required><br><br>
+      <label for="email_sec_textbox">Alternate Email Address:</label><br>
+      <input type="text" name="email_sec_textbox"><br><br>
 
-        <label for="phone_alt_textbox">Alternate Phone Number:</label><br>
-        <input type="text" name="phone_alt_textbox"><br><br>
+      
+      <h2>Education Background</h2>
+      <label for="education_radio">Highest Education Level:</label><br>
+      <input type="radio" name="education_radio" value="phd"> Doctorate (PhD)
+      <input type="radio" name="education_radio" value="masters"> Master’s Degree
+      <input type="radio" name="education_radio" value="bachelor"> Bachelor’s Degree
+      <input type="radio" name="education_radio" value="diploma"> Diploma
+      <input type="radio" name="education_radio" value="p_cert"> Professional Certificate
+      <input type="radio" name="education_radio" value="edu_other"> Other: <input type="text" name="edu_other_textbox"><br><br>
 
-        <label for="phone_work_textbox">Work Phone Number:</label><br>
-        <input type="text" name="phone_work_textbox"><br><br>
+      <label for="work_exp_radio">Working Experience:</label><br>
+      <input type="radio" name="work_exp_radio" value="less"> < 1 Year
+      <input type="radio" name="work_exp_radio" value="more"> > 1 Year (Specify years): <input type="number" name="work_other"><br><br>
 
-        <label for="email_pri_textbox">Primary Email Address:</label><br>
-        <input type="text" name="email_pri_textbox" required><br><br>
+      <h2>Company Information</h2>
+      <label for="comp_add_textbox">Company Address:</label><br>
+      <input type="text" name="comp_add_textbox" required><br><br>
 
-        <label for="email_sec_textbox">Alternate Email Address:</label><br>
-        <input type="text" name="email_sec_textbox"><br><br>
+      <label for="comp_city_textbox">City:</label><br>
+      <input type="text" name="comp_city_textbox" required><br><br>
 
-        <h2>Education Background</h2>
-        <label for="education_radio">Highest Education Level:</label><br>
-        <input type="radio" name="education_radio" value="Doctorate (PhD)"> Doctorate (PhD)
-        <input type="radio" name="education_radio" value="Master’s Degree"> Master’s Degree
-        <input type="radio" name="education_radio" value="Bachelor’s Degree"> Bachelor’s Degree
-        <input type="radio" name="education_radio" value="Diploma"> Diploma
-        <input type="radio" name="education_radio" value="Professional Certificate"> Professional Certificate
-        <input type="radio" name="education_radio" value="Other"> Other: <input type="text" name="edu_other_textbox"><br><br>
+      <label for="comp_post_textbox">Postcode:</label><br>
+      <input type="text" name="comp_post_textbox" required><br><br>
 
-        <label for="work_exp_radio">Working Experience:</label><br>
-        <input type="radio" name="work_exp_radio" value="<1 Year"> < 1 Year
-        <input type="radio" name="work_exp_radio" value=">1 Year"> > 1 Year (Specify years): <input type="number" name="work_other"><br><br>
+      <label for="comp_state_country_textbox">State/Country:</label><br>
+      <input type="text" name="comp_state_country_textbox" required><br><br>
 
-        <h2>Company Information</h2>
-        <label for="comp_add_textbox">Company Address:</label><br>
-        <input type="text" name="comp_add_textbox" required><br><br>
+      <label for="comp_con_name_textbox">Contact Person (HR):</label><br>
+      <input type="text" name="comp_con_name_textbox" required><br><br>
 
-        <label for="comp_city_textbox">City:</label><br>
-        <input type="text" name="comp_city_textbox" required><br><br>
+      <label for="comp_con_num_textbox">Contact Person's Phone Number:</label><br>
+      <input type="text" name="comp_con_num_textbox" required><br><br>
 
-        <label for="comp_post_textbox">Postcode:</label><br>
-        <input type="text" name="comp_post_textbox" required><br><br>
+      <label for="comp_email_textbox">Contact Person's Email:</label><br>
+      <input type="text" name="comp_email_textbox" required><br><br>
+      
+      <h2>Examination Session Information</h2>
+      <label for="exam_type_radio">Exam Type:</label><br>
+      <input type="radio" name="exam_type_radio" value="first"> First time
+      <input type="radio" name="exam_type_radio" value="retake_1"> 1st Re-take
+      <input type="radio" name="exam_type_radio" value="retake_2"> 2nd Re-take
+      <input type="radio" name="exam_type_radio" value="retake_3"> 3rd Re-take<br><br>
 
-        <label for="comp_state_country_textbox">State/Country:</label><br>
-        <input type="text" name="comp_state_country_textbox" required><br><br>
+      <label for="exam_mode_radio">Exam Mode:</label><br>
+      <input type="radio" name="exam_mode_radio" value="online"> Online
+      <input type="radio" name="exam_mode_radio" value="paper"> Paper-based<br><br>
 
-        <label for="comp_con_name_textbox">Contact Person (HR):</label><br>
-        <input type="text" name="comp_con_name_textbox" required><br><br>
+      <label for="exam_location_textbox">Examination Location/Center:</label><br>
+      <input type="text" name="exam_location_textbox"><br><br>
 
-        <label for="comp_con_num_textbox">Contact Person's Phone Number:</label><br>
-        <input type="text" name="comp_con_num_textbox" required><br><br>
+      <label for="exam_date_textbox">Exam Date:</label><br>
+      <input type="text" name="exam_date_textbox" required><br><br>
 
-        <label for="comp_email_textbox">Contact Person's Email:</label><br>
-        <input type="text" name="comp_email_textbox" required><br><br>
+      <h2>Special Assistance</h2>
+      <label for="disability_textbox">Type of Special Needs/Physical Disability (if any):</label><br>
+      <input type="text" name="disability_textbox"><br><br>
 
-        <h2>Examination Session Information</h2>
-        <label for="exam_type_radio">Exam Type:</label><br>
-        <input type="radio" name="exam_type_radio" value="First time"> First time
-        <input type="radio" name="exam_type_radio" value="1st Re-take"> 1st Re-take
-        <input type="radio" name="exam_type_radio" value="2nd Re-take"> 2nd Re-take
-        <input type="radio" name="exam_type_radio" value="3rd Re-take"> 3rd Re-take<br><br>
+      <label for="assistance_textbox">Assistance Required:</label><br>
+      <input type="text" name="assistance_textbox"><br><br>
 
-        <label for="exam_mode_radio">Exam Mode:</label><br>
-        <input type="radio" name="exam_mode_radio" value="Online"> Online
-        <input type="radio" name="exam_mode_radio" value="Paper-based"> Paper-based<br><br>
+      <h2>Language Information</h2>
+      <label for="lang_spoke_radio">Is English your primary/native spoken language?</label><br>
+      <input type="radio" name="lang_spoke_radio" value="lang_yes"> Yes
+      <input type="radio" name="lang_spoke_radio" value="lang_no"> No (Specify first language): <input type="text" name="lang_no_spoke"><br><br>
 
-        <label for="exam_location_textbox">Examination Location/Center:</label><br>
-        <input type="text" name="exam_location_textbox"><br><br>
+      <label for="lang_writ_radio">Is English your primary written language?</label><br>
+      <input type="radio" name="lang_writ_radio" value="lang_writ_yes"> Yes
+      <input type="radio" name="lang_writ_radio" value="lang_writ_no"> No (Specify primary written language): <input type="text" name="lang_no_writ"><br><br>
 
-        <label for="exam_date_textbox">Exam Date:</label><br>
-        <input type="text" name="exam_date_textbox" required><br><br>
+      <h2>Publishing Consent</h2>
+      <label for="privacy_radio">Publishing of Successful Candidate's Name in MSTB Portal:</label><br>
+      <input type="radio" name="privacy_radio" value="agree"> I agree
+      <input type="radio" name="privacy_radio" value="no_agree"> I do not agree<br><br>
 
-        <h2>Special Assistance</h2>
-        <label for="disability_textbox">Type of Special Needs/Physical Disability (if any):</label><br>
-        <input type="text" name="disability_textbox"><br><br>
+      <h2>Declaration</h2>
+      <label for="app_name_textbox">Name of Applicant:</label><br>
+      <input type="text" name="app_name_textbox" required><br><br>
 
-        <label for="assistance_textbox">Assistance Required:</label><br>
-        <input type="text" name="assistance_textbox"><br><br>
+      <label for="signature_textbox">Signature:</label><br>
+      <input type="text" name="signature_textbox" required><br><br>
 
-        <h2>Language Information</h2>
-        <label for="lang_spoke_radio">Is English your primary/native spoken language?</label><br>
-        <input type="radio" name="lang_spoke_radio" value="Yes"> Yes
-        <input type="radio" name="lang_spoke_radio" value="No"> No (Specify first language): <input type="text" name="lang_no_spoke"><br><br>
 
-        <label for="lang_writ_radio">Is English your primary written language?</label><br>
-        <input type="radio" name="lang_writ_radio" value="Yes"> Yes
-        <input type="radio" name="lang_writ_radio" value="No"> No (Specify primary written language): <input type="text" name="lang_no_writ"><br><br>
-
-        <h2>Publishing Consent</h2>
-        <label for="privacy_radio">Publishing of Successful Candidate's Name in MSTB Portal:</label><br>
-        <input type="radio" name="privacy_radio" value="Agree"> I agree
-        <input type="radio" name="privacy_radio" value="Disagree"> I do not agree<br><br>
-
-        <h2>Declaration</h2>
-        <label for="app_name_textbox">Name of Applicant:</label><br>
-        <input type="text" name="app_name_textbox" required><br><br>
-
-        <label for="signature_textbox">Signature:</label><br>
-        <input type="text" name="signature_textbox" required><br><br>
-
-        <input type="submit" value="Submit">
+      <input type="submit">
     </form>
-</body>
+  </body>
 </html>
