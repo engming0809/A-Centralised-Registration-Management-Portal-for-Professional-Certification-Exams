@@ -72,6 +72,14 @@ $sql = "CREATE TABLE IF NOT EXISTS CertificationRegistrations (
 )";
 $conn->query($sql);
 
+$sql = "CREATE TABLE IF NOT EXISTS reg_RegistrationForm (
+    form_id INT AUTO_INCREMENT PRIMARY KEY,
+    filepath VARCHAR(255) NOT NULL,
+    registration_id INT,
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+)";
+$conn->query($sql);
+
 $sql = "CREATE TABLE IF NOT EXISTS reg_PaymentInvoice (
     invoice_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
