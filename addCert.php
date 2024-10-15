@@ -54,7 +54,7 @@ if (empty($_POST["schedule"])) {// Validation process
 	}
 
     if (empty($_POST["cost"])) {// Validation process
-        $costErr = "<p style='color:red;'>A description is required</p>";
+        $costErr = "<p style='color:red;'>A cost is required</p>";
         }else{
             $cost = $_POST["cost"];
         
