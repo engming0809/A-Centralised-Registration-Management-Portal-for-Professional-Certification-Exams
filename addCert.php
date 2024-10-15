@@ -45,7 +45,21 @@ if (empty($_POST["description"])) {// Validation process
   } else {
     $requirements = $_POST["requirements"];
 
-}}
+}
+if (empty($_POST["schedule"])) {// Validation process
+	$scheduleErr = "<p style='color:red;'>A schedule is required</p>";
+	}else{
+		$schedule = $_POST["schedule"];
+	
+	}
+
+    if (empty($_POST["cost"])) {// Validation process
+        $costErr = "<p style='color:red;'>A description is required</p>";
+        }else{
+            $cost = $_POST["cost"];
+        
+        }
+}
 if (!empty($_POST["cert_name"]) && !empty($_POST["description"])) {
 	$record = "<p style='color:green;'>Record is saved</p>"; //Message if all inputs are valid
 }else{
@@ -86,11 +100,11 @@ function connectDB(){//Function to connect to database
 		<fieldset>
 			<legend>Information</legend>
 				<p style="color:red;"><span class="error">* required field</span></p>
-					<label for="cert_name">Certification Name: <input type="text" id="cert_name" name="cert_name"><span style="color:red;" class="error">* <?php echo $nameErr;?></span></label><br>
-					<label for="description">Description: <input type="text" id="description" name="description"><span style="color:red;" class="error">* <?php echo $stafIDErr;?></span></label><br>
-					<label for="requirements">Requirement: <input type="text" id="requirements" name="requirements"><span style="color:red;" class="error">* <?php echo $emailErr;?></span></label><br>
-					<label for="schedule">Schedule Date: <input type="text" id="schedule" name="schedule"><span style="color:red;" class="error">* <?php echo $emailErr;?></span></label><br>
-					<label for="cost">Cost: <input type="text" id="cost" name="cost"><span style="color:red;" class="error">* <?php echo $emailErr;?></span></label><br>	
+					<label for="cert_name">Certification Name: <input type="text" id="cert_name" name="cert_name"><span style="color:red;" class="error">* <?php echo $cert_nameErr;?></span></label><br>
+					<label for="description">Description: <input type="text" id="description" name="description"><span style="color:red;" class="error">* <?php echo $descriptionErr;?></span></label><br>
+					<label for="requirements">Requirement: <input type="text" id="requirements" name="requirements"><span style="color:red;" class="error">* <?php echo $requirementsErr;?></span></label><br>
+					<label for="schedule">Schedule Date: <input type="text" id="schedule" name="schedule"><span style="color:red;" class="error">* <?php echo $scheduleErr;?></span></label><br>
+					<label for="cost">Cost: <input type="text" id="cost" name="cost"><span style="color:red;" class="error">* <?php echo $costErr;?></span></label><br>	
 	
 			<p><input type="submit" name="confirm" value="Add Certification"></p>
 			<?= $record?>
