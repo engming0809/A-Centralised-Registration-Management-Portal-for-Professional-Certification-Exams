@@ -53,7 +53,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Certifications (
     certification_name VARCHAR(255) NOT NULL,
     description TEXT,
     requirements VARCHAR(255),
-    schedule VARCHAR(255) NOT NULL,
+    schedule DATE NOT NULL,
     cost VARCHAR(255) NOT NULL,
     lecturer_id INT,
     FOREIGN KEY (lecturer_id) REFERENCES Lecturer(lecturer_id)

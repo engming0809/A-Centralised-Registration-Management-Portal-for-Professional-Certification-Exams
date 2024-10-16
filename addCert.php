@@ -103,7 +103,7 @@ function connectDB(){//Function to connect to database
 					<label for="cert_name">Certification Name: <input type="text" id="cert_name" name="cert_name"><span style="color:red;" class="error">* <?php echo $cert_nameErr;?></span></label><br>
 					<label for="description">Description: <input type="text" id="description" name="description"><span style="color:red;" class="error">* <?php echo $descriptionErr;?></span></label><br>
 					<label for="requirements">Requirement: <input type="text" id="requirements" name="requirements"><span style="color:red;" class="error">* <?php echo $requirementsErr;?></span></label><br>
-					<label for="schedule">Schedule Date: <input type="text" id="schedule" name="schedule"><span style="color:red;" class="error">* <?php echo $scheduleErr;?></span></label><br>
+					<label for="schedule">Schedule Date: <input type="date" id="schedule" name="schedule"><span style="color:red;" class="error">* <?php echo $scheduleErr;?></span></label><br>
 					<label for="cost">Cost: <input type="text" id="cost" name="cost"><span style="color:red;" class="error">* <?php echo $costErr;?></span></label><br>	
 	
 			<p><input type="submit" name="confirm" value="Add Certification"></p>
