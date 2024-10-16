@@ -32,7 +32,7 @@
             $cert_name = $_GET['delete'];
             $delete = "DELETE FROM certifications WHERE certification_name='$cert_name'";
             $conn->query($delete);
-            echo "<p>Record for $cert_name has been deleted.</p>";
+            echo "<p style='color:red;'>Record for $cert_name has been deleted.</p>";
         }
     
         // Handle edit request (update form submission)
@@ -44,7 +44,7 @@
             $cost = $_POST['cost'];
     
             $conn->query("UPDATE certifications SET certification_name='$cert_name', description='$description', requirements='$requirements', schedule='$schedule', cost='$cost' WHERE certification_name='$cert_name'");
-            echo "<p>Record with the certification name $cert_name updated successfully.</p>";
+            echo "<p style='color:blue;'>Record with the certification name $cert_name updated successfully.</p>";
         }
 
     if ($result->num_rows > 0) {
