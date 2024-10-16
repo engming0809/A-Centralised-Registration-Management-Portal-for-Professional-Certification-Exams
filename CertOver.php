@@ -49,7 +49,8 @@
 
     if ($result->num_rows > 0) {
         // Start the table
-        echo "<table>
+        echo "<a href='addCert.php'>Add New Certification</a>
+        <table>
                 <tr>
                     <th>Certification Name</th>
                     <th>Description</th>

@@ -57,6 +57,7 @@ if(isset($_POST['delete'])){
 }
 ?>
 <form method="POST">
+
 <table class="center">
 	<tr><td><p><strong>Certification Name:</strong></p></td><td><p><?php echo $row['cert_name'];?></p></td></tr>
 	<tr><td><p><strong>Description:</strong></p></td><td><p><?php echo $row['description'];?></p></td></tr>

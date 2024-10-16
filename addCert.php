@@ -61,7 +61,8 @@ if (empty($_POST["schedule"])) {// Validation process
         }
 }
 if (!empty($_POST["cert_name"]) && !empty($_POST["description"])) {
-	$record = "<p style='color:green;'>Record is saved</p>"; //Message if all inputs are valid
+	$record = "<p style='color:green;'>Record is saved</p>";
+    $overview="<a href='CertOver.php'>Back To Overview</a>"; //Message if all inputs are valid
 }else{
 	$record = "";
 }
@@ -107,7 +108,7 @@ function connectDB(){//Function to connect to database
 					<label for="cost">Cost: <input type="text" id="cost" name="cost"><span style="color:red;" class="error">* <?php echo $costErr;?></span></label><br>	
 	
 			<p><input type="submit" name="confirm" value="Add Certification"></p>
-			<?= $record?>
+			<?= $record, $overview?>
 		</fieldset>
 	</form>
 <footer>
