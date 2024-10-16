@@ -19,10 +19,10 @@
 </head>
 
 <body>
-<h1>Staff Profile</h1>
+<h1>Certification Overview</h1>
 <div class="display">
 <fieldset>
-<legend>Employees Information</legend>
+<legend>Information</legend>
 <?php
 function connectDB(){//Function to connect to database
 	$servername = "localhost";
@@ -70,9 +70,6 @@ if(isset($_POST['delete'])){
 </form>
 </fieldset>
 </div>
-<footer>
-<p><a href="MainMenu.php">Main Menu</a></p>
-<p><a href="">Logout</a></p>
-</footer>
+
 </body>
 </html>

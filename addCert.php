@@ -9,8 +9,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="author" content="Bongani Fuzwayo">
-	<meta name="description" content="Hompage">
-	<meta name="keywords" content="Index, Add_Staff, View_Staff, Delete, About">
+	<meta name="description" content="Lecturer">
+	<meta name="keywords" content="Add_cert">
 	<!--<link rel="stylesheet" type="text/css" href="../style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
