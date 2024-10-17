@@ -98,6 +98,7 @@ function connectDB(){//Function to connect to database
 }
  ?>
 	<h1>Add New Certification</h1>
+    <a href="CertOver.php">Overview</a>
 	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 		<fieldset>
 			<legend>Information</legend>
