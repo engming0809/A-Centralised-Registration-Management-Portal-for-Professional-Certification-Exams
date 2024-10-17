@@ -120,6 +120,7 @@ $sql = "CREATE TABLE IF NOT EXISTS reg_Certificate (
 )";
 $conn->query($sql);
 
+
 $conn->close();
 ?>
 
