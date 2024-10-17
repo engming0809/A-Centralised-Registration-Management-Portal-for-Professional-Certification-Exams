@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certification Overview</title>
+    <title>Student Certification Overview</title>
 </head>
 <body>
 
-    <h1>Certification Overview</h1>
+    <h1>Student Certification Overview</h1>
 
     <?php
     // Database credentials
@@ -31,7 +31,7 @@
 
     if ($result->num_rows > 0) {
         // Start the table
-        echo "<a href='addCert.php'>Add New Certification</a>
+        echo "
         <table>
                 <tr>
                     <th>Certification Name</th>
