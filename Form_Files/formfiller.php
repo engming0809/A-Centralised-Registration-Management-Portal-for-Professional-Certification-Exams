@@ -133,6 +133,9 @@ function insertRecord($outputPDF,$conn){//Function to insert the inputs from the
     }
 }
 
+function insertRecord2(,$conn){
+    $sql2 = "INSERT INTO "
+}
 insertRecord($outputPDF,$conn);
 
 /**
