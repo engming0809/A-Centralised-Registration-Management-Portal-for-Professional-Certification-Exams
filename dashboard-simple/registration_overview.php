@@ -146,8 +146,8 @@ try {
                             <td>
                                 <?php if (!empty($registration['registration_form_path'])): ?>
                                     <object data="<?= htmlspecialchars($registration['registration_form_path']) ?>" type="application/pdf">
-                                        <p><a href="<?= htmlspecialchars($registration['registration_form_path']) ?>">Download the PDF</a>.</p>
                                     </object>
+                                    <p><a href="<?= htmlspecialchars($registration['registration_form_path']) ?>">Download the PDF</a>.</p>
                                 <?php else: ?>
                                     N/A
                                 <?php endif; ?>
@@ -188,14 +188,11 @@ try {
                             </td>
                             <td>
                                 <?php if (!empty($registration['exam_confirmation_letter_path'])): ?>
-                                    <object data="<?= htmlspecialchars($registration['exam_confirmation_letter_path']) ?>" type="application/pdf"></object>
+                                      <object data="<?= htmlspecialchars($registration['exam_confirmation_letter_path']) ?>" type="application/pdf">
+                                    </object>
+                                    <p><a href="<?= htmlspecialchars($registration['exam_confirmation_letter_path']) ?>">Download the PDF</a>.</p>
                                 <?php else: ?>
-                                    <p>No receipt uploaded. Please upload a new Exam Confirmation Letter:</p>
-                                    <form method="POST" enctype="multipart/form-data" action="upload_examconfirmationletter.php">
-                                        <input type="hidden" name="confirmation_id" value="<?= htmlspecialchars($registration['confirmation_id']) ?>">
-                                        <input type="file" name="exam_confirmation_letter" accept=".pdf" required>
-                                        <input type="submit" value="Upload New Exam Confirmation Letter">
-                                    </form>
+                                    N/A
                                 <?php endif; ?>
                             </td>
                             <td>
@@ -204,6 +201,9 @@ try {
                             <td>
                                 <?php if (!empty($registration['certificate_path'])): ?>
                                     <object data="<?= htmlspecialchars($registration['certificate_path']) ?>" type="application/pdf"></object>
+                                    </object>
+                                    <p><a href="<?= htmlspecialchars($registration['certificate_path']) ?>">Download the PDF</a>.</p>
+
                                 <?php else: ?>
                                     N/A
                                 <?php endif; ?>
