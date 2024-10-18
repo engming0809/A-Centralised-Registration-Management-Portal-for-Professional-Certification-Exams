@@ -61,7 +61,7 @@
     ?>
 
     <!-- Edit Form -->
-    <form action="edit.php?edit=<?php echo $cert_name; ?>" method="post">
+    <form action="EditCert.php?edit=<?php echo $cert_name; ?>" method="post">
         <label for="certification_name">Certification Name:</label>
         <input type="text" name="certification_name" value="<?php echo $record['certification_name']; ?>" required><br>
         
