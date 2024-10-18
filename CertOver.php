@@ -68,7 +68,7 @@
                     <td>" . $row["schedule"] . "</td>
                     <td>" . $row["cost"] . "</td>
                     <td>
-                        <a href='?edit=" . $row["certification_name"] . "' class='btn btn-edit'>Edit</a>
+                        <a href='EditCert.php?edit=" . $row["certification_name"] . "' class='btn btn-edit'>Edit</a>
                         <a href='?delete=" . $row["certification_name"] . "' class='btn btn-delete' onclick='return confirm(\"Are you sure you want to delete this record?\")'>Delete</a>
                     </td>
                   </tr>";
@@ -78,7 +78,8 @@
     } else {
         echo "<p>No results found</p>";
     }
-    if (isset($_GET['edit'])) {
+
+  /*  if (isset($_GET['edit'])) {
         $cert_name = $_GET['edit'];
         $record = $conn->query("SELECT * FROM certifications WHERE certification_name='$cert_name'")->fetch_assoc();
         ?>
@@ -97,7 +98,7 @@
             <input type="submit" name="update" value="Update" class="btn">
         </form>
         <?php
-    }
+    }*/
 
     // Close the connection
     $conn->close();
