@@ -52,9 +52,9 @@ $sql = "CREATE TABLE IF NOT EXISTS Certifications (
     certification_id INT AUTO_INCREMENT PRIMARY KEY,
     certification_name VARCHAR(255) NOT NULL,
     description TEXT,
-    requirements VARCHAR(255),
-    schedule DATE NOT NULL,
-    cost VARCHAR(255) NOT NULL,
+    requirements TEXT,
+    schedule DATETIME,
+    cost DECIMAL(10, 2),
     lecturer_id INT,
     FOREIGN KEY (lecturer_id) REFERENCES Lecturer(lecturer_id)
 )";
@@ -69,6 +69,14 @@ $sql = "CREATE TABLE IF NOT EXISTS CertificationRegistrations (
     certification_id INT,
     FOREIGN KEY (student_id) REFERENCES Student(student_id),
     FOREIGN KEY (certification_id) REFERENCES Certifications(certification_id)
+)";
+$conn->query($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS reg_RegistrationForm (
+    form_id INT AUTO_INCREMENT PRIMARY KEY,
+    filepath VARCHAR(255) NOT NULL,
+    registration_id INT,
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
 )";
 $conn->query($sql);
 
@@ -119,7 +127,6 @@ $sql = "CREATE TABLE IF NOT EXISTS reg_Certificate (
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
 )";
 $conn->query($sql);
-
 
 $conn->close();
 ?>
