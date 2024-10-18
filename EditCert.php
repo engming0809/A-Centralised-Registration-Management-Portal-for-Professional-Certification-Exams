@@ -52,7 +52,7 @@
         if ($conn->query($update_query)) {
             echo "<p>Record for certification $cert_name updated successfully.</p>";
             // Redirect back to the main page after update
-            //header('Location: index.php');
+            header('Location: CertOver.php');
             exit;
         } else {
             echo "<p>Failed to update record for $cert_name.</p>";
