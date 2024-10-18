@@ -5,25 +5,20 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'lecturer') {
     exit();
 }
 
-// Database connection details
 $host = '127.0.0.1';
 $db = 'cert_reg_management_db';
 $user = 'root';
 $pass = '';
 
 try {
-    // Connect to the database
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Fetch certifications for the filter
     $certStmt = $pdo->query("SELECT certification_id, certification_name FROM certifications");
     $certifications = $certStmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Check if a certification filter is set
     $certificationId = isset($_GET['certification']) ? $_GET['certification'] : null;
 
-    // Prepare the main query
     $query = "
         SELECT r.registration_id, r.registration_status, r.created_at, r.updated_at, 
                r.student_id, r.certification_id, 
