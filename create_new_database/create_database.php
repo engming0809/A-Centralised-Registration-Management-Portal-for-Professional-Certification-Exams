@@ -36,7 +36,9 @@ $sql = "CREATE TABLE IF NOT EXISTS Lecturer (
     lecturer_id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    status ENUM('active', 'inactive', 'pending') NOT NULL DEFAULT 'pending',
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 $conn->query($sql);
 
@@ -44,17 +46,57 @@ $sql = "CREATE TABLE IF NOT EXISTS Student (
     student_id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    status ENUM('active', 'inactive', 'pending') NOT NULL DEFAULT 'pending',
+    password VARCHAR(255) NOT NULL,
+    verification_token VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 $conn->query($sql);
 
+// Create Admin table if not exists
+$sql = "CREATE TABLE IF NOT EXISTS Admin (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$conn->query($sql);
+
+// Check if an admin account exists
+$adminEmail = 'admin@swinburne.edu.my'; // Replace with the desired admin email
+$adminPassword = '123456'; // Replace with the desired password
+
+$sql = "SELECT * FROM Admin WHERE email = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $adminEmail);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// If admin account doesn't exist, insert it
+if ($result->num_rows == 0) {
+    $sql = "INSERT INTO Admin (full_name, email, password) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $adminName, $adminEmail, $adminPassword);
+
+    $adminName = 'Admin'; // Replace with the desired admin full name
+    if ($stmt->execute()) {
+        echo "Admin account created successfully.";
+    } else {
+        echo "Error creating admin account: " . $conn->error;
+    }
+} else {
+    echo "Admin account already exists.";
+}
+
+// Create Certifications table if not exists
 $sql = "CREATE TABLE IF NOT EXISTS Certifications (
     certification_id INT AUTO_INCREMENT PRIMARY KEY,
     certification_name VARCHAR(255) NOT NULL,
     description TEXT,
     requirements TEXT,
     schedule DATETIME,
-    cost DECIMAL(10, 2),
+    cost VARCHAR(255) NOT NULL,
     lecturer_id INT,
     FOREIGN KEY (lecturer_id) REFERENCES Lecturer(lecturer_id)
 )";

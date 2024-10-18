@@ -9,8 +9,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="author" content="Bongani Fuzwayo">
-	<meta name="description" content="Hompage">
-	<meta name="keywords" content="Index, Add_Staff, View_Staff, Delete, About">
+	<meta name="description" content="Lecturer">
+	<meta name="keywords" content="Add_cert">
 	<!--<link rel="stylesheet" type="text/css" href="../style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
@@ -61,9 +61,11 @@ if (empty($_POST["schedule"])) {// Validation process
         }
 }
 if (!empty($_POST["cert_name"]) && !empty($_POST["description"])) {
-	$record = "<p style='color:green;'>Record is saved</p>"; //Message if all inputs are valid
+	$record = "<p style='color:green;'>Record is saved</p>";
+    $overview ="<a href='CertOver.php'>Back To Overview</a>"; //Message if all inputs are valid
 }else{
 	$record = "";
+    $overview = "";
 }
 if (!empty($_POST["cert_name"]) && !empty($_POST["description"]) ){
 	$conn=connectDB();
@@ -96,6 +98,7 @@ function connectDB(){//Function to connect to database
 }
  ?>
 	<h1>Add New Certification</h1>
+    <a href="CertOver.php">Overview</a>
 	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 		<fieldset>
 			<legend>Information</legend>
@@ -107,12 +110,9 @@ function connectDB(){//Function to connect to database
 					<label for="cost">Cost: <input type="text" id="cost" name="cost"><span style="color:red;" class="error">* <?php echo $costErr;?></span></label><br>	
 	
 			<p><input type="submit" name="confirm" value="Add Certification"></p>
-			<?= $record?>
+			<?= $record ;
+            echo $overview?>
 		</fieldset>
 	</form>
-<footer>
-	<p><a href="MainMenu.php">Main Menu</a></p>
-	<p><a href="index.php" name="logout">Logout</a></p>
-</footer>
 	</body>
 </html>

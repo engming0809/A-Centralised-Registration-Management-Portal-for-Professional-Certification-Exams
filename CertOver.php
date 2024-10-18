@@ -32,7 +32,7 @@
             $cert_name = $_GET['delete'];
             $delete = "DELETE FROM certifications WHERE certification_name='$cert_name'";
             $conn->query($delete);
-            echo "<p>Record for $cert_name has been deleted.</p>";
+            echo "<p style='color:red;'>Record for $cert_name has been deleted.</p>";
         }
     
         // Handle edit request (update form submission)
@@ -44,12 +44,13 @@
             $cost = $_POST['cost'];
     
             $conn->query("UPDATE certifications SET certification_name='$cert_name', description='$description', requirements='$requirements', schedule='$schedule', cost='$cost' WHERE certification_name='$cert_name'");
-            echo "<p>Record with the certification name $cert_name updated successfully.</p>";
+            echo "<p style='color:blue;'>Record with the certification name $cert_name updated successfully.</p>";
         }
 
     if ($result->num_rows > 0) {
         // Start the table
-        echo "<table>
+        echo "<a href='addCert.php'>Add New Certification</a>
+        <table>
                 <tr>
                     <th>Certification Name</th>
                     <th>Description</th>
@@ -67,7 +68,7 @@
                     <td>" . $row["schedule"] . "</td>
                     <td>" . $row["cost"] . "</td>
                     <td>
-                        <a href='?edit=" . $row["certification_name"] . "' class='btn btn-edit'>Edit</a>
+                        <a href='EditCert.php?edit=" . $row["certification_name"] . "' class='btn btn-edit'>Edit</a>
                         <a href='?delete=" . $row["certification_name"] . "' class='btn btn-delete' onclick='return confirm(\"Are you sure you want to delete this record?\")'>Delete</a>
                     </td>
                   </tr>";
@@ -77,7 +78,8 @@
     } else {
         echo "<p>No results found</p>";
     }
-    if (isset($_GET['edit'])) {
+
+  /*  if (isset($_GET['edit'])) {
         $cert_name = $_GET['edit'];
         $record = $conn->query("SELECT * FROM certifications WHERE certification_name='$cert_name'")->fetch_assoc();
         ?>
@@ -96,7 +98,7 @@
             <input type="submit" name="update" value="Update" class="btn">
         </form>
         <?php
-    }
+    }*/
 
     // Close the connection
     $conn->close();

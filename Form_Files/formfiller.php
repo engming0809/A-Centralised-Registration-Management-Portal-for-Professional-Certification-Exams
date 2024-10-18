@@ -1,5 +1,7 @@
 <?php
 
+
+
 // If someone visited formFiller.php without having filled out the HTML form in index.php, stop rendering the page
 if(empty($_POST)) {
     echo "<p>You've visited this page in error.</p>";
@@ -108,7 +110,33 @@ echo "<p>Done! Your application will be reviewed shortly.</p>";
 echo "<p>It is stored in: " . $outputPDF . "</p>";
 echo "<p><br/><a href='/'>Home</a></p>";
 echo "<iframe src='" . $outputPDF . "' width='100%' height='100%'></iframe>";
+$servername = 'localhost';
+$db   = 'cert_reg_management_db';
+$user = 'root';
+$pass = '';
 
+// Create a connection
+$conn = new mysqli($servername, $user, $pass, $db);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+function insertRecord($outputPDF,$conn){//Function to insert the inputs from the user
+    $sql = "INSERT INTO reg_registrationform (filepath) VALUES ('$outputPDF')";//SQL statement that inserts into the staff_table
+    
+    
+    if (mysqli_query($conn,$sql)){
+        echo "";
+    }else{
+        echo "ERROR: Could not execute SQL".mysqli_error($conn);
+    }
+}
+
+function insertRecord2(,$conn){
+    $sql2 = "INSERT INTO ";
+}
+insertRecord($outputPDF,$conn);
 
 /**
  * Simple "ends with" function, because PHP only included an endsWith() in 8.0
