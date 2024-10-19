@@ -35,8 +35,8 @@ $students = getRegisteredStudents($db);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecturer Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <link rel="stylesheet" href="../dashboard-simple/style/style.css">
+    </head>
 <body>
     <h1>Lecturer Dashboard</h1>
     

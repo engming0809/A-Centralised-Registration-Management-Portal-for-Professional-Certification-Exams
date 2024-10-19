@@ -30,8 +30,8 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'lecturer') {
         <p><a href="logout.php">Logout</a></p>
 
         <ul>
-            <li><a href="xxx.php">Certification Overview</a></li>
-            <li><a href="xxx.php">Registration Overview</a></li>
+            <li><a href="http://localhost/FYP/dashboard-simple/registration_overview.php">Registration Overview</a></li>
+            <li><a href="http://localhost/FYP/dashboard-simple/certification_list.php">Certification Overview</a></li>
         </ul>
     </section>
 
