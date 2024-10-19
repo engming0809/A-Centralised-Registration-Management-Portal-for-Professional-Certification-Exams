@@ -176,8 +176,51 @@
       <input type="text" name="app_name_textbox" required><br><br>
 
       <label for="signature_textbox">Signature:</label><br>
-      <input type="text" name="signature_textbox" required><br><br>
+      <!--<input type="text" name="signature_textbox" required><br><br> -->
+      <div style='border-style: solid;'>
+      <canvas id="signature-pad" width="220" height="35"></canvas><br>
+      </div>
+      <button type="button" id="clear-signature">Clear</button><br><br>
+      <input type="hidden" id="signature_textbox" name="signature_textbox">
+      <script>
+        const canvas = document.getElementById('signature-pad');
+        const clearButton = document.getElementById('clear-signature');
+        const signatureInput = document.getElementById('signature_textbox');
+        const ctx = canvas.getContext('2d');
 
+        let drawing = false;
+
+        // Start drawing
+        canvas.addEventListener('mousedown', () => {
+            drawing = true;
+            ctx.beginPath();
+        });
+
+        // Drawing the signature
+        canvas.addEventListener('mousemove', (event) => {
+            if (!drawing) return;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = 'black';
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+        });
+
+        // Stop drawing
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+
+        // Clear the canvas
+        clearButton.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Convert signature to an image before submitting the form
+        document.querySelector('form').addEventListener('submit', () => {
+            signatureInput.value = canvas.toDataURL(); // Convert canvas to a base64 image
+        });
+    </script>
 
       <input type="submit">
     </form>

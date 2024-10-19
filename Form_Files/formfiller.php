@@ -1,5 +1,18 @@
 <?php
+require_once('fpdf.php');
+require_once('FPDI-2.6.1/src/autoload.php');
+$signature = $_POST['signature_textbox']; // Base64 encoded image
 
+// Remove the data:image/png;base64, part
+$signature = str_replace('data:image/png;base64,', '', $signature);
+$signature = str_replace(' ', '+', $signature);
+
+// Decode the base64 image
+$signatureData = base64_decode($signature);
+
+// Save the signature as a PNG file
+$signatureFile = 'signature.png';
+file_put_contents($signatureFile, $signatureData);
 
 
 // If someone visited formFiller.php without having filled out the HTML form in index.php, stop rendering the page
@@ -104,7 +117,7 @@ file_put_contents($outputFDF, $fdf);
 // Generate the PDF
 // Format:
 // exec("pdftk originalForm.pdf fill_form formData.fdf output filledFormWithData.pdf");
-exec("pdftk " . $pdfLocation . " fill_form " . $outputFDF . " output " . $outputPDF);
+exec("pdftk " . $pdfLocation . " fill_form " . $outputFDF . " output " . $outputPDF ." flatten ");
 
 echo "<p>Done! Your application will be reviewed shortly.</p>";
 echo "<p>It is stored in: " . $outputPDF . "</p>";
@@ -114,7 +127,18 @@ $servername = 'localhost';
 $db   = 'cert_reg_management_db';
 $user = 'root';
 $pass = '';
-
+$pdf = new \setasign\Fpdi\Fpdi();
+//$pdf->AddPage();
+$pdf->setSourceFile($outputPDF);
+for ($pageNo = 1; $pageNo <= 3; $pageNo++) {
+    $pdf->AddPage(); // Add a new page for each imported template
+    $template = $pdf->importPage($pageNo); // Import the current page
+    $pdf->useTemplate($template); // Use the imported page template
+};
+//$template = $pdf->importPage(1);
+$pdf->useTemplate($template);
+$pdf->Image('signature.png', 110, 140, 120, 15);
+$pdf->Output($outputPDF, "F");
 // Create a connection
 $conn = new mysqli($servername, $user, $pass, $db);
 
@@ -133,9 +157,9 @@ function insertRecord($outputPDF,$conn){//Function to insert the inputs from the
     }
 }
 
-function insertRecord2(,$conn){
-    $sql2 = "INSERT INTO ";
-}
+//function insertRecord2(,$conn){
+//    $sql2 = "INSERT INTO ";
+//}
 insertRecord($outputPDF,$conn);
 
 /**

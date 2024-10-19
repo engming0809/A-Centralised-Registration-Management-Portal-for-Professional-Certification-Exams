@@ -1,0 +1,48 @@
+%FDF-1.2
+1 0 obj << /FDF << /Fields [
+<< /V /ctfl /T (type) >>
+<< /V /credit /T (payment) >>
+<< /V (Bongani Bhekisipho Leslie Fuzwayo) /T (full_name) >>
+<< /V (Zimbabwean) /T (nationality) >>
+<< /V (FN 724707) /T (pass_num) >>
+<< /V (02/05/1997) /T (dob) >>
+<< /V /male /T (gender) >>
+<< /V (Zimbabwe) /T (pob) >>
+<< /V /other /T (race) >>
+<< /V (African) /T (race_other) >>
+<< /V (Swinburne University of Technology) /T (company_name) >>
+<< /V (Student) /T (job) >>
+<< /V /fresh_entry /T (position_level) >>
+<< /V (403 Lorong Tabuan Dayak 4) /T (address) >>
+<< /V (Kuching) /T (city) >>
+<< /V (93350) /T (postcode) >>
+<< /V (Malaysia) /T (state_country) >>
+<< /V (+601160672054) /T (phone) >>
+<< /V (+263774924427) /T (phone_alt) >>
+<< /V (bhekifuzwayo@gmail.com) /T (email_pri) >>
+<< /V (bhekifuzwayo@gmail.com) /T (email_sec) >>
+<< /V /bachelor /T (education) >>
+<< /V /less /T (work_exp) >>
+<< /V (Swinburne University of Technology) /T (comp_add) >>
+<< /V (Kuching) /T (comp_city) >>
+<< /V (93350) /T (comp_post) >>
+<< /V (Malaysia) /T (comp_state_country) >>
+<< /V (Bongani Bhekisipho Leslie Fuzwayo) /T (comp_con_name) >>
+<< /V (+601160672054) /T (comp_con_num) >>
+<< /V (bhekifuzwayo@gmail.com) /T (comp_email) >>
+<< /V /first /T (exam_type) >>
+<< /V /online /T (exam_mode) >>
+<< /V (Swinburne) /T (exam_location) >>
+<< /V (25/12/2024) /T (exam_date) >>
+<< /V (None) /T (disability) >>
+<< /V (None) /T (assistance) >>
+<< /V /lang_yes /T (lang_spoke) >>
+<< /V /lang_writ_yes /T (lang_writ) >>
+<< /V /agree /T (privacy) >>
+<< /V (Bongani Fuzwayo) /T (app_name) >>
+<< /V (data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAAeCAYAAABpP1GsAAAAAXNSR0IArs4c6QAABY5JREFUeF7tXEmrnUUQPXGOoohoiCIiOIKguBBCiDihe0Xwz7lw50IR94oaUEQFQTRGQ3QXk+jOEMXZd+BrKIoeqnq637v3XniE9251V9WpOt1V3U2OYN7nTwDXJ9T9AuDYPFOKmv4FcKQoFReoHVepbj9sJAKzgvmfwYnPATwA4FYA12USdJbNBpOHiRCvvwDcOEzDfmITArOSzUIQk8E7KvR3ZvfdUUjmuN2bII8C+LahPLF4HSMb/8YkugLgOwCvA3jDMpmQ0fPyd41PCq8/ANywzOXFNFd6xlygXe8AeNXp3168AgFvMFMqPDV7LMGlHfz+dwC3VPjTMiTYxX9vW8jG+SRRYnjpBPdimsLjEQBnAFxbcIpYPQjgpxbn92P7NpRPAfissFMw8E8D+GRJsmCBJclCYj4E4IdJwQuJGuyTv+vvgkmaHN5SSO48HMveix+N0XEAPwI4WsCC9jwG4PwkzLZejXe1IyCe3YLyvwG4WSCZ0nk3gAuR5GAS3TQhEpIEumSKEUSTg011KLMs5sZ2nhQR9XxvA3ilsEDtyWKJQkHGQxAvMbzmMTm+XsoFrpTSNgZ79IlOSE65kofVXCdub3KEnUeWedc4AJSETg37Z8H3Sce8Oy/qIYgXLO4cpZIgNWdsJfWu0F57Y72ATlzi1UoO+hFKKdoo/ZKLUE1s7gNwzriY0F+WbY8vu7wXr52QrwlCDTAy+bROnjo9PODkizqZcDIZc7ZrgsjEDd/xb/Kys4a0Uk9svLXMssSBTT6b/VKjL3uqTwE8a5l8F2TWQBCJM8sA2jTLrjXHmOS2JrbVD/ZyPIa/34jxzwCeAHDJqmDb5GYlYm4HsWB6F4DLhgaeJRFr91l+WWzvLUMs+cOdjCRq/ZwGcMJwwHARwD2tyg7b+FmJ1EqQgOtrByXDm4oANWVOLE6xHoRypXsQT8xl/5LCPmVHyuZfAdzuMaIgeweA7wHcmZDjgcBJAF921LnaqQ4bQWStLHuBHpeLlsRkCWjtaUoktBAkyDwD4INM+Unbnzv44W7Q80OyfHXwMuHeyKQk+wsAPu6pcG1z9STIhytq7j5aEsaDtyYIS7XQE+l5au9m5FFy6mWzPOVKxefqckJofQrjwSElewrA+5kTspcBvNtD0Zrm2FaCMJAvOoHWZaD3jZRHXQl3a0kaI0qvkjPlDy90eVMvL3+DLHsiNvXfeMBYs2wpUL1sLwU8lYwcxyTgE/jRH3lJNxqX0vylo2CNhd79SvP3xJKPJt9SE7KaeL6nkk3NNQvIEkHof2nFHr0ypnoQefcR8OJpmT6C7W2fBTOZN5YDgJF5xgvHL5bTsPcAvDRS2ay510QQ6TOfrfM1r7bP+xjQimPsGU3solDb03qrnrPP0oukdpJZcbXie2jlZgHpXQ1TKyP/PsLm3C06deZut0eSxHur7pU/tIk7y/ARyRazvYUguvzqbXOstNI6SomnSdJ6HBwwLOnd7yCDmdI72VLmthKktIq3wBQjiO4nLImqScIxnhe5uYXFOpfFzhasdm7srhNEv56NEdn7wlb3My0Ye3VvA0F6LKbdiNwSPI8RPZzuHfzY0WisMZbHv9YdQZ5ytWLs8dsj64nfTNkeudLN3tbgWQ3RTq/t1a48HQu2hjKrNulqx9X2FZs+5rXmgkWO9yj88PnMRj+bIMhGHU4olzhoMtcmes3OUzrg4Pep+5ZVrbxrDHKNTSMJEmt+a1fHXGLU+J1r+nWZVUsQ2T+03N/kcIwRu0VXLZZbO27TBMkBy8QY+cwkl/hy9Q8Y1WDVc1UvvTQIWNbYubUJ3urYSDAtO4i0n/Jnl/+2ptUvy/gcQWI36zVYtfyHcqXFI/V9jZ0WvHZSZiaYq2m8lkh7CdyaIDOxbrV1P35B4H+IziouZcVdcgAAAABJRU5ErkJggg==) /T (signature) >>
+] >> >>
+endobj
+trailer
+<</Root 1 0 R>>
+%%EOF
