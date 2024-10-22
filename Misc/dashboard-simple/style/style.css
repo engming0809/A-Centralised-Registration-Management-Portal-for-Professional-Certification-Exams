@@ -1,0 +1,117 @@
+/* Overall Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    overflow-x: hidden;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+
+/* Header */
+.headerbootstrap{
+    background-color: black;
+}
+
+/* logo */
+.logo{
+    max-width: 80%;
+}
+
+/* Navigation List */
+nav{
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 100px;
+    font-size: 20pt;
+    margin-top: 50px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+    color: red;
+}
+
+/* Something else styling */
+.welcome {
+    padding: 20px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 20px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    margin-top: 100px;  
+    width: 100%;
+}
+
+
+.accountlogin{
+    margin-top: 100px;
+    box-shadow: 0 20px 8px rgba(0, 0, 0, 0);
+    background-color: #fff;
+    padding: 20px 10px 20px 10px;
+}
+
+.loginimage{
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px 20px 20px 20px;
+    max-width: 80%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}

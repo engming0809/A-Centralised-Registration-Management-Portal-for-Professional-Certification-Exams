@@ -1,0 +1,17 @@
+CREATE TABLE stu_overview (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_username VARCHAR(255) NOT NULL,
+    certificate_name VARCHAR(255) NOT NULL,
+    payment_invoice VARCHAR(255),
+    transaction_slip VARCHAR(255),
+    payment_receipt VARCHAR(255),
+    exam_confirmation_letter VARCHAR(255),
+    exam_results VARCHAR(255),
+    certificate VARCHAR(255)
+);
+
+INSERT INTO stu_overview (student_username, certificate_name, payment_invoice, transaction_slip, payment_receipt, exam_confirmation_letter, exam_results, certificate) VALUES
+('test', 'Malware Analyst', 'invoice1.pdf', 'Submitted on 10/21/2024, 9:35AM', 'receipt1.pdf', 'confirmation1.pdf', 'Pass', 'certificate1.pdf'),
+('test', 'Nuclear Weapon Tester', NULL, NULL, NULL, NULL, NULL, NULL),
+('test', 'Network Security Specialist', 'invoice2.pdf', 'Submitted on 10/22/2024, 10:00AM', 'receipt2.pdf', 'confirmation2.pdf', 'Pass', 'certificate2.pdf'),
+('test', 'Data Protection Officer', 'invoice3.pdf', 'Submitted on 10/23/2024, 11:00AM', NULL, NULL, 'Fail', NULL);
