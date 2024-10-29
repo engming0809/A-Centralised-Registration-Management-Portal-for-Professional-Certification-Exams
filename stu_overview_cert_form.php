@@ -147,7 +147,9 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 </div>
                 <div class="form-group">
                     <label for="ic_num_textbox">New IC Number (Malaysian only):</label>
-                    <input type="text" class="form-control" name="ic_num_textbox">
+                    <input type="text" class="form-control" name="ic_num_1_textbox">
+                    <input type="text" class="form-control" name="ic_num_2_textbox">
+                    <input type="text" class="form-control" name="ic_num_3_textbox">
                 </div>
                 <div class="form-group">
                     <label for="pass_num_textbox">Passport Number (Non-Malaysian only):</label>
