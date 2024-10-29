@@ -146,9 +146,11 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <input type="text" class="form-control" name="nationality_textbox" required>
                 </div>
                 <div class="form-group">
-                    <label for="ic_num_textbox">New IC Number (Malaysian only):</label>
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/Date of Birth):</label>
                     <input type="text" class="form-control" name="ic_num_1_textbox">
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/State):</label>
                     <input type="text" class="form-control" name="ic_num_2_textbox">
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/Unique):</label>
                     <input type="text" class="form-control" name="ic_num_3_textbox">
                 </div>
                 <div class="form-group">
@@ -156,8 +158,12 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <input type="text" class="form-control" name="pass_num_textbox">
                 </div>
                 <div class="form-group">
-                    <label for="dob_textbox">Date of Birth (dd/mm/yyyy):</label>
-                    <input type="text" class="form-control" name="dob_textbox" required>
+                    <label for="dob_textbox">Date of Birth (Day):</label>
+                    <input type="text" class="form-control" name="dob_day_textbox" required>
+                    <label for="dob_textbox">Date of Birth (Month):</label>
+                    <input type="text" class="form-control" name="dob_month_textbox" required>
+                    <label for="dob_textbox">Date of Birth (Year):</label>
+                    <input type="text" class="form-control" name="dob_year_textbox" required>
                 </div>
                 <div class="form-group">
                     <label>Gender:</label><br>
@@ -247,19 +253,22 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 </div>
 
                 <div class="form-group">
-                <label for="phone_textbox">Mobile Phone Number:</label>
-                <input type="text" class="form-control" name="phone_textbox" required>
+                <label for="phone_textbox">Mobile Phone Number: +</label>
+                <input type="text" class="form-control" name="phone_code_textbox" required>
+                    <input type="text" class="form-control" name="phone_textbox" required>
                 </div>
 
                 <div class="form-group">
-                <label for="phone_alt_textbox">Alternate Phone Number: (compulsory for online exam)</label>
+                <label for="phone_alt_textbox">Alternate Phone Number: (compulsory for online exam) +</label>
+                    <input type="text" class="form-control" name="phone_alt_code_textbox">
                 <input type="text" class="form-control" name="phone_alt_textbox">
                 </div>
 
             
 
                 <div class="form-group">
-                <label for="phone_work_textbox">Work Phone Number:</label>
+                <label for="phone_work_textbox">Work Phone Number: +</label>
+                    <input type="text" class="form-control" name="phone_work_code_textbox">
                 <input type="text" class="form-control" name="phone_work_textbox">
                 </div>
 
@@ -345,7 +354,8 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
             </div>
 
             <div class="form-group">
-                <label for="comp_con_num_textbox">Contact Person's Phone Number:</label>
+                <label for="comp_con_num_textbox">Contact Person's Phone Number: +</label>
+                <input type="text" name="comp_con_num_code_textbox" class="form-control" required>
                 <input type="text" name="comp_con_num_textbox" class="form-control" required>
             </div>
 
