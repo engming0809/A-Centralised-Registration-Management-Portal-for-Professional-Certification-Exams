@@ -155,6 +155,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 </div>
                 <div class="form-group">
                     <label for="ic_num_textbox">New IC Number (Malaysian only/Date of Birth):</label>
+<<<<<<< HEAD
                     <input type="text" class="form-control" name="ic_num_1_textbox" placeholder="Enter the first 6 digits of your IC Number"
                     oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                     <label for="ic_num_textbox">New IC Number (Malaysian only/State):</label>
@@ -163,6 +164,13 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <label for="ic_num_textbox">New IC Number (Malaysian only/Unique):</label>
                     <input type="text" class="form-control" name="ic_num_3_textbox" placeholder="Enter the last 4 digits of your IC Number"
                     oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+=======
+                    <input type="text" class="form-control" name="ic_num_1_textbox">
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/State):</label>
+                    <input type="text" class="form-control" name="ic_num_2_textbox">
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/Unique):</label>
+                    <input type="text" class="form-control" name="ic_num_3_textbox">
+>>>>>>> dd4d05ac17ba638c180156eafbb0e80b94621afc
                 </div>
                 <div class="form-group">
                     <label for="pass_num_textbox">Passport Number (Non-Malaysian only):</label>
@@ -171,6 +179,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 </div>
                 <div class="form-group">
                     <label for="dob_textbox">Date of Birth (Day):</label>
+<<<<<<< HEAD
                     <input type="text" class="form-control" name="dob_day_textbox" required placeholder="Enter the DAY (01-31) of your birth"
                     oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                     <label for="dob_textbox">Date of Birth (Month):</label>
@@ -179,6 +188,13 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <label for="dob_textbox">Date of Birth (Year):</label>
                     <input type="text" class="form-control" name="dob_year_textbox" required placeholder="Enter the YEAR of your birth"
                     oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+=======
+                    <input type="text" class="form-control" name="dob_day_textbox" required>
+                    <label for="dob_textbox">Date of Birth (Month):</label>
+                    <input type="text" class="form-control" name="dob_month_textbox" required>
+                    <label for="dob_textbox">Date of Birth (Year):</label>
+                    <input type="text" class="form-control" name="dob_year_textbox" required>
+>>>>>>> dd4d05ac17ba638c180156eafbb0e80b94621afc
                 </div>
                 <div class="form-group">
                     <label>Gender:</label><br>
@@ -276,28 +292,43 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
 
                 <div class="form-group">
                 <label for="phone_textbox">Mobile Phone Number: +</label>
+<<<<<<< HEAD
                 <input type="text" class="form-control" name="phone_code_textbox" required placeholder="Enter the country code without the Plus (+) e.g 60"
                 oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                     <input type="text" class="form-control" name="phone_textbox" required placeholder="Enter the rest of your Phone Number"
                     oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+=======
+                <input type="text" class="form-control" name="phone_code_textbox" required>
+                    <input type="text" class="form-control" name="phone_textbox" required>
+>>>>>>> dd4d05ac17ba638c180156eafbb0e80b94621afc
                 </div>
 
                 <div class="form-group">
                 <label for="phone_alt_textbox">Alternate Phone Number: (compulsory for online exam) +</label>
+<<<<<<< HEAD
                     <input type="text" class="form-control" name="phone_alt_code_textbox" placeholder="Enter the country code without the Plus (+) e.g 60"
                     oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 <input type="text" class="form-control" name="phone_alt_textbox" placeholder="Enter the rest of your Alternate Number"
                 oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+=======
+                    <input type="text" class="form-control" name="phone_alt_code_textbox">
+                <input type="text" class="form-control" name="phone_alt_textbox">
+>>>>>>> dd4d05ac17ba638c180156eafbb0e80b94621afc
                 </div>
 
             
 
                 <div class="form-group">
                 <label for="phone_work_textbox">Work Phone Number: +</label>
+<<<<<<< HEAD
                     <input type="text" class="form-control" name="phone_work_code_textbox" placeholder="Enter the country code without the Plus (+) e.g 60"
                     oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 <input type="text" class="form-control" name="phone_work_textbox" placeholder="Enter the rest of your Work Number"
                 oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+=======
+                    <input type="text" class="form-control" name="phone_work_code_textbox">
+                <input type="text" class="form-control" name="phone_work_textbox">
+>>>>>>> dd4d05ac17ba638c180156eafbb0e80b94621afc
                 </div>
 
                 <div class="form-group">
@@ -390,10 +421,15 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
 
             <div class="form-group">
                 <label for="comp_con_num_textbox">Contact Person's Phone Number: +</label>
+<<<<<<< HEAD
                 <input type="text" name="comp_con_num_code_textbox" class="form-control" placeholder="Enter the country code without the Plus (+) e.g 60"
                 oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 <input type="text" name="comp_con_num_textbox" class="form-control" placeholder="Enter the rest of the Phone Number"
                 oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+=======
+                <input type="text" name="comp_con_num_code_textbox" class="form-control" required>
+                <input type="text" name="comp_con_num_textbox" class="form-control" required>
+>>>>>>> dd4d05ac17ba638c180156eafbb0e80b94621afc
             </div>
 
             <div class="form-group">
