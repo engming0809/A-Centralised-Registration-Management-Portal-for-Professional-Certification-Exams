@@ -9,6 +9,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/style.css">
+    <script>
+        // Convert input to uppercase
+        function toUpperCase(field) {
+            field.value = field.value.toUpperCase();
+        }
+    </script>
 </head>
 
 <body>
@@ -79,7 +85,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
         ?>
     <div class="container">
         <h1 class="text-center mb-4">Certification Application Form</h1>
-        <form action="stu_overview_cert_formfiller.php" method="post">
+        <form onsubmit="return validateForm()" action="formfiller.php" method="post">
 
             <div class="form-section">
                 <h2>Certification Examination Type and Fee</h2>
@@ -139,23 +145,40 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 <h2>Personal Information</h2>
                 <div class="form-group">
                     <label for="full_name_textbox">Full Name (as per IC / passport):</label>
-                    <input type="text" class="form-control" name="full_name_textbox" required>
+                    <input type="text" class="form-control" name="full_name_textbox" required placeholder="Enter your Full Name"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
                     <label for="nationality_textbox">Nationality:</label>
-                    <input type="text" class="form-control" name="nationality_textbox" required>
+                    <input type="text" class="form-control" name="nationality_textbox" required placeholder="Enter your Nationality"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
-                    <label for="ic_num_textbox">New IC Number (Malaysian only):</label>
-                    <input type="text" class="form-control" name="ic_num_textbox">
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/Date of Birth):</label>
+                    <input type="text" class="form-control" name="ic_num_1_textbox" placeholder="Enter the first 6 digits of your IC Number"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/State):</label>
+                    <input type="text" class="form-control" name="ic_num_2_textbox" placeholder="Enter the next 2 digits of you IC Number"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <label for="ic_num_textbox">New IC Number (Malaysian only/Unique):</label>
+                    <input type="text" class="form-control" name="ic_num_3_textbox" placeholder="Enter the last 4 digits of your IC Number"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
                     <label for="pass_num_textbox">Passport Number (Non-Malaysian only):</label>
-                    <input type="text" class="form-control" name="pass_num_textbox">
+                    <input type="text" class="form-control" name="pass_num_textbox" placeholder="Enter your Passport Number"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
-                    <label for="dob_textbox">Date of Birth (dd/mm/yyyy):</label>
-                    <input type="text" class="form-control" name="dob_textbox" required>
+                    <label for="dob_textbox">Date of Birth (Day):</label>
+                    <input type="text" class="form-control" name="dob_day_textbox" required placeholder="Enter the DAY (01-31) of your birth"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <label for="dob_textbox">Date of Birth (Month):</label>
+                    <input type="text" class="form-control" name="dob_month_textbox" required placeholder="Enter the MONTH (01-12) of your birth"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <label for="dob_textbox">Date of Birth (Year):</label>
+                    <input type="text" class="form-control" name="dob_year_textbox" required placeholder="Enter the YEAR of your birth"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
                     <label>Gender:</label><br>
@@ -170,7 +193,8 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 </div>
                 <div class="form-group">
                     <label for="pob_textbox">Place of Birth:</label>
-                    <input type="text" class="form-control" name="pob_textbox" required>
+                    <input type="text" class="form-control" name="pob_textbox" required placeholder="Enter your Place of Birth"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
                     <label>Race:</label><br>
@@ -194,11 +218,13 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 </div>
                 <div class="form-group">
                     <label for="company_name_textbox">Company Name:</label>
-                    <input type="text" class="form-control" name="company_name_textbox" required>
+                    <input type="text" class="form-control" name="company_name_textbox" required placeholder="Enter your Company Name e.g SWINBURNE"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
                     <label for="job_textbox">Job Title:</label>
-                    <input type="text" class="form-control" name="job_textbox" required>
+                    <input type="text" class="form-control" name="job_textbox" required placeholder="Enter your Job Title e.g STUDENT OR LECTURER"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
                 <div class="form-group">
                     <label>Position Level:</label><br>
@@ -226,49 +252,64 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
 
                 <div class="form-group">
                     <label for="address_textbox">Correspondence Address:</label>
-                    <input type="text" class="form-control" name="address_textbox" required>
+                    <input type="text" class="form-control" name="address_textbox" required placeholder="Enter the Address of where you currently stay"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
 
                 <div class="form-group">
                 <label for="city_textbox">City:</label>
-                <input type="text" class="form-control" name="city_textbox" required>
+                <input type="text" class="form-control" name="city_textbox" required placeholder="Enter your City e.g KUCHING"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
 
                 <div class="form-group">
                 <label for="postcode_textbox">Postcode:</label>
-                <input type="text" class="form-control" name="postcode_textbox" required>
+                <input type="text" class="form-control" name="postcode_textbox" required placeholder="Enter your Postcode e.g 93350"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
 
                 <div class="form-group">
                 <label for="state_country_textbox">State/Country:</label>
-                <input type="text" class="form-control" name="state_country_textbox" required>
+                <input type="text" class="form-control" name="state_country_textbox" required placeholder="Enter your State or Country"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
 
                 <div class="form-group">
-                <label for="phone_textbox">Mobile Phone Number:</label>
-                <input type="text" class="form-control" name="phone_textbox" required>
+                <label for="phone_textbox">Mobile Phone Number: +</label>
+                <input type="text" class="form-control" name="phone_code_textbox" required placeholder="Enter the country code without the Plus (+) e.g 60"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input type="text" class="form-control" name="phone_textbox" required placeholder="Enter the rest of your Phone Number"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
 
                 <div class="form-group">
-                <label for="phone_alt_textbox">Alternate Phone Number: (compulsory for online exam)</label>
-                <input type="text" class="form-control" name="phone_alt_textbox">
+                <label for="phone_alt_textbox">Alternate Phone Number: (compulsory for online exam) +</label>
+                    <input type="text" class="form-control" name="phone_alt_code_textbox" placeholder="Enter the country code without the Plus (+) e.g 60"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input type="text" class="form-control" name="phone_alt_textbox" placeholder="Enter the rest of your Alternate Number"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
 
             
 
                 <div class="form-group">
-                <label for="phone_work_textbox">Work Phone Number:</label>
-                <input type="text" class="form-control" name="phone_work_textbox">
+                <label for="phone_work_textbox">Work Phone Number: +</label>
+                    <input type="text" class="form-control" name="phone_work_code_textbox" placeholder="Enter the country code without the Plus (+) e.g 60"
+                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input type="text" class="form-control" name="phone_work_textbox" placeholder="Enter the rest of your Work Number"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
                 </div>
 
                 <div class="form-group">
                 <label for="email_pri_textbox">Primary Email Address:</label>
-                <input type="text" class="form-control" name="email_pri_textbox" required>
+                <input type="text" class="form-control" name="email_pri_textbox" required placeholder="Enter your email address"
+                title="Please enter a valid email address, e.g., example@example.com.">
                 </div>
 
                 <div class="form-group">
                 <label for="email_sec_textbox">Alternate Email Address:</label>
-                <input type="text" class="form-control" name="email_sec_textbox">
+                <input type="text" class="form-control" name="email_sec_textbox" placeholder="Enter your alternate email address"
+                title="Please enter a valid email address, e.g., example@example.com.">
                 </div>
             </div>
             <div class="form-section">
@@ -319,37 +360,46 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
             <h2>Company Information</h2>
             <div class="form-group">
                 <label for="comp_add_textbox">Company Address:</label>
-                <input type="text" name="comp_add_textbox" class="form-control" required>
+                <input type="text" name="comp_add_textbox" class="form-control" required placeholder="Enter your Company Address"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
                 <label for="comp_city_textbox">City:</label>
-                <input type="text" name="comp_city_textbox" class="form-control" required>
+                <input type="text" name="comp_city_textbox" class="form-control" required placeholder="Enter the City Name of your Company"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
                 <label for="comp_post_textbox">Postcode:</label>
-                <input type="text" name="comp_post_textbox" class="form-control" required>
+                <input type="text" name="comp_post_textbox" class="form-control" required placeholder="Enter your Company Postcode e.g 93350"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
                 <label for="comp_state_country_textbox">State/Country:</label>
-                <input type="text" name="comp_state_country_textbox" class="form-control" required>
+                <input type="text" name="comp_state_country_textbox" class="form-control" required placeholder="Enter your Company State or Country"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
                 <label for="comp_con_name_textbox">Contact Person (HR):</label>
-                <input type="text" name="comp_con_name_textbox" class="form-control" required>
+                <input type="text" name="comp_con_name_textbox" class="form-control" required placeholder="Enter your Company Contact Person"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
-                <label for="comp_con_num_textbox">Contact Person's Phone Number:</label>
-                <input type="text" name="comp_con_num_textbox" class="form-control" required>
+                <label for="comp_con_num_textbox">Contact Person's Phone Number: +</label>
+                <input type="text" name="comp_con_num_code_textbox" class="form-control" placeholder="Enter the country code without the Plus (+) e.g 60"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input type="text" name="comp_con_num_textbox" class="form-control" placeholder="Enter the rest of the Phone Number"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
                 <label for="comp_email_textbox">Contact Person's Email:</label>
-                <input type="email" name="comp_email_textbox" class="form-control" required>
+                <input type="email" name="comp_email_textbox" class="form-control" required placeholder="Enter the Email address of you Contact Person"
+                title="Please enter a valid email address, e.g., example@example.com.">
             </div>
 </div>
 <div class="form-section">
@@ -388,24 +438,34 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
 
             <div class="form-group">
                 <label for="exam_location_textbox">Examination Location/Center:</label>
-                <input type="text" name="exam_location_textbox" class="form-control">
+                <input type="text" name="exam_location_textbox" class="form-control" placeholder="Enter location of your exam"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
-                <label for="exam_date_textbox">Exam Date:</label>
-                <input type="date" name="exam_date_textbox" class="form-control" required>
+                <label for="exam_date_textbox">Exam Date (Day):</label>
+                <input type="text" name="exam_date_day_textbox" class="form-control" required placeholder="Enter the DAY (01-31)"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <label for="exam_date_textbox">Exam Date (Month):</label>
+                <input type="text" name="exam_date_month_textbox" class="form-control" required placeholder="Enter the MONTH (01-12)"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <label for="exam_date_textbox">Exam Date (Year):</label>
+                <input type="text" name="exam_date_year_textbox" class="form-control" required placeholder="Enter the YEAR"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 </div>
 <div class="form-section">
             <h2>Special Assistance</h2>
             <div class="form-group">
                 <label for="disability_textbox">Type of Special Needs/Physical Disability (if any):</label>
-                <input type="text" class="form-control" name="disability_textbox">
+                <input type="text" class="form-control" name="disability_textbox" placeholder="Enter your Disability e.g Deaf, Blind etc."
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <div class="form-group">
                 <label for="assistance_textbox">Assistance Required:</label>
-                <input type="text" class="form-control" name="assistance_textbox">
+                <input type="text" class="form-control" name="assistance_textbox" placeholder="Enter YES or NO"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
     </div>
@@ -457,7 +517,8 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
             <h2>Declaration</h2>
             <div class="form-group">
                 <label for="app_name_textbox">Name of Applicant:</label>
-                <input type="text" class="form-control" name="app_name_textbox" required>
+                <input type="text" class="form-control" name="app_name_textbox" required placeholder="Enter your First Name and Last Name"
+                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
             </div>
 
             <!-----------------------  SIGNATURE DRAW FUNCTION  ---------------------------------->

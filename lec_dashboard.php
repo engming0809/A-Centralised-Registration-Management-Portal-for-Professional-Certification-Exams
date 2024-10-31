@@ -36,7 +36,7 @@ if (!isset($_SESSION['lecturer_full_name'])) {
     <!-- example -->
 	<!-- Display session info -->
             <p>Logged in as: <strong><?php echo $_SESSION['lecturer_full_name']; ?></strong></p>
-            <p> Email is: <strong><?php echo $_SESSION['lecturer_email']; ?></strong></p>
+            <p> Email is: <strong><?php echo $_SESSION['lecturer_id']; ?></strong></p>
 	<!-- example -->
 		
     <section class="main_menu_first_main">
