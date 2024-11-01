@@ -214,13 +214,6 @@ $conn->close();
     ?>
 
 
-    <!-- Success message after form submission -->
-    <section class="stu_overview_cert_formfiller">
-    <div class="success-message">
-        <p>Form submitted. Please return.</p>
-    </div>
-    </section>
-
     </main>
 
 <!-- Footer -->
