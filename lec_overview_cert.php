@@ -147,6 +147,8 @@
                 Add New Certification</a></div>";
         } else {
             echo "<div class='alert alert-warning'>No certifications found.</div>";
+            echo "<div class='text-right'><a href='lec_overview_cert_add.php' class='btn btn-primary mb-3'>
+                Add New Certification</a></div>";
         }
 
         // Close connection

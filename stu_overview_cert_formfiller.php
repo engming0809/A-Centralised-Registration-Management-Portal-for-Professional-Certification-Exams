@@ -186,22 +186,27 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
     $status = 'form_submitted';
     $stmt->bind_param("sii", $status, $studentId, $certificationId);
     
-    if ($stmt->execute()) {
-        // Step 2: Get the last inserted ID
-        $registrationId = $conn->insert_id; // Get the ID of the newly inserted registration
+    // After successfully processing the form and before the closing PHP tag
+if ($stmt->execute()) {
+    // Step 2: Get the last inserted ID
+    $registrationId = $conn->insert_id; // Get the ID of the newly inserted registration
 
-        // Now insert into reg_registrationform with the last inserted ID
-        $stmt = $conn->prepare("INSERT INTO reg_registrationform (filepath, registration_id) VALUES (?, ?)");
-        $stmt->bind_param("si", $outputPDF, $registrationId);
-        
-        if ($stmt->execute()) {
-            echo "Record inserted successfully into reg_registrationform.";
-        } else {
-            echo "Error inserting record into reg_registrationform: " . $stmt->error;
-        }
+    // Now insert into reg_registrationform with the last inserted ID
+    $stmt = $conn->prepare("INSERT INTO reg_registrationform (filepath, registration_id) VALUES (?, ?)");
+    $stmt->bind_param("si", $outputPDF, $registrationId);
+    
+    if ($stmt->execute()) {
+        // Use JavaScript to show an alert and redirect
+        echo "<script>alert('Form submitted successfully.'); window.location.href='stu_overview_cert.php';</script>";
+        exit; // Ensure the script stops after this
     } else {
-        echo "Error inserting record into CertificationRegistrations: " . $stmt->error;
+        echo "<script>alert('Error inserting record into reg_registrationform: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
+        exit; // Ensure the script stops after this
     }
+} else {
+    echo "<script>alert('Error inserting record into CertificationRegistrations: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
+    exit; // Ensure the script stops after this
+}
 } else {
     // Handle the case where session variables are not set
     echo "<p>No session information available.</p>";
@@ -213,6 +218,13 @@ $conn->close();
     ////////////////////////////////// Database connection ////////////////////////////////////////////////
     ?>
 
+
+    <!-- Success message after form submission -->
+    <section class="stu_overview_cert_formfiller">
+    <div class="success-message">
+        <p>Form submitted. Please return.</p>
+    </div>
+    </section>
 
     </main>
 
