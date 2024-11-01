@@ -709,6 +709,35 @@ header nav ul li.dropdown:hover .dropdown_menu {
 
 /* student form */
 
+#customAlert {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+    z-index: 1000; /* Sit on top */
+    justify-content: center; /* Center the alert */
+    align-items: center; /* Center the alert */
+}
+
+#alertMessage {
+    background-color: white; /* White background for the alert box */
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center; /* Center text */
+    position: relative; /* For the close button */
+}
+
+.student_form .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .student_form .form-section {
     margin-bottom: 30px;
     padding: 20px;
