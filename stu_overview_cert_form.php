@@ -85,7 +85,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
         ?>
     <div class="container">
         <h1 class="text-center mb-4">Certification Application Form</h1>
-        <form onsubmit="return validateForm()" action="formfiller.php" method="post">
+        <form onsubmit="return validateForm()" action="stu_overview_cert_formfiller.php" method="post">
 
             <div class="form-section">
                 <h2>Certification Examination Type and Fee</h2>
