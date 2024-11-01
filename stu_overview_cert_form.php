@@ -245,8 +245,16 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                         <label class="form-check-label">Executive</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="intern"> 
-                        <label class="form-check-label">Intern</label>
+                        <input class="form-check-input" type="radio" name="position_level_radio" value="fresh_entry"> 
+                        <label class="form-check-label">Fresh/Entry Level</label>
+                    </div>
+					<div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="position_level_radio" value="non_exec"> 
+                        <label class="form-check-label">Non-Executive</label>
+                    </div>
+					<div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="position_level_radio" value="pos_other"> 
+                        <label class="form-check-label">Other: <input type="text" name="position_other_textbox"></label>
                     </div>
                 </div>
 
@@ -352,7 +360,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="work_exp_radio" id="more" value="more">
                     <label class="form-check-label" for="more">&gt; 1 Year (Specify years):</label>
-                    <input type="number" name="work_other" class="form-control" placeholder="Number of years">
+                    <input type="number" name="work_other_textbox" class="form-control" placeholder="Number of years">
                 </div>
             </div>
 </div>
@@ -480,7 +488,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="lang_spoke_radio" value="lang_no" id="lang_spoke_no">
                     <label class="form-check-label" for="lang_spoke_no">No (Specify first language):</label>
-                    <input type="text" class="form-control-inline" name="lang_no_spoke" style="width: auto; display: inline-block;">
+                    <input type="text" class="form-control-inline" name="lang_spoke_no_textbox" style="width: auto; display: inline-block;">
                 </div>
             </div>
 
@@ -493,7 +501,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="lang_writ_radio" value="lang_writ_no" id="lang_writ_no">
                     <label class="form-check-label" for="lang_writ_no">No (Specify primary written language):</label>
-                    <input type="text" class="form-control-inline" name="lang_no_writ" style="width: auto; display: inline-block;">
+                    <input type="text" class="form-control-inline" name="lang_write_no_textbox" style="width: auto; display: inline-block;">
                 </div>
             </div>
 
