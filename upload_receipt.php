@@ -60,6 +60,9 @@ try {
                 $stmt->bindParam(':registration_id', $registrationId);
                 $stmt->execute();
             }
+            $stmt = $pdo->prepare("UPDATE certificationregistrations SET notification = 1 WHERE registration_id = :registration_id");
+            $stmt->bindParam(':registration_id', $registrationId);
+            $stmt->execute();
 
             header("Location: lec_overview_reg.php"); 
             exit();
