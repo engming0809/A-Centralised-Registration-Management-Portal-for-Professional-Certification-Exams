@@ -152,7 +152,7 @@
                                         ): ?>
                                             <?php if (!empty($registration['registration_form_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['registration_form_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
-                                                <?php if ($registration['notification'] == "1" && empty($registration['exam_confirmation_letter_path'])) { ?>
+                                                <?php if ($registration['notification'] == "1" && empty($registration['transaction_slip_path'])) { ?>
                                                     <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
                                                 <?php } ?>
                                             <?php else: ?>
@@ -213,7 +213,7 @@
                                         ): ?>
                                             <?php if (!empty($registration['transaction_slip_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
-                                                <?php if ($registration['notification'] == "1" && empty($registration['exam_confirmation_letter_path'])) { ?>
+                                                <?php if ($registration['notification'] == "1" && empty($registration['transaction_slip_path'])) { ?>
                                                     <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
                                                 <?php } ?>
                                             <?php else: ?>
