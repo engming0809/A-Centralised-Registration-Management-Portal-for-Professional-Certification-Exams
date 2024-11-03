@@ -151,7 +151,7 @@
                                         ): ?>
                                             <?php if (!empty($registration['payment_invoice_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['payment_invoice_path']) ?>" class="btn btn-sm btn-info " onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
-                                                <?php if ($registration['notification'] == "1" && (empty($registration['payment_receipt_path']))) { ?>
+                                                <?php if ($registration['notification'] == "1" && (empty($registration['transaction_slip_path']))) { ?>
                                                     <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
                                                 <?php } ?>
                                             <?php else: ?>
@@ -173,7 +173,6 @@
                                         ): ?>
                                             <?php if (!empty($registration['transaction_slip_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" target="_blank">Download</a>
-
                                             <?php else: ?>
                                                 Please upload Transaction Slip.
 
