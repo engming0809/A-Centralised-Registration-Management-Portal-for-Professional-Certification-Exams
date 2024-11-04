@@ -152,7 +152,7 @@
                                             <?php if (!empty($registration['payment_invoice_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['payment_invoice_path']) ?>" class="btn btn-sm btn-info " onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && (empty($registration['transaction_slip_path']))) { ?>
-                                                    <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
+                                                    <span class="notification"></span>
                                                 <?php } ?>
                                             <?php else: ?>
                                                 Please wait for lecturer to upload Payment Invoice.
@@ -199,7 +199,7 @@
                                             <?php if (!empty($registration['payment_receipt_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['payment_receipt_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && empty($registration['exam_confirmation_letter_path'])) { ?>
-                                                    <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
+                                                    <span class="notification"></span>
                                                 <?php } ?>
                                                 <?php else: ?>
                                                 Please wait for lecturer to upload the Payment Receipt.
@@ -219,7 +219,7 @@
                                             <?php if (!empty($registration['exam_confirmation_letter_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['exam_confirmation_letter_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && empty($registration['certificate_path'])) { ?>
-                                                    <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
+                                                    <span class="notification"></span>
                                                 <?php } ?>
                                                 <?php else: ?>
                                                 Please wait for lecturer to uplaod Exam Confirmation Letter.
@@ -255,7 +255,7 @@
                                             <?php if (!empty($registration['certificate_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['certificate_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1") { ?>
-                                                    <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
+                                                    <span class="notification"></span>
                                                 <?php } ?>  
                                                 <?php else: ?>
                                                 Please wait for lecturer to upload the Certificate.
@@ -296,15 +296,16 @@
     ?>
 
     <script>
-        $(document).ready(function() {
-            $('#certificationTable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable column sorting
-                "info": true, // Show table information
-                "searching": true // Enable search
-            });
-
+    $(document).ready(function() {
+        $('#certificationTable').DataTable({
+            "paging": true, // Enable pagination
+            "ordering": true, // Enable column sorting
+            "info": true, // Show table information
+            "searching": true, // Enable search
+            "stateSave": true, // Enable state saving
+            "responsive": false
         });
+    });
 
         function handleNotification(registration_id) {
 

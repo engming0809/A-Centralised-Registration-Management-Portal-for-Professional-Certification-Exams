@@ -107,7 +107,7 @@
 
         if ($result->num_rows > 0) {
             echo "<table class='table table-striped table-bordered' id='certTable'>
-                    <thead class='thead-dark'>
+                    <thead class='thead'>
                         <tr>
                             <th>Certification Name</th>
                             <th>Description</th>

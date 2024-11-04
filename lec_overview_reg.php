@@ -11,6 +11,9 @@
     <!-- Include DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
+
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -153,7 +156,7 @@
                                             <?php if (!empty($registration['registration_form_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['registration_form_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && empty($registration['payment_invoice_path'])) { ?>
-                                                    <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
+                                                    <span class="notification" ></span>
                                                 <?php } ?>
                                             <?php else: ?>
                                                 Please wait for lecturer to upload Payment Invoice
@@ -214,7 +217,7 @@
                                             <?php if (!empty($registration['transaction_slip_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && empty($registration['payment_receipt_path'])) { ?>
-                                                    <span style="display: inline-block; width: 10px; height: 10px; background-color: green; border-radius: 50%;"></span>
+                                                    <span class="notification"></span>
                                                 <?php } ?>
                                             <?php else: ?>
                                                 Please wait for student to upload Transaction Slip.
@@ -416,14 +419,16 @@
 
 
     <script>
-        $(document).ready(function() {
-            $('#certificationTable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable column sorting
-                "info": true, // Show table information
-                "searching": true // Enable search
-            });
+    $(document).ready(function() {
+        $('#certificationTable').DataTable({
+            "paging": true, // Enable pagination
+            "ordering": true, // Enable column sorting
+            "info": true, // Show table information
+            "searching": true, // Enable search
+            "stateSave": true, // Enable state saving
+            "responsive": false
         });
+    });
 
         function handleNotification(registration_id) {
 
