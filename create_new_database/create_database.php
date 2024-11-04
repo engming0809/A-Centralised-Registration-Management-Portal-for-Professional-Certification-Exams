@@ -107,6 +107,7 @@ $sql = "CREATE TABLE IF NOT EXISTS CertificationRegistrations (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     student_id INT,
     certification_id INT,
+    notification TINYINT(1) NOT NULL DEFAULT 1,
     FOREIGN KEY (student_id) REFERENCES Student(student_id),
     FOREIGN KEY (certification_id) REFERENCES Certifications(certification_id)
 )";

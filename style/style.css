@@ -414,7 +414,7 @@ header nav ul li.dropdown:hover .dropdown_menu {
 /* Lecturer Certification Overview main */
 
 .lec_cert_overview_main{
-    margin: 100px auto;
+    margin: 50px auto;
 }
 
 .lec_cert_overview_main table {
@@ -443,7 +443,7 @@ header nav ul li.dropdown:hover .dropdown_menu {
     opacity: 0.8;
 }
 
-.lec_cert_overview_main tr:hover {
+.lec_cert_overview_main .lec_cert_row:hover {
     background-color: #f2f2f2fa !important; /* Light gray on hover */
 }
 
@@ -480,6 +480,8 @@ header nav ul li.dropdown:hover .dropdown_menu {
 }
 
 /* Lecturer Certification Overview add */
+
+
 .lec_overview_cert_add{
     margin: 50px auto;
 }
@@ -624,7 +626,7 @@ header nav ul li.dropdown:hover .dropdown_menu {
 
 .lec_overview_reg_main{
     width: 100%;
-    margin-bottom: 200px;
+    margin: 50px auto;
 }
 
 .lec_overview_reg_main .welcome {
@@ -673,8 +675,16 @@ header nav ul li.dropdown:hover .dropdown_menu {
     color: #fff; /* White text */
 }
 
+
+#certTable thead {
+    background-color: #dc3545; /* Black header */
+    color: #fff; /* White text */
+}
+
+
 #certificationTable th {
     font-weight: bold;
+    text-align: center;
 }
 
 #certificationTable thead {
@@ -691,7 +701,7 @@ header nav ul li.dropdown:hover .dropdown_menu {
 }
 
 #certificationTable tbody tr:hover {
-    background-color: #eeeeee; /* Slightly darker light gray background */
+    background-color: #ebebebfa; /* Slightly darker light gray background */
 }
 
 #certificationTable tbody td:hover {

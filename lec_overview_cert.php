@@ -121,7 +121,7 @@
 
             // Output data of each row
             while ($row = $result->fetch_assoc()) {
-                echo "<tr>
+                echo "<tr class='lec_cert_row'>
                         <td>" . htmlspecialchars($row["certification_name"]) . "</td>
                         <td>" . htmlspecialchars($row["description"]) . "</td>
                         <td>" . htmlspecialchars($row["requirements"]) . "</td>

@@ -11,6 +11,30 @@
     <link rel="stylesheet" href="style/style.css">
 </head>
 
+    <script>
+        // JavaScript function to filter the table
+        function filterTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const table = document.getElementById('certTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the table header
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent.toLowerCase();
+                    if (cellText.indexOf(searchInput) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = match ? '' : 'none';
+            }
+        }
+    </script>
+
 <body>
 <!-- Header  -->
     <?php
@@ -24,7 +48,12 @@
 <!-- Main Content -->
     <main>
     <div class="stu_overview_cert_main"> 
-    <h1>All Certification Overview</h1> 
+    <!-- Search Bar -->
+    <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search certifications..." onkeyup="filterTable()">
+            </div>
+        </div>
 
     <?php
 
@@ -50,7 +79,7 @@
 
     if ($result->num_rows > 0) {
         // Start the table with Bootstrap classes
-        echo "<table class='table table-striped table-bordered'>";
+        echo "<table class='table table-striped table-bordered' id='certTable'>";
         echo "<thead>
                 <tr>
                     <th>Certification Name</th>
