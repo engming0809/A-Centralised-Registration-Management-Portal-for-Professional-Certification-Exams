@@ -648,8 +648,12 @@ header nav ul li.dropdown:hover .dropdown_menu {
 
 
 
+/* Lecturer Registration Overview for filepath display inside modal table (upload) */
 
-
+.filePathDisplay{
+    width: 200px !important;
+    margin-left: 10px;
+}
 
 
 

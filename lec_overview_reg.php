@@ -344,7 +344,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label for="examResult">Exam Result</label>
+                                                            <label for="examResultModal">Exam Result</label>
                                                             <input type="text" name="examResult" id="examResultModal" class="form-control" required>
                                                         </div>
                                                         <div class="form-group">
@@ -396,13 +396,14 @@
                                             data-toggle="modal" 
                                             data-target="#uploadModal"
                                             data-regcertificate-id="<?= htmlspecialchars($registration['registration_id']) ?>"
-                                            data-certificate-id="<?= htmlspecialchars($registration['certificate_id']) ?>">
+                                            data-certificate-id="<?= htmlspecialchars($registration['certificate_id']) ?>"
+                                            data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'] ?? '') ?>">
                                                 Upload Certificate
                                             </button>
                                             
 
 
-                                            <!-- Modal Structure -->
+<!---------------------------- MODAL table for Certificate ---------------------------------->
 <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -419,12 +420,18 @@
                     <!-- <input type="hidden" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>">
                     <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>"> -->
                     <!-- Not so hidden input  -->
-                    <input type="text" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>" class="form-control mb-2">
+                    <!-- <input type="text" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>" class="form-control mb-2">
                     <input type="text" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>" class="form-control mb-2">
-                
+                     -->
+                    
                     <div class="form-group">
-                        <label for="certificate" class="mr-2">Select Certificate</label>
-                        <input type="file" name="certificate" accept=".pdf" class="form-control-file mb-2" id="certificate">
+                        <label for="CertFilePathModal">Current Filepath: </label>
+                        <input type="text" name="examResult" id="CertFilePathModal" class="form-control filePathDisplay" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="xx" class="mr-2">Select Certificate</label>
+                        <input type="file" name="certificate" accept=".pdf" class="form-control-file mb-2" id="xx">
                     </div>
 
                     
@@ -496,21 +503,18 @@
             // For Certificate Upload
             certificateUploadButtons.forEach(button => {
                 button.addEventListener("click", function () {
+                    const certificateFilePath = this.getAttribute("data-certificate-filepath") || "";
                     const certificateId = this.getAttribute("data-certificate-id") || "";
                     const regcertificateId = this.getAttribute("data-regcertificate-id") || "";
 
+                    // Extract the valid filename (after the last hyphen)
+                    const fileName = certificateFilePath.substring(certificateFilePath.lastIndexOf('-') + 1);
+
                     // Set modal field values (Display)
-                    // document.getElementById("examResultModal").value = examResult;
+                    document.getElementById("CertFilePathModal").value = fileName;
                     // Set modal field values (For functionality in upload.php files)
                     document.getElementById("modalRegCertificateId").value = regcertificateId;
                     document.getElementById("modalCertificateId").value = certificateId;
-
-                    // Set the correct publish radio button
-                    if (publish === "published") {
-                        document.getElementById("publishYes").checked = true;
-                    } else {
-                        document.getElementById("publishNo").checked = true;
-                    }
                 });
             });
 
