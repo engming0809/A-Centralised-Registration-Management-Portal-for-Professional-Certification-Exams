@@ -13,7 +13,6 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
-
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -210,22 +209,14 @@
                                                 $registration['registration_status'] === 'certificate_submitted' ||
                                                 $registration['registration_status'] === 'invoice_submitted'
                                             ): ?>
-                                                <!-- Button to open the overlay -->
-                                                <button class="upload-btn btn btn-sm btn-info" onclick="openOverlay()">Upload</button>
-
-                                                <!-- Full-screen overlay for file upload -->
-                                                <div class="overlay" id="overlay">
-                                                    <div class="overlay-content">
-                                                        <h2>Upload Invoice</h2>
                                                         <form method="POST" enctype="multipart/form-data" action="upload_invoice.php">
                                                             <input type="hidden" name="invoice_id" value="<?= htmlspecialchars($registration['invoice_id']) ?>">
                                                             <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
                                                             <input type="file" name="payment_invoice" accept=".pdf" class="form-control-file" style="margin-bottom: 15px;" required>
                                                             <input type="submit" value="Upload" class="btn btn-primary">
                                                         </form>
-                                                        <button class="close-btn" onclick="closeOverlay()">Close</button>
-                                                    </div>
-                                                </div>
+
+
                                             <?php endif; ?>
                                         <?php else: ?>
                                             N/A
@@ -316,7 +307,7 @@
                                             $registration['registration_status'] === 'certificate_submitted'
                                         ): ?>
                                             <?php if (!empty($registration['exam_result'])): ?>
-                                                <?= htmlspecialchars($registration['exam_result']) ?>
+                                                <?= htmlspecialchars($registration['exam_result']) ?><br>
                                                 <a href="#" class="btn btn-sm btn-info editButton"
                                                     data-toggle="modal"
                                                     data-target="#resultModal"
@@ -381,28 +372,6 @@
                                     </div>
 
 
-                                    <script>
-                                        // jQuery to update the hidden inputs in the modal when the button is clicked
-                                        $('#resultModal').on('show.bs.modal', function(event) {
-                                            var button = $(event.relatedTarget); // Button that triggered the modal
-                                            var registrationId = button.data('registration-id'); // Extract info from data-* attributes
-                                            var examResultId = button.data('examresult-id'); // Extract info from data-* attributes
-                                            var publish = button.data('publish'); // Extract publish status (either 'published' or 'not_published')
-
-                                            var modal = $(this);
-                                            modal.find('#modalRegistrationId').val(registrationId); // Set the value of registration_id in modal
-                                            modal.find('#modalExamResultId').val(examResultId); // Set the value of examresult_id in modal
-
-                                            // Set the correct publish radio button
-                                            if (publish === 'published') {
-                                                modal.find('#publishYes').prop('checked', true);  // Set "Yes" if published
-                                            } else {
-                                                modal.find('#publishNo').prop('checked', true);  // Set "No" if not published
-                                            }
-                                        });
-                                    </script>
-
-
                                     <!-- Certificate Column -->
                                     <td>
                                         <?php if (
@@ -448,67 +417,82 @@
 
 
     <script>
-function copyEmail(email) {
-    // Create a temporary textarea element
-    var tempInput = document.createElement('textarea');
-    tempInput.value = email; // Set the email value to the input
-    document.body.appendChild(tempInput); // Append it to the body
-    tempInput.select(); // Select the text
-    document.execCommand('copy'); // Copy the selected text to clipboard
-    document.body.removeChild(tempInput); // Remove the textarea from the DOM
+        function copyEmail(email) {
+            // Create a temporary textarea element
+            var tempInput = document.createElement('textarea');
+            tempInput.value = email; // Set the email value to the input
+            document.body.appendChild(tempInput); // Append it to the body
+            tempInput.select(); // Select the text
+            document.execCommand('copy'); // Copy the selected text to clipboard
+            document.body.removeChild(tempInput); // Remove the textarea from the DOM
 
-    // Optional: Change button text to "Copied" temporarily
-    var button = event.target;
-    button.textContent = 'Copied!';
-    setTimeout(() => {
-        button.textContent = 'Copy Email';
-    }, 1500); // Reset text after 1.5 seconds
-}
+            // Optional: Change button text to "Copied" temporarily
+            var button = event.target;
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = 'Copy Email';
+            }, 1500); // Reset text after 1.5 seconds
+        }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const editButtons = document.querySelectorAll(".editButton");
+        // Retrieve Hidden Input ID from Exam Result
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".editButton");
+            editButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const examResult = this.getAttribute("data-exam-result") || "";
+                    const registrationId = this.getAttribute("data-registration-id") || "";
+                    const examResultId = this.getAttribute("data-examresult-id") || "";
+                    const publish = this.getAttribute("data-publish") || "not_published";  // Default to 'not_published'
 
-    editButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            const examResult = this.getAttribute("data-exam-result") || "";
-            const registrationId = this.getAttribute("data-registration-id") || "";
-            const examResultId = this.getAttribute("data-examresult-id") || "";
-            const publish = this.getAttribute("data-publish") || "not_published";  // Default to 'not_published'
+                    // Set modal field values
+                    document.getElementById("examResultModal").value = examResult;
+                    document.getElementById("modalRegistrationId").value = registrationId;
+                    document.getElementById("modalExamResultId").value = examResultId;
 
-            // Set modal field values
-            document.getElementById("examResultModal").value = examResult;
-            document.getElementById("modalRegistrationId").value = registrationId;
-            document.getElementById("modalExamResultId").value = examResultId;
+                    // Set the correct publish radio button
+                    if (publish === "published") {
+                        document.getElementById("publishYes").checked = true;
+                    } else {
+                        document.getElementById("publishNo").checked = true;
+                    }
+                });
+            });
+        });
+
+        // Ensure to be remain on the same page after edit successfully 
+        $('#resultModal').on('show.bs.modal', function(event) {
+            // jQuery to update the hidden inputs in the modal when the button is clicked
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var registrationId = button.data('registration-id'); // Extract info from data-* attributes
+            var examResultId = button.data('examresult-id'); // Extract info from data-* attributes
+            var publish = button.data('publish'); // Extract publish status (either 'published' or 'not_published')
+
+            var modal = $(this);
+            modal.find('#modalRegistrationId').val(registrationId); // Set the value of registration_id in modal
+            modal.find('#modalExamResultId').val(examResultId); // Set the value of examresult_id in modal
 
             // Set the correct publish radio button
-            if (publish === "published") {
-                document.getElementById("publishYes").checked = true;
+            if (publish === 'published') {
+                modal.find('#publishYes').prop('checked', true);  // Set "Yes" if published
             } else {
-                document.getElementById("publishNo").checked = true;
+                modal.find('#publishNo').prop('checked', true);  // Set "No" if not published
             }
         });
-    });
-});
 
-
-
-
-    $(document).ready(function() {
-        $('#certificationTable').DataTable({
-            "paging": true, // Enable pagination
-            "ordering": true, // Enable column sorting
-            "info": true, // Show table information
-            "searching": true, // Enable search
-            "stateSave": true, // Enable state saving
-            "responsive": false
+        $(document).ready(function() {
+            $('#certificationTable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable column sorting
+                "info": true, // Show table information
+                "searching": true, // Enable search
+                "stateSave": true, // Enable state saving
+                "responsive": false
+            });
         });
-    });
 
         function handleNotification(registration_id) {
-
             const data = new URLSearchParams(); // Create a URLSearchParams object
             data.append('registration_id', registration_id); // Add the registration_id
-
             fetch("clear_notification.php", {
                     method: 'POST',
                     headers: {
@@ -529,17 +513,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.error('Error:', error);
                 });
         }
-
-
-        // Function to open the overlay
-    function openOverlay() {
-        document.getElementById("overlay").style.display = "flex";
-    }
-
-    // Function to close the overlay
-    function closeOverlay() {
-        document.getElementById("overlay").style.display = "none";
-    }
     </script>
 
 </body>

@@ -60,7 +60,7 @@
                ts.transaction_id, ts.filepath AS transaction_slip_path,
                pr.receipt_id, pr.filepath AS payment_receipt_path,
                ecl.confirmation_id, ecl.filepath AS exam_confirmation_letter_path,
-               er.result AS exam_result,
+               er.result AS exam_result, er.publish AS publish,
                cert.certificate_id, cert.filepath AS certificate_path, r.notification
         FROM certificationregistrations r
         JOIN certifications c ON r.certification_id = c.certification_id
@@ -238,7 +238,7 @@
                                             $registration['registration_status'] === 'result_submitted' ||
                                             $registration['registration_status'] === 'certificate_submitted'
                                         ): ?>
-                                            <?php if (!empty($registration['exam_result'])): ?>
+                                            <?php if (!empty($registration['exam_result']) && $registration['publish'] === 'published'): ?>
                                                 <?= htmlspecialchars($registration['exam_result']) ?> 
                                             <?php else: ?>
                                                 Please wait for Exam Result to be published.
