@@ -315,7 +315,7 @@
                                                     data-examresult-id="<?= htmlspecialchars($registration['examresult_id']) ?>"
                                                     data-exam-result="<?= htmlspecialchars($registration['exam_result'] ?? '') ?>"
                                                     data-publish="<?= htmlspecialchars($registration['publish'] ?? 'not_published') ?>">
-                                                    Edit Result
+                                                    Edit
                                                 </a>
 
                                             <?php else: ?>
@@ -324,7 +324,7 @@
                                                     data-toggle="modal"
                                                     data-target="#resultModal"
                                                     data-registration-id="<?= htmlspecialchars($registration['registration_id']) ?>"
-                                                    data-examresult-id="<?= htmlspecialchars($registration['examresult_id']) ?>">Insert Result</a>
+                                                    data-examresult-id="<?= htmlspecialchars($registration['examresult_id']) ?>">Insert</a>
                                             <?php endif; ?>
                                         <?php else: ?>
                                             N/A
@@ -332,7 +332,7 @@
                                     </td>
 
                                     <!---------------------------- MODAL table for result ---------------------------------->
-                                    <div id="resultModal" class="modal" tabindex="-1" role="dialog">
+                                    <div id="resultModal" class="modal fade" tabindex="-1" role="dialog">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <form id="examResultForm" action="upload_result.php" method="post">
@@ -358,7 +358,7 @@
                                                                 <label for="publishNo">No</label>
                                                             </div>
                                                         </div>
-                                                        <!-- Hidden fields to store dynamic data -->
+                                                        <!-- Hidden fields to store data to be sent to upload php files -->
                                                         <input type="hidden" name="registration_id" id="modalRegistrationId">
                                                         <input type="hidden" name="examresult_id" id="modalExamResultId">
                                                     </div>
@@ -385,12 +385,59 @@
                                                 Please upload Certificate.
                                             <?php endif; ?>
 
-                                            <form method="POST" enctype="multipart/form-data" action="upload_certificate.php" class="form-inline mt-2">
+                                            <!-- <form method="POST" enctype="multipart/form-data" action="upload_certificate.php" class="form-inline mt-2">
                                                 <input type="hidden" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>">
                                                 <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
                                                 <input type="file" name="certificate" accept=".pdf" class="form-control-file mb-2">
                                                 <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                                            </form>
+                                            </form> -->
+
+                                            <button type="button" class="btn btn-sm btn-info certificateUploadButton" 
+                                            data-toggle="modal" 
+                                            data-target="#uploadModal"
+                                            data-regcertificate-id="<?= htmlspecialchars($registration['registration_id']) ?>"
+                                            data-certificate-id="<?= htmlspecialchars($registration['certificate_id']) ?>">
+                                                Upload Certificate
+                                            </button>
+                                            
+
+
+                                            <!-- Modal Structure -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Upload Certificate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for file upload -->
+                <form method="POST" enctype="multipart/form-data" action="upload_certificate.php" class="form-inline mt-2">
+                    <!-- Hidden input -->
+                    <!-- <input type="hidden" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>">
+                    <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>"> -->
+                    <!-- Not so hidden input  -->
+                    <input type="text" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>" class="form-control mb-2">
+                    <input type="text" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>" class="form-control mb-2">
+                
+                    <div class="form-group">
+                        <label for="certificate" class="mr-2">Select Certificate</label>
+                        <input type="file" name="certificate" accept=".pdf" class="form-control-file mb-2" id="certificate">
+                    </div>
+
+                    
+                <!-- Hidden fields to store data to be sent to upload php files -->
+                <input type="hidden" name="registration_id" id="modalRegCertificateId">
+                <input type="hidden" name="certificate_id" id="modalCertificateId">
+                    <input type="submit" value="Upload" class="btn btn-sm btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
                                         <?php else: ?>
                                             N/A
                                         <?php endif; ?>
@@ -417,26 +464,13 @@
 
 
     <script>
-        function copyEmail(email) {
-            // Create a temporary textarea element
-            var tempInput = document.createElement('textarea');
-            tempInput.value = email; // Set the email value to the input
-            document.body.appendChild(tempInput); // Append it to the body
-            tempInput.select(); // Select the text
-            document.execCommand('copy'); // Copy the selected text to clipboard
-            document.body.removeChild(tempInput); // Remove the textarea from the DOM
-
-            // Optional: Change button text to "Copied" temporarily
-            var button = event.target;
-            button.textContent = 'Copied!';
-            setTimeout(() => {
-                button.textContent = 'Copy Email';
-            }, 1500); // Reset text after 1.5 seconds
-        }
-
-        // Retrieve Hidden Input ID from Exam Result
+        /////////////////////// Javascript ////////////////////////////////
+        // Display accurate information on modal table (Edit) Javascript
         document.addEventListener("DOMContentLoaded", function () {
             const editButtons = document.querySelectorAll(".editButton");
+            const certificateUploadButtons = document.querySelectorAll(".certificateUploadButton");
+
+            // For Exam Result
             editButtons.forEach(button => {
                 button.addEventListener("click", function () {
                     const examResult = this.getAttribute("data-exam-result") || "";
@@ -444,8 +478,9 @@
                     const examResultId = this.getAttribute("data-examresult-id") || "";
                     const publish = this.getAttribute("data-publish") || "not_published";  // Default to 'not_published'
 
-                    // Set modal field values
+                    // Set modal field values (Display)
                     document.getElementById("examResultModal").value = examResult;
+                    // Set modal field values (For functionality in upload.php files)
                     document.getElementById("modalRegistrationId").value = registrationId;
                     document.getElementById("modalExamResultId").value = examResultId;
 
@@ -457,9 +492,34 @@
                     }
                 });
             });
+
+            // For Certificate Upload
+            certificateUploadButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const certificateId = this.getAttribute("data-certificate-id") || "";
+                    const regcertificateId = this.getAttribute("data-regcertificate-id") || "";
+
+                    // Set modal field values (Display)
+                    // document.getElementById("examResultModal").value = examResult;
+                    // Set modal field values (For functionality in upload.php files)
+                    document.getElementById("modalRegCertificateId").value = regcertificateId;
+                    document.getElementById("modalCertificateId").value = certificateId;
+
+                    // Set the correct publish radio button
+                    if (publish === "published") {
+                        document.getElementById("publishYes").checked = true;
+                    } else {
+                        document.getElementById("publishNo").checked = true;
+                    }
+                });
+            });
+
+
         });
 
-        // Ensure to be remain on the same page after edit successfully 
+        //////////////////////////////////////   JQUERY   ////////////////////////////////////////////////
+        // Display accurate information on modal table (Insert) JQuert
+        // Exam Result
         $('#resultModal').on('show.bs.modal', function(event) {
             // jQuery to update the hidden inputs in the modal when the button is clicked
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -479,6 +539,40 @@
             }
         });
 
+        // Certificate
+        $('#uploadModal').on('show.bs.modal', function(event) {
+            // jQuery to update the hidden inputs in the modal when the button is clicked
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var regcertificateId = button.data('regcertificate-id'); // Extract info from data-* attributes
+            var certificatetId = button.data('certificate-id'); // Extract info from data-* attributes
+
+            var modal = $(this);
+            modal.find('#modalRegCertificateId').val(regcertificateId); // Set the value of registration_id in modal
+            modal.find('#modalCertificateId').val(certificatetId); // Set the value of examresult_id in modal
+
+        });
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Function to copy email
+        function copyEmail(email) {
+            // Create a temporary textarea element
+            var tempInput = document.createElement('textarea');
+            tempInput.value = email; // Set the email value to the input
+            document.body.appendChild(tempInput); // Append it to the body
+            tempInput.select(); // Select the text
+            document.execCommand('copy'); // Copy the selected text to clipboard
+            document.body.removeChild(tempInput); // Remove the textarea from the DOM
+
+            // Optional: Change button text to "Copied" temporarily
+            var button = event.target;
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = 'Copy Email';
+            }, 1500); // Reset text after 1.5 seconds
+        }
+
+
+       // Data Table
         $(document).ready(function() {
             $('#certificationTable').DataTable({
                 "paging": true, // Enable pagination
@@ -490,6 +584,7 @@
             });
         });
 
+        // Function for Basic Notificaiton 
         function handleNotification(registration_id) {
             const data = new URLSearchParams(); // Create a URLSearchParams object
             data.append('registration_id', registration_id); // Add the registration_id
