@@ -17,6 +17,9 @@
 <body>
     <!-- Header  -->
     <?php
+
+
+
     $pageTitle = "My Registrations";
     $pageHeaderClass = "header_image_reg_stu";
     $pageHeaderTitle = "My Registrations";
@@ -72,7 +75,6 @@
         WHERE r.student_id = :student_id
     ";
 
-            // Add filter condition for certification if provided
             if ($certificationId) {
                 $query .= " AND r.certification_id = :certification_id";
             }

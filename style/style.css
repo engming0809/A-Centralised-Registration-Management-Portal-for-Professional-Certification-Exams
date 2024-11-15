@@ -1333,3 +1333,25 @@ footer a:hover{
     text-decoration: underline;
     color: white;
 }
+
+/* Notification badge styling */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #f44336; /* Red background for the notification bubble */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    z-index: 10; /* Keeps the badge above the link */
+    
+    /* Text shadow effect */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* X, Y offset, blur radius, shadow color */
+}
+
+
