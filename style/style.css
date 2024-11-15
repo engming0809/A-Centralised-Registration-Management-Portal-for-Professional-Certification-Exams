@@ -622,6 +622,81 @@ header nav ul li.dropdown:hover .dropdown_menu {
 }
 
 
+/* Lecturer registration overview upload file features */
+
+.email-cell {
+    position: relative;
+}
+
+.short-email {
+    display: inline-block;
+}
+
+.copy-button {
+    display: inline-block; /* Always visible */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+.lec_overview_reg_main .hover-text {
+    display: inline-block;
+    cursor: pointer;
+}
+/* Small button */
+.lec_overview_reg_main .upload-btn {
+    cursor: pointer;
+    margin: 20px auto;
+    background-color: red;
+}
+.lec_overview_reg_main .upload-btn:hover{
+    background-color: rgba(144, 1, 1, 0.833);
+}
+
+
+/* Full-screen overlay */
+.lec_overview_reg_main .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* File upload form in overlay */
+.lec_overview_reg_main .overlay-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+/* Close button */
+.lec_overview_reg_main .close-btn {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+
+
+
+
+
+
 /* Lecturer Registration Overview */
 
 .lec_overview_reg_main{

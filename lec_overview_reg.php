@@ -47,20 +47,21 @@
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // INITIALISE retrieve the query from database 
-            $certStmt = $pdo->query("SELECT certification_id, certification_name FROM certifications");
+            $certStmt = $pdo->query("SELECT certification_id, certification_name, schedule FROM certifications");
             $certifications = $certStmt->fetchAll(PDO::FETCH_ASSOC);
             $certificationId = isset($_GET['certification']) ? $_GET['certification'] : null;
 
             $query = "
         SELECT r.registration_id, r.registration_status, r.created_at, r.updated_at, 
                r.student_id, r.certification_id, 
-               c.certification_name, s.full_name, 
+               s.email as studentemail,
+               c.certification_name, s.full_name, c.schedule,
                rf.filepath AS registration_form_path,
                pi.invoice_id, pi.filepath AS payment_invoice_path,
                ts.filepath AS transaction_slip_path,
                pr.receipt_id, pr.filepath AS payment_receipt_path,
                ecl.confirmation_id,ecl.filepath AS exam_confirmation_letter_path,
-               er.examresult_id, er.result AS exam_result,
+               er.examresult_id, er.result AS exam_result, er.publish as publish,
                cert.certificate_id,cert.filepath AS certificate_path, r.notification
         FROM certificationregistrations r
         JOIN certifications c ON r.certification_id = c.certification_id
@@ -122,6 +123,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Student ID</th>
+                            <th>Schedule</th>
                             <th>Certificate Name</th>
                             <th>Student Name</th>
                             <th>Registration Form</th>
@@ -139,7 +141,23 @@
                             <?php foreach ($registrations as $registration): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($registration['registration_id']) ?></td>
-                                    <td><?= htmlspecialchars($registration['student_id']) ?></td>
+
+                                    <?php
+                                    // Get the student's email
+                                    $studentEmail = htmlspecialchars($registration['studentemail']);
+                                    ?>
+
+                                    <!-- HTML with tooltip and copy button -->
+                                    <td class="email-cell" title="<?= $studentEmail ?>">  <!-- Tooltip added here -->
+                                        <span class="short-email"><?= substr($studentEmail, 0, 9) ?></span>  <!-- Display only the first 9 characters -->
+                                        <button class="copy-button btn btn-sm btn-info" onclick="copyEmail('<?= $studentEmail ?>')">Copy Email</button>
+                                    </td>
+
+
+                                    <td><?php
+                                        $schedule = new DateTime($registration['schedule']);
+                                        echo htmlspecialchars($schedule->format('m/d/Y, h:i A'));?>
+                                    </td>
                                     <td><?= htmlspecialchars($registration['certification_name']) ?></td>
                                     <td><?= htmlspecialchars($registration['full_name'] ?? 'N/A') ?></td>
 
@@ -192,12 +210,22 @@
                                                 $registration['registration_status'] === 'certificate_submitted' ||
                                                 $registration['registration_status'] === 'invoice_submitted'
                                             ): ?>
-                                                <form method="POST" enctype="multipart/form-data" action="upload_invoice.php" class="form-inline mt-2">
-                                                    <input type="hidden" name="invoice_id" value="<?= htmlspecialchars($registration['invoice_id']) ?>">
-                                                    <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
-                                                    <input type="file" name="payment_invoice" accept=".pdf" class="form-control-file mb-2">
-                                                    <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                                                </form>
+                                                <!-- Button to open the overlay -->
+                                                <button class="upload-btn btn btn-sm btn-info" onclick="openOverlay()">Upload</button>
+
+                                                <!-- Full-screen overlay for file upload -->
+                                                <div class="overlay" id="overlay">
+                                                    <div class="overlay-content">
+                                                        <h2>Upload Invoice</h2>
+                                                        <form method="POST" enctype="multipart/form-data" action="upload_invoice.php">
+                                                            <input type="hidden" name="invoice_id" value="<?= htmlspecialchars($registration['invoice_id']) ?>">
+                                                            <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
+                                                            <input type="file" name="payment_invoice" accept=".pdf" class="form-control-file" style="margin-bottom: 15px;" required>
+                                                            <input type="submit" value="Upload" class="btn btn-primary">
+                                                        </form>
+                                                        <button class="close-btn" onclick="closeOverlay()">Close</button>
+                                                    </div>
+                                                </div>
                                             <?php endif; ?>
                                         <?php else: ?>
                                             N/A
@@ -289,11 +317,16 @@
                                         ): ?>
                                             <?php if (!empty($registration['exam_result'])): ?>
                                                 <?= htmlspecialchars($registration['exam_result']) ?>
-                                                <a href="#" class="btn btn-sm btn-info"
+                                                <a href="#" class="btn btn-sm btn-info editButton"
                                                     data-toggle="modal"
                                                     data-target="#resultModal"
                                                     data-registration-id="<?= htmlspecialchars($registration['registration_id']) ?>"
-                                                    data-examresult-id="<?= htmlspecialchars($registration['examresult_id']) ?>">Edit Result</a>
+                                                    data-examresult-id="<?= htmlspecialchars($registration['examresult_id']) ?>"
+                                                    data-exam-result="<?= htmlspecialchars($registration['exam_result'] ?? '') ?>"
+                                                    data-publish="<?= htmlspecialchars($registration['publish'] ?? 'not_published') ?>">
+                                                    Edit Result
+                                                </a>
+
                                             <?php else: ?>
                                                 Please key in Exam Result.
                                                 <a href="#" class="btn btn-sm btn-info"
@@ -321,16 +354,16 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="examResult">Exam Result</label>
-                                                            <input type="text" name="examResult" id="examResult" class="form-control" required>
+                                                            <input type="text" name="examResult" id="examResultModal" class="form-control" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Publish this result:</label><br>
                                                             <div>
-                                                                <input type="radio" name="publish" id="publishYes" value="1">
+                                                                <input type="radio" name="publish" id="publishYes" value="published">
                                                                 <label for="publishYes">Yes</label>
                                                             </div>
                                                             <div>
-                                                                <input type="radio" name="publish" id="publishNo" value="0" checked>
+                                                                <input type="radio" name="publish" id="publishNo" value="not_published" checked>
                                                                 <label for="publishNo">No</label>
                                                             </div>
                                                         </div>
@@ -354,10 +387,18 @@
                                             var button = $(event.relatedTarget); // Button that triggered the modal
                                             var registrationId = button.data('registration-id'); // Extract info from data-* attributes
                                             var examResultId = button.data('examresult-id'); // Extract info from data-* attributes
+                                            var publish = button.data('publish'); // Extract publish status (either 'published' or 'not_published')
 
                                             var modal = $(this);
                                             modal.find('#modalRegistrationId').val(registrationId); // Set the value of registration_id in modal
                                             modal.find('#modalExamResultId').val(examResultId); // Set the value of examresult_id in modal
+
+                                            // Set the correct publish radio button
+                                            if (publish === 'published') {
+                                                modal.find('#publishYes').prop('checked', true);  // Set "Yes" if published
+                                            } else {
+                                                modal.find('#publishNo').prop('checked', true);  // Set "No" if not published
+                                            }
                                         });
                                     </script>
 
@@ -407,6 +448,51 @@
 
 
     <script>
+function copyEmail(email) {
+    // Create a temporary textarea element
+    var tempInput = document.createElement('textarea');
+    tempInput.value = email; // Set the email value to the input
+    document.body.appendChild(tempInput); // Append it to the body
+    tempInput.select(); // Select the text
+    document.execCommand('copy'); // Copy the selected text to clipboard
+    document.body.removeChild(tempInput); // Remove the textarea from the DOM
+
+    // Optional: Change button text to "Copied" temporarily
+    var button = event.target;
+    button.textContent = 'Copied!';
+    setTimeout(() => {
+        button.textContent = 'Copy Email';
+    }, 1500); // Reset text after 1.5 seconds
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const editButtons = document.querySelectorAll(".editButton");
+
+    editButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const examResult = this.getAttribute("data-exam-result") || "";
+            const registrationId = this.getAttribute("data-registration-id") || "";
+            const examResultId = this.getAttribute("data-examresult-id") || "";
+            const publish = this.getAttribute("data-publish") || "not_published";  // Default to 'not_published'
+
+            // Set modal field values
+            document.getElementById("examResultModal").value = examResult;
+            document.getElementById("modalRegistrationId").value = registrationId;
+            document.getElementById("modalExamResultId").value = examResultId;
+
+            // Set the correct publish radio button
+            if (publish === "published") {
+                document.getElementById("publishYes").checked = true;
+            } else {
+                document.getElementById("publishNo").checked = true;
+            }
+        });
+    });
+});
+
+
+
+
     $(document).ready(function() {
         $('#certificationTable').DataTable({
             "paging": true, // Enable pagination
@@ -443,6 +529,17 @@
                     console.error('Error:', error);
                 });
         }
+
+
+        // Function to open the overlay
+    function openOverlay() {
+        document.getElementById("overlay").style.display = "flex";
+    }
+
+    // Function to close the overlay
+    function closeOverlay() {
+        document.getElementById("overlay").style.display = "none";
+    }
     </script>
 
 </body>

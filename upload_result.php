@@ -17,7 +17,7 @@ try {
 
         // Determine publish status based on the radio button selection
         // Expecting '1' for published and '0' for not published
-        $publish = $_POST['publish'] == '1' ? 'published' : 'not_published';
+        $publish = $_POST['publish'] == 'published' ? 'published' : 'not_published';
 
         // Check if the exam result already exists
         if ($examResultId) {
