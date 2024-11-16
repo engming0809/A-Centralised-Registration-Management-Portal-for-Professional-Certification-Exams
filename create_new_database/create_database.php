@@ -37,6 +37,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Lecturer (
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     status ENUM('active', 'inactive', 'pending') NOT NULL DEFAULT 'pending',
+    profileimg VARCHAR(255) NOT NULL,
+    biography VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
@@ -47,6 +49,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Student (
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     status ENUM('active', 'inactive', 'pending') NOT NULL DEFAULT 'pending',
+    profileimg VARCHAR(255) NOT NULL,
+    biography VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     verification_token VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

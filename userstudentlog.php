@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
-                $_SESSION['student_id'] = $row['student_id'];
+                $_SESSION['student_email'] = $row['student_email'];
                 $_SESSION['student_full_name'] = $row['full_name'];
 
                 // Redirect to dashboard after login
