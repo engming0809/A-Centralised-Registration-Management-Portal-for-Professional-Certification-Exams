@@ -32,6 +32,33 @@ if (isset($_POST['full_name'])) {
     } else {
         echo 'error';
     }
+}elseif (isset($_POST['email'])){
+    
+    $emailLecturer = mysqli_real_escape_string($conn, $_POST['email']);
+
+    // Update the full name in the database
+    $query = "UPDATE Lecturer SET email = '$emailLecturer' WHERE email = '$email'";
+    
+
+    if (mysqli_query($conn, $query)) {
+        echo 'success';
+        $_SESSION['lecturer_email'] = $emailLecturer;
+    } else {
+        echo 'error';
+    }
+}elseif (isset($_POST['biography'])){
+    
+    $biography = mysqli_real_escape_string($conn, $_POST['biography']);
+
+    // Update the full name in the database
+    $query = "UPDATE Lecturer SET biography = '$biography' WHERE email = '$email'";
+    
+
+    if (mysqli_query($conn, $query)) {
+        echo 'success';
+    } else {
+        echo 'error';
+    }
 }
 
 mysqli_close($conn);

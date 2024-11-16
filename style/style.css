@@ -1144,92 +1144,60 @@ canvas {
 }
 
 
-/* My Profile */
-.profile_main {
-    max-width: 80%;
-    margin: 200px auto;
-    padding: 60px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 95vh;
+/*  Profile */
+.view_profile_main td{
+    margin: 100px;
 }
-.profile_top {
+
+#bioDisplay {
+    width: 100%;  /* Set the maximum width you want */
+    max-width: 300px; /* Example: Limit the width to 500px */
+    word-wrap: break-word; /* Ensure the text breaks and wraps within the width */
+    overflow-wrap: break-word; /* Ensure long words are wrapped */
+    white-space: normal; /* Prevent text from overflowing */
+}
+
+.profilepasswordbtn{
+    width: 300px !important;
+}
+
+.profilepasswordColumn{
+    text-align: center;
+}
+
+/* Edit profile image */
+.profile-image-container {
+    position: relative;
     display: flex;
-    align-items: center;
-    padding-bottom: 20px;
+    justify-content: center;  /* Center the image horizontally */
+    align-items: center;      /* Center the image vertically */
+    width: 200px;  /* You can adjust this width as needed */
+    height: 200px; /* You can adjust this height as needed */
+    border-radius: 50%; /* To make the container circular, optional */
+    margin: 20px auto;
 }
 
-.profile_table_info{
-    text-align: left;
-    font-weight: bold;
-}
-
-.profile_top td{
-    font-size: 15pt;
-    color: black;
-}
-.profile_top th {
-    color: #00796b;
-    font-weight: bold;
-    font-size: 2.8em;
-    padding-bottom: 50px;
-}
-
-.profile_top_img {
-    width: 350px;
-    height: 350px;
+.view_profile_img {
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
-    border: 3px solid #00796b;
-    margin-right: 60px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
 }
 
-.profile_main p {
-    margin: 10px 0;
-    color: #bababa;
-}
-.profile_declaration {
-    margin-top: 20px;
-    padding: 60px 0;
-    border-top: 1px solid #e0e0e0;
-    text-align: center;
-}
-.profile_declaration p {
-    font-size: 12pt;
-    font-style: italic;
-    color: #444;
-}
-.profile_link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+/* #stuEditImageButton, #lecEditImageButton 
+.profile-image-container:hover #stuEditImageButton,  .profile-image-container:hover #lecEditImageButton
+*/
+
+#stuEditImageButton, #lecEditImageButton  {
+    position: absolute;
+    bottom: 10px;  /* Position button at the bottom */
+    right: 10px;   /* Position button at the right */
+    display: none; /* Hidden by default */
 }
 
-.profile_link a {
-    text-align: center;
-    background-color: #00796b;
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    margin: 50px 9px;
-    transition: background-color 0.2s, transform 0.2s;
-    font-size: 14pt;
+.profile-image-container:hover #stuEditImageButton,  .profile-image-container:hover #lecEditImageButton{
+    display: block; /* Show the button when the container is hovered */
 }
-
-.profile_link a:hover {
-    background-color: #004d40;
-    transform: translateY(-4px);
-    color: white;
-    text-decoration: none;
-}
-
-
-
-
-/* Update User Profile */
 
 
 .update_profile_main, .view_profile_main {
@@ -1241,7 +1209,7 @@ canvas {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.update_profile_img, .view_profile_img {
+.update_profile_img{
     display: block;
     margin: 0 auto 20px;
     border-radius: 50%;
