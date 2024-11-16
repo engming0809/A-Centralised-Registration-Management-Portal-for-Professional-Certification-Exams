@@ -658,14 +658,14 @@ header nav ul li.dropdown:hover .dropdown_menu {
 
 
 /* Lecturer registration oveview upload button */
-.certificateUploadButton, .examletterUploadButton, .receiptUploadButton, .invoiceUploadButton{
+.certificateUploadButton, .examletterUploadButton, .receiptUploadButton, .invoiceUploadButton, .transactionUploadButton{
     cursor: pointer;
     margin: 20px auto;
     background-color: rgb(255, 0, 0) !important;
 
 }
 
-.certificateUploadButton:hover, .examletterUploadButton:hover, .receiptUploadButton:hover, .invoiceUploadButton:hover{
+.certificateUploadButton:hover, .examletterUploadButton:hover, .receiptUploadButton:hover, .invoiceUploadButton:hover, .transactionUploadButton:hover{
     background-color: rgba(144, 1, 1, 0.833) !important;
 }
 
