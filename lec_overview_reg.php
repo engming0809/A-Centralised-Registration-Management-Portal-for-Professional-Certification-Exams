@@ -209,12 +209,68 @@
                                                 $registration['registration_status'] === 'certificate_submitted' ||
                                                 $registration['registration_status'] === 'invoice_submitted'
                                             ): ?>
-                                                        <form method="POST" enctype="multipart/form-data" action="upload_invoice.php">
-                                                            <input type="hidden" name="invoice_id" value="<?= htmlspecialchars($registration['invoice_id']) ?>">
-                                                            <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
-                                                            <input type="file" name="payment_invoice" accept=".pdf" class="form-control-file" style="margin-bottom: 15px;" required>
-                                                            <input type="submit" value="Upload" class="btn btn-primary">
-                                                        </form>
+
+
+                                            <!-- <form method="POST" enctype="multipart/form-data" action="upload_invoice.php">
+                                                <input type="hidden" name="invoice_id" value="<?= htmlspecialchars($registration['invoice_id']) ?>">
+                                                <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
+                                                <input type="file" name="payment_invoice" accept=".pdf" class="form-control-file" style="margin-bottom: 15px;" required>
+                                                <input type="submit" value="Upload" class="btn btn-primary">
+                                            </form> -->
+
+                                            <!-- Upload Payment Invoice -->
+                                            <button type="button" class="btn btn-sm btn-info invoiceUploadButton" 
+                                            data-toggle="modal" 
+                                            data-target="#uploadInvoiceModal"
+                                            data-reginvoice-id="<?= htmlspecialchars($registration['registration_id']) ?>"
+                                            data-invoice-id="<?= htmlspecialchars($registration['invoice_id']) ?>"
+                                            data-invoice-filepath="<?= htmlspecialchars($registration['payment_invoice_path'] ?? '') ?>">
+                                                Upload
+                                            </button>
+                                                                                        
+
+
+                                            <!---------------------------- MODAL table for Payment Invoice ---------------------------------->
+                                            <div class="modal fade" id="uploadInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="uploadInvoiceModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="uploadInvoiceModalLabel">Upload Certificate</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Form for file upload -->
+                                                            <form method="POST" enctype="multipart/form-data" action="upload_invoice.php" class="mt-2">
+                                                                <div class="form-row align-items-center mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <label for="InvoiceFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="text" name="displayfilepath" id="InvoiceFilePathModal" class="form-control filePathDisplay" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row align-items-center mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <label class="col-form-label">Select File:</label>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" name="payment_invoice" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+                                                                    </div>
+                                                                </div>
+                                                                <!---------- Hidden fields ------->
+                                                                <input type="hidden" name="registration_id" id="modalRegInvoiceId">
+                                                                <input type="hidden" name="invoice_id" id="modalInvoiceId">
+                                                                <!-------------------------------->
+                                                                <div class="text-right">
+                                                                    <input type="submit" value="Upload" class="btn btn-primary">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
 
                                             <?php endif; ?>
@@ -261,12 +317,75 @@
                                                 Please upload Payment Receipt.
                                             <?php endif; ?>
 
-                                            <form method="POST" enctype="multipart/form-data" action="upload_receipt.php" class="form-inline mt-2">
+
+
+                                            <!-- <form method="POST" enctype="multipart/form-data" action="upload_receipt.php" class="form-inline mt-2">
                                                 <input type="hidden" name="receipt_id" value="<?= htmlspecialchars($registration['receipt_id']) ?>">
                                                 <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
                                                 <input type="file" name="payment_receipt" accept=".pdf" class="form-control-file mb-2">
                                                 <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                                            </form>
+                                            </form> -->
+
+
+                                            <!-- Upload Payment Receipt -->
+                                            <button type="button" class="btn btn-sm btn-info receiptUploadButton" 
+                                            data-toggle="modal" 
+                                            data-target="#uploadReceiptModal"
+                                            data-regreceipt-id="<?= htmlspecialchars($registration['registration_id']) ?>"
+                                            data-receipt-id="<?= htmlspecialchars($registration['receipt_id']) ?>"
+                                            data-receipt-filepath="<?= htmlspecialchars($registration['payment_receipt_path'] ?? '') ?>">
+                                                Upload
+                                            </button>
+                                                                                        
+
+
+                                            <!---------------------------- MODAL table for Payment Receipt ---------------------------------->
+                                            <div class="modal fade" id="uploadReceiptModal" tabindex="-1" role="dialog" aria-labelledby="uploadReceiptModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="uploadReceiptModalLabel">Upload Certificate</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Form for file upload -->
+                                                            <form method="POST" enctype="multipart/form-data" action="upload_receipt.php" class="mt-2">
+                                                                <div class="form-row align-items-center mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <label for="ReceiptFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="text" name="displayfilepath" id="ReceiptFilePathModal" class="form-control filePathDisplay" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row align-items-center mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <label class="col-form-label">Select File:</label>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" name="payment_receipt" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+                                                                    </div>
+                                                                </div>
+                                                                <!---------- Hidden fields ------->
+                                                                <input type="hidden" name="registration_id" id="modalRegReceiptId">
+                                                                <input type="hidden" name="receipt_id" id="modalReceiptId">
+                                                                <!-------------------------------->
+                                                                <div class="text-right">
+                                                                    <input type="submit" value="Upload" class="btn btn-primary">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            
                                         <?php else: ?>
                                             N/A
                                         <?php endif; ?>
@@ -286,13 +405,74 @@
                                             <?php else: ?>
                                                 Please upload Exam Confirmation Letter.
                                             <?php endif; ?>
-
+                                                <!-- 
                                             <form method="POST" enctype="multipart/form-data" action="upload_examconfirmationletter.php" class="form-inline mt-2">
                                                 <input type="hidden" name="confirmation_id" value="<?= htmlspecialchars($registration['confirmation_id']) ?>">
                                                 <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
                                                 <input type="file" name="exam_confirmation_letter" accept=".pdf" class="form-control-file mb-2">
                                                 <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                                            </form>
+                                            </form> -->
+
+                                            <!-- Upload Exam Confirmation Letter -->
+                                            <button type="button" class="btn btn-sm btn-info examletterUploadButton" 
+                                            data-toggle="modal" 
+                                            data-target="#uploadExamLetterModal" 
+                                            data-regexamletter-id="<?= htmlspecialchars($registration['registration_id']) ?>"
+                                            data-examletter-id="<?= htmlspecialchars($registration['confirmation_id']) ?>"
+                                            data-examletter-filepath="<?= htmlspecialchars($registration['exam_confirmation_letter_path'] ?? '') ?>">
+                                                Upload
+                                            </button>
+                                                                                        
+
+
+                                            <!---------------------------- MODAL table for Exam Confirmation Letter ---------------------------------->
+                                            <div class="modal fade" id="uploadExamLetterModal" tabindex="-1" role="dialog" aria-labelledby="uploadExamLetterModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="uploadExamLetterModalLabel">Upload Exam Confirmation Letter</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Form for file upload -->
+                                                            <form method="POST" enctype="multipart/form-data" action="upload_examconfirmationletter.php" class="mt-2">
+                                                                <div class="form-row align-items-center mb-3">
+
+                                                                    <div class="col-md-4">
+                                                                        <label for="ExamLetterFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="text" name="displayfilepath" id="ExamLetterFilePathModal" class="form-control filePathDisplay" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row align-items-center mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <label class="col-form-label">Select File:</label>
+                                                                    </div>
+                                                                    <!-- Match with upload php file -->
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" name="exam_confirmation_letter" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+                                                                    </div>
+                                                                </div>
+                                                                <!---------- Hidden fields ------->
+                                                                <input type="hidden" name="registration_id" id="modalRegExamLetterId">
+                                                                <input type="hidden" name="confirmation_id" id="modalExamLetterId">
+                                                                <!-------------------------------->
+                                                                <div class="text-right">
+                                                                    <input type="submit" value="Upload" class="btn btn-primary">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
                                         <?php else: ?>
                                             N/A
                                         <?php endif; ?>
@@ -391,59 +571,59 @@
                                                 <input type="file" name="certificate" accept=".pdf" class="form-control-file mb-2">
                                                 <input type="submit" value="Upload" class="btn btn-sm btn-primary">
                                             </form> -->
-
+                                            <!-- Upload Certificate -->
                                             <button type="button" class="btn btn-sm btn-info certificateUploadButton" 
                                             data-toggle="modal" 
-                                            data-target="#uploadModal"
+                                            data-target="#uploadCertificateModal"
                                             data-regcertificate-id="<?= htmlspecialchars($registration['registration_id']) ?>"
                                             data-certificate-id="<?= htmlspecialchars($registration['certificate_id']) ?>"
                                             data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'] ?? '') ?>">
-                                                Upload Certificate
+                                                Upload
                                             </button>
-                                            
+                                                                                        
 
 
-<!---------------------------- MODAL table for Certificate ---------------------------------->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="uploadModalLabel">Upload Certificate</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Form for file upload -->
-                <form method="POST" enctype="multipart/form-data" action="upload_certificate.php" class="form-inline mt-2">
-                    <!-- Hidden input -->
-                    <!-- <input type="hidden" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>">
-                    <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>"> -->
-                    <!-- Not so hidden input  -->
-                    <!-- <input type="text" name="certificate_id" value="<?= htmlspecialchars($registration['certificate_id']) ?>" class="form-control mb-2">
-                    <input type="text" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>" class="form-control mb-2">
-                     -->
-                    
-                    <div class="form-group">
-                        <label for="CertFilePathModal">Current Filepath: </label>
-                        <input type="text" name="examResult" id="CertFilePathModal" class="form-control filePathDisplay" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="xx" class="mr-2">Select Certificate</label>
-                        <input type="file" name="certificate" accept=".pdf" class="form-control-file mb-2" id="xx">
-                    </div>
-
-                    
-                <!-- Hidden fields to store data to be sent to upload php files -->
-                <input type="hidden" name="registration_id" id="modalRegCertificateId">
-                <input type="hidden" name="certificate_id" id="modalCertificateId">
-                    <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                                            <!---------------------------- MODAL table for Certificate ---------------------------------->
+                                            <div class="modal fade" id="uploadCertificateModal" tabindex="-1" role="dialog" aria-labelledby="uploadCertificateModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="uploadCertificateModalLabel">Upload Certificate</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Form for file upload -->
+                                                            <form method="POST" enctype="multipart/form-data" action="upload_certificate.php" class="mt-2">
+                                                                <div class="form-row align-items-center mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <label for="CertFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="text" name="displayfilepath" id="CertFilePathModal" class="form-control filePathDisplay" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row align-items-center mb-3">
+                                                                    <div class="col-md-4">
+                                                                        <label class="col-form-label">Select File:</label>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" name="certificate" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+                                                                    </div>
+                                                                </div>
+                                                                <!---------- Hidden fields ------->
+                                                                <input type="hidden" name="registration_id" id="modalRegCertificateId">
+                                                                <input type="hidden" name="certificate_id" id="modalCertificateId">
+                                                                <!-------------------------------->
+                                                                <div class="text-right">
+                                                                    <input type="submit" value="Upload" class="btn btn-primary">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         <?php else: ?>
                                             N/A
@@ -472,12 +652,15 @@
 
     <script>
         /////////////////////// Javascript ////////////////////////////////
-        // Display accurate information on modal table (Edit) Javascript
+        // Display accurate information on modal table (Edit) 
         document.addEventListener("DOMContentLoaded", function () {
             const editButtons = document.querySelectorAll(".editButton");
             const certificateUploadButtons = document.querySelectorAll(".certificateUploadButton");
+            const examletterUploadButtons = document.querySelectorAll(".examletterUploadButton");
+            const receiptUploadButtons = document.querySelectorAll(".receiptUploadButton");
+            const invoiceUploadButtons = document.querySelectorAll(".invoiceUploadButton");
 
-            // For Exam Result
+            // Exam Result
             editButtons.forEach(button => {
                 button.addEventListener("click", function () {
                     const examResult = this.getAttribute("data-exam-result") || "";
@@ -500,7 +683,7 @@
                 });
             });
 
-            // For Certificate Upload
+            // Certificate
             certificateUploadButtons.forEach(button => {
                 button.addEventListener("click", function () {
                     const certificateFilePath = this.getAttribute("data-certificate-filepath") || "";
@@ -508,7 +691,7 @@
                     const regcertificateId = this.getAttribute("data-regcertificate-id") || "";
 
                     // Extract the valid filename (after the last hyphen)
-                    const fileName = certificateFilePath.substring(certificateFilePath.lastIndexOf('-') + 1);
+                    const fileName = certificateFilePath.substring(certificateFilePath.lastIndexOf('/') + 1).substring(24);
 
                     // Set modal field values (Display)
                     document.getElementById("CertFilePathModal").value = fileName;
@@ -517,6 +700,66 @@
                     document.getElementById("modalCertificateId").value = certificateId;
                 });
             });
+
+
+            // Exam Confirmation Letter
+            examletterUploadButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const examletterFilePath = this.getAttribute("data-examletter-filepath") || "";
+                    const examletterId = this.getAttribute("data-examletter-id") || "";
+                    const regexamletterId = this.getAttribute("data-regexamletter-id") || "";
+
+                    // Extract the valid filename (after the last hyphen)
+                    const fileName = examletterFilePath.substring(examletterFilePath.lastIndexOf('/') + 1).substring(24);
+
+                    // Set modal field values (Display)
+                    document.getElementById("ExamLetterFilePathModal").value = fileName;
+                    // Set modal field values (For functionality in upload.php files)
+                    document.getElementById("modalRegExamLetterId").value = regexamletterId;
+                    document.getElementById("modalExamLetterId").value = examletterId;
+                });
+            });
+
+            // Payment Receipt
+            receiptUploadButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const receiptFilePath = this.getAttribute("data-receipt-filepath") || "";
+                    const receiptId = this.getAttribute("data-receipt-id") || "";
+                    const regreceiptId = this.getAttribute("data-regreceipt-id") || "";
+
+                    // Extract the valid filename (after the last hyphen)
+                    const fileName = receiptFilePath.substring(receiptFilePath.lastIndexOf('/') + 1).substring(24);
+
+
+
+                    // Set modal field values (Display)
+                    document.getElementById("ReceiptFilePathModal").value = fileName;
+                    // Set modal field values (For functionality in upload.php files)
+                    document.getElementById("modalRegReceiptId").value = regreceiptId;
+                    document.getElementById("modalReceiptId").value = receiptId;
+                });
+            });
+
+            // Payment Invoice
+            invoiceUploadButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const invoiceFilePath = this.getAttribute("data-invoice-filepath") || "";
+                    const invoiceId = this.getAttribute("data-invoice-id") || "";
+                    const reginvoiceId = this.getAttribute("data-reginvoice-id") || "";
+
+                    // Extract the valid filename (after the last hyphen)
+                    const fileName = invoiceFilePath.substring(invoiceFilePath.lastIndexOf('/') + 1).substring(24);
+
+                    // Set modal field values (Display)
+                    document.getElementById("InvoiceFilePathModal").value = fileName;
+                    // Set modal field values (For functionality in upload.php files)
+                    document.getElementById("modalRegInvoiceId").value = reginvoiceId;
+                    document.getElementById("modalInvoiceId").value = invoiceId;
+                });
+            });
+
+
+
 
 
         });
@@ -544,7 +787,7 @@
         });
 
         // Certificate
-        $('#uploadModal').on('show.bs.modal', function(event) {
+        $('#uploadCertificateModal').on('show.bs.modal', function(event) {
             // jQuery to update the hidden inputs in the modal when the button is clicked
             var button = $(event.relatedTarget); // Button that triggered the modal
             var regcertificateId = button.data('regcertificate-id'); // Extract info from data-* attributes
@@ -555,6 +798,49 @@
             modal.find('#modalCertificateId').val(certificatetId); // Set the value of examresult_id in modal
 
         });
+
+        // Exam Confirmation Letter
+        $('#uploadExamLetterModal').on('show.bs.modal', function(event) {
+            // jQuery to update the hidden inputs in the modal when the button is clicked
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var regexamletterId = button.data('regexamletter-id'); // Extract info from data-* attributes
+            var examletterId = button.data('examletter-id'); // Extract info from data-* attributes
+
+            var modal = $(this);
+            modal.find('#modalRegExamLetterId').val(regexamletterId); 
+            modal.find('#modalExamLetterId').val(examletterId); 
+
+        });
+
+
+        // Payment Receipt
+        $('#uploadReceiptModal').on('show.bs.modal', function(event) {
+            // jQuery to update the hidden inputs in the modal when the button is clicked
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var regreceiptId = button.data('regreceipt-id'); // Extract info from data-* attributes
+            var receiptId = button.data('receipt-id'); // Extract info from data-* attributes
+
+            var modal = $(this);
+            modal.find('#modalRegReceiptId').val(regreceiptId); 
+            modal.find('#modalReceiptId').val(receiptId); 
+
+        });
+
+
+        // Payment Invoice
+        $('#uploadInvoiceModal').on('show.bs.modal', function(event) {
+            // jQuery to update the hidden inputs in the modal when the button is clicked
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var reginvoiceId = button.data('reginvoice-id'); // Extract info from data-* attributes
+            var invoiceId = button.data('invoice-id'); // Extract info from data-* attributes
+
+            var modal = $(this);
+            modal.find('#modalRegInvoiceId').val(reginvoiceId); 
+            modal.find('#modalInvoiceId').val(invoiceId); 
+
+        });
+
+
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Function to copy email

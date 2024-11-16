@@ -651,8 +651,22 @@ header nav ul li.dropdown:hover .dropdown_menu {
 /* Lecturer Registration Overview for filepath display inside modal table (upload) */
 
 .filePathDisplay{
-    width: 200px !important;
+    width: 300px !important;
     margin-left: 10px;
+}
+
+
+
+/* Lecturer registration oveview upload button */
+.certificateUploadButton, .examletterUploadButton, .receiptUploadButton, .invoiceUploadButton{
+    cursor: pointer;
+    margin: 20px auto;
+    background-color: rgb(255, 0, 0) !important;
+
+}
+
+.certificateUploadButton:hover, .examletterUploadButton:hover, .receiptUploadButton:hover, .invoiceUploadButton:hover{
+    background-color: rgba(144, 1, 1, 0.833) !important;
 }
 
 
