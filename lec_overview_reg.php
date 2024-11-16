@@ -176,7 +176,7 @@
                                                     <span class="notification" ></span>
                                                 <?php } ?>
                                             <?php else: ?>
-                                                Please wait for lecturer to upload Payment Invoice
+                                                Please wait for student to upload what
                                             <?php endif; ?>
                                         <?php else: ?>
                                             N/A
@@ -197,7 +197,7 @@
                                             <?php if (!empty($registration['payment_invoice_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['payment_invoice_path']) ?>" class="btn btn-sm btn-info" target="_blank">View</a>
                                             <?php else: ?>
-                                                Please upload Payment Invoice
+                                                Please upload Payment Invoice<br>
                                             <?php endif; ?>
 
                                             <?php if (
@@ -219,7 +219,7 @@
                                             </form> -->
 
                                             <!-- Upload Payment Invoice -->
-                                            <button type="button" class="btn btn-sm btn-info invoiceUploadButton" 
+                                            <br><button type="button" class="btn btn-sm btn-info invoiceUploadButton" 
                                             data-toggle="modal" 
                                             data-target="#uploadInvoiceModal"
                                             data-reginvoice-id="<?= htmlspecialchars($registration['registration_id']) ?>"
@@ -235,7 +235,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="uploadInvoiceModalLabel">Upload Certificate</h5>
+                                                            <h5 class="modal-title" id="uploadInvoiceModalLabel">Upload Payment Invoice</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -314,7 +314,7 @@
                                             <?php if (!empty($registration['payment_receipt_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['payment_receipt_path']) ?>" class="btn btn-sm btn-info" target="_blank">View</a>
                                             <?php else: ?>
-                                                Please upload Payment Receipt.
+                                                Please upload Payment Receipt.<br>
                                             <?php endif; ?>
 
 
@@ -328,7 +328,7 @@
 
 
                                             <!-- Upload Payment Receipt -->
-                                            <button type="button" class="btn btn-sm btn-info receiptUploadButton" 
+                                            <br><button type="button" class="btn btn-sm btn-info receiptUploadButton" 
                                             data-toggle="modal" 
                                             data-target="#uploadReceiptModal"
                                             data-regreceipt-id="<?= htmlspecialchars($registration['registration_id']) ?>"
@@ -344,7 +344,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="uploadReceiptModalLabel">Upload Certificate</h5>
+                                                            <h5 class="modal-title" id="uploadReceiptModalLabel">Upload Payment Receipt</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -403,7 +403,7 @@
                                             <?php if (!empty($registration['exam_confirmation_letter_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['exam_confirmation_letter_path']) ?>" class="btn btn-sm btn-info" target="_blank">View</a>
                                             <?php else: ?>
-                                                Please upload Exam Confirmation Letter.
+                                                Please upload Exam Confirmation Letter.<br>
                                             <?php endif; ?>
                                                 <!-- 
                                             <form method="POST" enctype="multipart/form-data" action="upload_examconfirmationletter.php" class="form-inline mt-2">
@@ -414,7 +414,7 @@
                                             </form> -->
 
                                             <!-- Upload Exam Confirmation Letter -->
-                                            <button type="button" class="btn btn-sm btn-info examletterUploadButton" 
+                                            <br><button type="button" class="btn btn-sm btn-info examletterUploadButton" 
                                             data-toggle="modal" 
                                             data-target="#uploadExamLetterModal" 
                                             data-regexamletter-id="<?= htmlspecialchars($registration['registration_id']) ?>"
@@ -499,7 +499,7 @@
                                                 </a>
 
                                             <?php else: ?>
-                                                Please key in Exam Result.
+                                                Please key in Exam Result.<br>
                                                 <a href="#" class="btn btn-sm btn-info"
                                                     data-toggle="modal"
                                                     data-target="#resultModal"
@@ -562,7 +562,7 @@
                                             <?php if (!empty($registration['certificate_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['certificate_path']) ?>" class="btn btn-sm btn-info" target="_blank">View</a>
                                             <?php else: ?>
-                                                Please upload Certificate.
+                                                Please upload Certificate.<br>
                                             <?php endif; ?>
 
                                             <!-- <form method="POST" enctype="multipart/form-data" action="upload_certificate.php" class="form-inline mt-2">
@@ -572,7 +572,7 @@
                                                 <input type="submit" value="Upload" class="btn btn-sm btn-primary">
                                             </form> -->
                                             <!-- Upload Certificate -->
-                                            <button type="button" class="btn btn-sm btn-info certificateUploadButton" 
+                                            <br><button type="button" class="btn btn-sm btn-info certificateUploadButton" 
                                             data-toggle="modal" 
                                             data-target="#uploadCertificateModal"
                                             data-regcertificate-id="<?= htmlspecialchars($registration['registration_id']) ?>"

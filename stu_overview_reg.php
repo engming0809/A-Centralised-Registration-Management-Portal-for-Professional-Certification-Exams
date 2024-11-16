@@ -10,7 +10,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
 
@@ -176,14 +178,71 @@
                                             <?php if (!empty($registration['transaction_slip_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" target="_blank">Download</a>
                                             <?php else: ?>
-                                                Please upload Transaction Slip.
+                                                Please upload Transaction Slip. <br>
 
-                                                <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="form-inline mt-2">
+                                                <!-- <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="form-inline mt-2">
                                                     <input type="hidden" name="transaction_id" value="<?= htmlspecialchars($registration['transaction_id']) ?>">
                                                     <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
                                                     <input type="file" name="transaction_slip" accept=".pdf" class="form-control-file mb-2">
                                                     <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                                                </form>
+                                                </form> -->
+
+
+                                                <!-- Upload Transaction Slip -->
+                                                <button type="button" class="btn btn-sm btn-info transactionUploadButton" 
+                                                data-toggle="modal" 
+                                                data-target="#uploadInvoiceModal"
+                                                data-regtransaction-id="<?= htmlspecialchars($registration['registration_id']) ?>"
+                                                data-transaction-id="<?= htmlspecialchars($registration['transaction_id']) ?>"
+                                                data-transaction-filepath="<?= htmlspecialchars($registration['transaction_slip_path'] ?? '') ?>">
+                                                    Upload
+                                                </button>
+                                                                                            
+
+
+                                                <!---------------------------- MODAL table for Transaction Slip ---------------------------------->
+                                                <div class="modal fade" id="uploadInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="uploadInvoiceModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="uploadInvoiceModalLabel">Upload Transaction Slip</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- Form for file upload -->
+                                                                <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
+                                                                    <div class="form-row align-items-center mb-3">
+                                                                        <div class="col-md-4">
+                                                                            <label for="TransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                                                                        </div>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" name="displayfilepath" id="TransactionFilePathModal" class="form-control filePathDisplay" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-row align-items-center mb-3">
+                                                                        <div class="col-md-4">
+                                                                            <label class="col-form-label">Select File:</label>
+                                                                        </div>
+                                                                        <div class="col-md-8">
+                                                                            <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!---------- Hidden fields ------->
+                                                                    <input type="hidden" name="registration_id" id="modalRegTransactionId">
+                                                                    <input type="hidden" name="transaction_id" id="modalTransactionId">
+                                                                    <!-------------------------------->
+                                                                    <div class="text-right">
+                                                                        <input type="submit" value="Upload" class="btn btn-primary">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                             <?php endif; ?>
                                         <?php else: ?>
                                             N/A
@@ -298,42 +357,83 @@
     ?>
 
     <script>
-    $(document).ready(function() {
-        $('#certificationTable').DataTable({
-            "paging": true, // Enable pagination
-            "ordering": true, // Enable column sorting
-            "info": true, // Show table information
-            "searching": true, // Enable search
-            "stateSave": true, // Enable state saving
-            "responsive": false
-        });
-    });
 
-        function handleNotification(registration_id) {
+        /////////////////////// Javascript ////////////////////////////////
+        // Display accurate information on modal table (Edit) 
+        document.addEventListener("DOMContentLoaded", function () {
+            const transactionUploadButtons = document.querySelectorAll(".transactionUploadButton");
+            // Payment Invoice
+            transactionUploadButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const transactionFilePath = this.getAttribute("data-transaction-filepath") || "";
+                    const transactionId = this.getAttribute("data-transaction-id") || "";
+                    const regtransactionId = this.getAttribute("data-regtransaction-id") || "";
 
-            const data = new URLSearchParams(); // Create a URLSearchParams object
-            data.append('registration_id', registration_id); // Add the registration_id
+                    // Extract the valid filename (after the last hyphen)
+                    const fileName = transactionFilePath.substring(transactionFilePath.lastIndexOf('/') + 1).substring(24);
 
-            fetch("clear_notification.php", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: data.toString(),
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(result => {
-                    console.log('Success:', result); // 
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+                    // Set modal field values (Display)
+                    document.getElementById("TransactionFilePathModal").value = fileName;
+                    // Set modal field values (For functionality in upload.php files)
+                    document.getElementById("modalRegTransactionId").value = regtransactionId;
+                    document.getElementById("modalTransactionId").value = transactionId;
                 });
-        }
+            });
+        });
+
+        //////////////////////////////////////   JQUERY   ////////////////////////////////////////////////
+        // Display accurate information on modal table (Insert) JQuert
+        // Payment Invoice
+        $('#uploadInvoiceModal').on('show.bs.modal', function(event) {
+            // jQuery to update the hidden inputs in the modal when the button is clicked
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var regtransactionId = button.data('regtransaction-id'); // Extract info from data-* attributes
+            var transactionId = button.data('transaction-id'); // Extract info from data-* attributes
+
+            var modal = $(this);
+            modal.find('#modalRegTransactionId').val(regtransactionId); 
+            modal.find('#modalTransactionId').val(transactionId); 
+
+        });
+
+    
+        // Data Table 
+        $(document).ready(function() {
+            $('#certificationTable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable column sorting
+                "info": true, // Show table information
+                "searching": true, // Enable search
+                "stateSave": true, // Enable state saving
+                "responsive": false
+            });
+        });
+
+            function handleNotification(registration_id) {
+
+                const data = new URLSearchParams(); // Create a URLSearchParams object
+                data.append('registration_id', registration_id); // Add the registration_id
+
+                fetch("clear_notification.php", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: data.toString(),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        console.log('Success:', result); // 
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
     </script>
 
 </body>
