@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
     <img src="<?php echo $profile_image; ?>" alt="Profile Image" class="view_profile_img">
     
 
-    <table class="table table-bordered">
+    <table class="table">
     <tr>
         <th>Full Name</th>
         <td id="fullNameDisplay"><?php echo htmlspecialchars($full_name); ?></td>

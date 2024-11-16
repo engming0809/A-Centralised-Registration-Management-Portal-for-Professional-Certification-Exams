@@ -1226,18 +1226,6 @@ canvas {
     text-decoration: none;
 }
 
-.view_profile_main .button-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-.view_profile_main .btn {
-    padding: 8px 15px;
-    font-size: 16px;
-}
-.profilecolumn{
-    border-top: 10px solid black;
-}
 
 
 
