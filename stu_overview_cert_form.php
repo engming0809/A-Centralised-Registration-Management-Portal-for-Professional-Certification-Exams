@@ -88,23 +88,33 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
         <form onsubmit="return validateForm()" action="stu_overview_cert_formfiller.php" method="post">
 
             <div class="form-section">
+            <div class="alert alert-info mt-4">
+                <p class="font-weight-bold mb-2">Instructions::</p>
+                <ol>
+                    <li>Please complete ALL the information below. <strong>Please write legibly in CAPITAL LETTERS.</strong></li>
+                    <li><strong>MSTB reserves the right to decline the application for failure to complete the form.</strong></li>
+                    <li>Select the certification type and remit the fee together with this application. Payment may be made in cash or cheque (payable to “Malaysian Software Testing Board (MSTB)”.). For other arrangements, please contact +603-8076 6100</li>
+                    <li>Payment for the exam is to be paid in full at least seven (7) prior to the examination date.</li>
+                    <li>Receipt of payment will be issued after confirmation of payment from the relevant parties e.g. bank or MSTB Finance Department.</li>
+                </ol>
+            </div>
                 <h2>Certification Examination Type and Fee</h2>
                 <label>Select Certification Type:</label><br>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="type_radio" value="ctfl" required>
-                    <label class="form-check-label">ISTQB Certified Tester Foundation Level (CTFL) - RM 900.00</label>
+                    <input id="cert1" class="form-check-input" type="radio" name="type_radio" value="ctfl" required>
+                    <label for="cert1" class="form-check-label">ISTQB Certified Tester Foundation Level (CTFL) - <strong>RM 900.00</strong></label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="type_radio" value="cpre">
-                    <label class="form-check-label">IREB Certified Professional for Requirements Engineering Foundation Level (CPRE-FL) - RM 900.00</label>
+                    <input id="cert2" class="form-check-input" type="radio" name="type_radio" value="cpre">
+                    <label for="cert2" class="form-check-label">IREB Certified Professional for Requirements Engineering Foundation Level (CPRE-FL) -  <strong>RM 900.00</strong></label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="type_radio" value="agile">
-                    <label class="form-check-label">IREB RE@Agile Primer - RM 900.00</label>
+                    <input id="cert3" class="form-check-input" type="radio" name="type_radio" value="agile">
+                    <label for="cert3" class="form-check-label">IREB RE@Agile Primer -  <strong>RM 900.00</strong></label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="type_radio" value="advanced">
-                    <label class="form-check-label">IREB Advanced Level Requirements Elicitation - Practitioner - RM 1050.00</label>
+                    <input id="cert4" class="form-check-input" type="radio" name="type_radio" value="advanced">
+                    <label for="cert4" class="form-check-label">IREB Advanced Level Requirements Elicitation - Practitioner -  <strong>RM 1050.00</strong></label>
                 </div>
             </div>
 
@@ -112,32 +122,36 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 <h2>Mode/Terms of Payment</h2>
                 <label>Mode of Payment:</label><br>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_radio" value="company">
-                    <label class="form-check-label">Company Sponsored</label>
+                    <input id="payment1" class="form-check-input" type="radio" name="payment_radio" value="company">
+                    <label for="payment1" class="form-check-label">Company Sponsored</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_radio" value="cash_che">
-                    <label class="form-check-label">Cash Cheque</label>
+                    <input id="payment2" class="form-check-input" type="radio" name="payment_radio" value="cash_che">
+                    <label for="payment2" class="form-check-label">Cash Cheque</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_radio" value="self">
-                    <label class="form-check-label">Self-Sponsored</label>
+                    <input id="payment3" class="form-check-input" type="radio" name="payment_radio" value="self">
+                    <label for="payment3" class="form-check-label">Self-Sponsored</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_radio" value="bank_che">
-                    <label class="form-check-label">Bankers' Cheque</label>
+                    <input id="payment4" class="form-check-input" type="radio" name="payment_radio" value="bank_che">
+                    <label for="payment4" class="form-check-label">Bankers' Cheque</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_radio" value="jom">
-                    <label class="form-check-label">JomPAY</label>
+                    <input id="payment5" class="form-check-input" type="radio" name="payment_radio" value="jom">
+                    <label for="payment5" class="form-check-label">JomPAY</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_radio" value="credit">
-                    <label class="form-check-label">Credit Card</label>
+                    <input id="payment6" class="form-check-input" type="radio" name="payment_radio" value="credit">
+                    <label for="payment6" class="form-check-label">Credit Card</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment_radio" value="online">
-                    <label class="form-check-label">Online Payment</label>
+                    <input id="payment7" class="form-check-input" type="radio" name="payment_radio" value="online">
+                    <label for="payment7" class="form-check-label">Online Payment</label>
+                </div>
+                <div class="form-check">
+                    <input id="payment8" class="form-check-input" type="radio" name="payment_radio" value="cash">
+                    <label for="payment8" class="form-check-label">Cash</label>
                 </div>
             </div>
 
@@ -145,180 +159,253 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 <h2>Personal Information</h2>
                 <div class="form-group">
                     <label for="full_name_textbox">Full Name (as per IC / passport):</label>
-                    <input type="text" class="form-control" name="full_name_textbox" required placeholder="Enter your Full Name"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input id="full_name_textbox" type="text" class="form-control" name="full_name_textbox" required placeholder="Enter your Full Name"
+                    oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+                    pattern="[A-Za-z\s]+" maxlength="82">
                 </div>
                 <div class="form-group">
                     <label for="nationality_textbox">Nationality:</label>
-                    <input type="text" class="form-control" name="nationality_textbox" required placeholder="Enter your Nationality"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input id="nationality_textbox" type="text" class="form-control" name="nationality_textbox" required placeholder="Enter your Nationality"
+                    oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+                        pattern="[A-Za-z\s]+">
                 </div>
-                <div class="form-group">
-                    <label for="ic_num_textbox">New IC Number (Malaysian only/Date of Birth):</label>
-                    <input type="text" class="form-control" name="ic_num_1_textbox" placeholder="Enter the first 6 digits of your IC Number"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                    <label for="ic_num_textbox">New IC Number (Malaysian only/State):</label>
-                    <input type="text" class="form-control" name="ic_num_2_textbox" placeholder="Enter the next 2 digits of you IC Number"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                    <label for="ic_num_textbox">New IC Number (Malaysian only/Unique):</label>
-                    <input type="text" class="form-control" name="ic_num_3_textbox" placeholder="Enter the last 4 digits of your IC Number"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <label>New IC Number (Malaysian Only)</label>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="ic_num_1_textbox" class="text-secondary">Date of Birth Code:</label>
+                        <input id="ic_num_1_textbox" type="number" class="form-control" name="ic_num_1_textbox" 
+                            placeholder="First 6 digits" oninput="toUpperCase(this)" 
+                            title="Please enter the first 6 digits of your Date of Birth Code." 
+                            pattern="^\d{6}$" min="0" max="999999" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ic_num_2_textbox" class="text-secondary">State Code:</label>
+                        <input id="ic_num_2_textbox" type="number" class="form-control" name="ic_num_2_textbox" 
+                            placeholder="Next 2 digits" oninput="toUpperCase(this)" 
+                            title="Please enter the 2 digits of state code after your DOB code."
+                            pattern="^\d{2}$" min="0" max="999999" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ic_num_3_textbox" class="text-secondary">Unique Code:</label>
+                        <input id="ic_num_3_textbox" type="number" class="form-control" name="ic_num_3_textbox" 
+                            placeholder="Last 4 digits" oninput="toUpperCase(this)" 
+                            title="Please enter last 4 digits of your unique code."
+                            pattern="^\d{4}$"  min="0" max="9999">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="pass_num_textbox">Passport Number (Non-Malaysian only):</label>
-                    <input type="text" class="form-control" name="pass_num_textbox" placeholder="Enter your Passport Number"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input id="pass_num_textbox" type="number" class="form-control" name="pass_num_textbox" placeholder="Enter your Passport Number"
+                    oninput="toUpperCase(this)" title="Please enter integer only." pattern="\d*" step="1" min="0" maxlength="32">
                 </div>
-                <div class="form-group">
-                    <label for="dob_textbox">Date of Birth (Day):</label>
-                    <input type="text" class="form-control" name="dob_day_textbox" required placeholder="Enter the DAY (01-31) of your birth"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                    <label for="dob_textbox">Date of Birth (Month):</label>
-                    <input type="text" class="form-control" name="dob_month_textbox" required placeholder="Enter the MONTH (01-12) of your birth"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                    <label for="dob_textbox">Date of Birth (Year):</label>
-                    <input type="text" class="form-control" name="dob_year_textbox" required placeholder="Enter the YEAR of your birth"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+
+                <label>Date of Birth</label>
+                <div class="form-group row">
+                <div class="col-md-4">
+                    <label for="dob_day_textbox" class="text-secondary">Day:</label>
+                    <input id="dob_day_textbox" type="number" class="form-control" name="dob_day_textbox" 
+                        placeholder="Enter the DAY (01-31) of your birth" oninput="toUpperCase(this)" 
+                        title="Please enter the day of your birth (01-31)." 
+                        min="1" max="31" 
+                        pattern="^(?:[1-9]|[12][0-9]|3[01])$" required>
                 </div>
+                    <div class="col-md-4">
+                        <label for="dob_month_textbox" class="text-secondary">Month:</label>
+                        <input id="dob_day_textbox" type="number" class="form-control" name="dob_month_textbox" 
+                            placeholder="Enter the MONTH (01-12) of your birth" oninput="toUpperCase(this)" 
+                            title="Please enter in uppercase letters." 
+                            min="1" max="12" 
+                            pattern="^(?:[1-9]|[12][0-9]|3[01])$" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dob_year_textbox" class="text-secondary">Year:</label>
+                        <input id="dob_day_textbox" type="number" class="form-control" name="dob_year_textbox" 
+                            placeholder="Enter the YEAR of your birth" oninput="toUpperCase(this)" 
+                            title="Please enter in uppercase letters." 
+                            pattern="^\d{4}$"  min="0" max="9999" required>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Gender:</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender_radio" value="male"> 
-                        <label class="form-check-label">Male</label>
+                        <input id="gender1" class="form-check-input" type="radio" name="gender_radio" value="male"> 
+                        <label for="gender1" class="form-check-label">Male</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender_radio" value="female"> 
-                        <label class="form-check-label">Female</label>
+                        <input id="gender2" class="form-check-input" type="radio" name="gender_radio" value="female"> 
+                        <label for="gender2" class="form-check-label">Female</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="pob_textbox">Place of Birth:</label>
-                    <input type="text" class="form-control" name="pob_textbox" required placeholder="Enter your Place of Birth"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        name="pob_textbox" 
+                        id="pob_textbox"
+                        required 
+                        placeholder="Enter your Place of Birth"
+                        title="Please enter alphabetic characters and commas (spaces allowed)."
+                        pattern="[A-Za-z\s,]+" maxlength="35">
                 </div>
                 <div class="form-group">
                     <label>Race:</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="race_radio" value="malay"> 
-                        <label class="form-check-label">Malay</label>
+                        <input id="race1" class="form-check-input" type="radio" name="race_radio" value="malay" required> 
+                        <label for="race1" class="form-check-label">Malay</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="race_radio" value="chinese"> 
-                        <label class="form-check-label">Chinese</label>
+                        <input id="race2" class="form-check-input" type="radio" name="race_radio" value="chinese"> 
+                        <label for="race2" class="form-check-label">Chinese</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="race_radio" value="indian"> 
-                        <label class="form-check-label">Indian</label>
+                        <input id="race3" class="form-check-input" type="radio" name="race_radio" value="indian"> 
+                        <label for="race3" class="form-check-label">Indian</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="race_radio" value="other"> 
-                        <label class="form-check-label">Other:</label> 
-                        <input type="text" class="form-control d-inline-block" style="width: auto;" name="race_other_textbox">
+                        <input id="otherrace" class="form-check-input" type="radio" name="race_radio" value="other" onclick="this.form.race_other_textbox.required = this.checked;">
+                        <label for="otherrace" class="form-check-label">Other:</label>
+                        <input type="text" class="form-control d-inline-block" style="width: auto;" name="race_other_textbox"
+                            oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+                            pattern="[A-Za-z\s]+" id="race_other_input">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="company_name_textbox">Company Name:</label>
-                    <input type="text" class="form-control" name="company_name_textbox" required placeholder="Enter your Company Name e.g SWINBURNE"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input id="company_name_textbox" type="text" class="form-control" name="company_name_textbox" required placeholder="Enter your Company Name e.g SWINBURNE"
+                    oninput="toUpperCase(this)"  title="Please enter alphabetic characters only (spaces allowed)." 
+                    pattern="[A-Za-z\s,]+" maxlength="35">
                 </div>
                 <div class="form-group">
                     <label for="job_textbox">Job Title:</label>
-                    <input type="text" class="form-control" name="job_textbox" required placeholder="Enter your Job Title e.g STUDENT OR LECTURER"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input id="job_textbox" type="text" class="form-control" name="job_textbox" required placeholder="Enter your Job Title e.g STUDENT OR LECTURER"
+                    oninput="toUpperCase(this)"  title="Please enter alphabetic characters only (spaces allowed)." 
+                    pattern="[A-Za-z\s,]+" maxlength="35">
                 </div>
                 <div class="form-group">
                     <label>Position Level:</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="senior_man"> 
-                        <label class="form-check-label">Senior Manager</label>
+                        <input id="position1" class="form-check-input" type="radio" name="position_level_radio" value="senior_man" required> 
+                        <label for="position1" class="form-check-label">Senior Manager</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="manager"> 
-                        <label class="form-check-label">Manager</label>
+                        <input id="position2" class="form-check-input" type="radio" name="position_level_radio" value="manager"> 
+                        <label for="position2" class="form-check-label">Manager</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="senior_exec"> 
-                        <label class="form-check-label">Senior Executive</label>
+                        <input id="position3" class="form-check-input" type="radio" name="position_level_radio" value="senior_exec"> 
+                        <label for="position3" class="form-check-label">Senior Executive</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="exec"> 
-                        <label class="form-check-label">Executive</label>
+                        <input id="position4" class="form-check-input" type="radio" name="position_level_radio" value="exec"> 
+                        <label for="position4" class="form-check-label">Executive</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="fresh_entry"> 
-                        <label class="form-check-label">Fresh/Entry Level</label>
+                        <input id="position5" class="form-check-input" type="radio" name="position_level_radio" value="fresh_entry"> 
+                        <label for="position5" class="form-check-label">Fresh/Entry Level</label>
                     </div>
 					<div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="non_exec"> 
-                        <label class="form-check-label">Non-Executive</label>
+                        <input id="position6" class="form-check-input" type="radio" name="position_level_radio" value="non_exec"> 
+                        <label for="position6" class="form-check-label">Non-Executive</label>
                     </div>
-					<div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="position_level_radio" value="pos_other"> 
-                        <label class="form-check-label">Other: <input type="text" name="position_other_textbox"></label>
+                    <div class="form-check form-check-inline">
+                        <input id="position7" class="form-check-input" type="radio" name="position_level_radio" 
+                        value="pos_other" onclick="this.form.position_other_textbox.required = this.checked;">
+                        <label for="position7" class="form-check-label">Other:</label>
+                        <input type="text" name="position_other_textbox" id="position_other_input" 
+                            class="form-control d-inline-block" style="width: auto;" 
+                            oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+                            pattern="[A-Za-z\s]+">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="address_textbox">Correspondence Address:</label>
-                    <input type="text" class="form-control" name="address_textbox" required placeholder="Enter the Address of where you currently stay"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <input id="address_textbox" type="text" class="form-control" name="address_textbox" required placeholder="Enter the Address of where you currently stay"
+                    oninput="toUpperCase(this)" title="The address must within maximum length." maxlength="114">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="city_textbox">City:</label>
+                    <input id="city_textbox" type="text" class="form-control" name="city_textbox" required placeholder="Enter your City e.g KUCHING"
+                    oninput="toUpperCase(this)"   title="Please enter alphabetic characters only (spaces allowed)." 
+                    pattern="[A-Za-z\s]+">
                 </div>
 
                 <div class="form-group">
-                <label for="city_textbox">City:</label>
-                <input type="text" class="form-control" name="city_textbox" required placeholder="Enter your City e.g KUCHING"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <label for="postcode_textbox">Postcode:</label>
+                    <input id="postcode_textbox" type="number" class="form-control" name="postcode_textbox" required placeholder="Enter your Postcode e.g 93350"
+                    oninput="toUpperCase(this)" title="Please enter a 5-digit postcode." min="10000" max="99999" pattern="\d{5}" 
+                    maxlength="5" />
+                </div>
+
+
+                <div class="form-group">
+                    <label for="state_country_textbox">State/Country:</label>
+                    <input id="state_country_textbox" type="text" class="form-control" name="state_country_textbox" required placeholder="Enter your State or Country"
+                    oninput="toUpperCase(this)"  title="Please enter alphabetic characters only (spaces allowed)." 
+                    pattern="[A-Za-z\s]+">
+                </div>
+
+                <label>Mobile Phone Number:</label>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="phone_code_textbox" class="text-secondary">Country Code (+):</label>
+                        <input id="phone_code_textbox" type="number" class="form-control" name="phone_code_textbox" required 
+                            placeholder="Enter the country code (first 3 digits)" 
+                            maxlength="3" pattern="\d{3}" title="Please enter exactly 3 digits" />
+                    </div>
+                    <div class="col-md-8">
+                        <label for="phone_textbox" class="text-secondary">Phone Number:</label>
+                        <input id="phone_textbox" type="number" class="form-control" name="phone_textbox" required 
+                            placeholder="Enter the rest of your Phone Number" 
+                            title="Please enter numbers only." inputmode="numeric">
+                    </div>
+                </div>
+
+                <label>Alternate Phone Number: (compulsory for online exam) </label>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="phone_alt_code_textbox" class="text-secondary">Country Code (+):</label>
+                        <input id="phone_alt_code_textbox" type="text" class="form-control" name="phone_alt_code_textbox" 
+                        placeholder="Enter the country code (first 3 digits)" maxlength="3" pattern="\d{3}" title="Please enter exactly 3 digits" />
+                    </div>
+                    <div class="col-md-8">
+                        <label for="phone_alt_textbox" class="text-secondary">Phone Number:</label>
+                        <input id="phone_alt_textbox" type="text" class="form-control" name="phone_alt_textbox" placeholder="Enter the rest of your Alternate Number"
+                        title="Please enter numbers only." inputmode="numeric">
+                    </div>
+                </div>
+
+                <label>Work Phone Number: </label>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="phone_work_code_textbox" class="text-secondary">Country Code (+):</label>
+                        <input id="phone_work_code_textbox" type="text" class="form-control" name="phone_work_code_textbox" 
+                        placeholder="Enter the country code (first 3 digits)" maxlength="3" pattern="\d{3}" title="Please enter exactly 3 digits" />
+                    </div>
+                    <div class="col-md-8">
+                        <label for="phone_work_textbox" class="text-secondary">Phone Number:</label>
+                        <input id="phone_work_textbox" type="text" class="form-control" name="phone_work_textbox" placeholder="Enter the rest of your Work Number"
+                        title="Please enter numbers only." inputmode="numeric">
+                    </div>
+                </div>
+
+                <label>Email Address <i>(Exam link (online exam), result notification & e-certificate will be sent to your primary email)</i>: </label>
+                <div class="form-group">
+                    <label for="email_pri_textbox" class="text-secondary">Primary Email Address:</label>
+                    <input id="email_pri_textbox" type="email" class="form-control" name="email_pri_textbox" required placeholder="Enter your email address"
+                        title="Please enter a valid email address, e.g., example@example.com.">
                 </div>
 
                 <div class="form-group">
-                <label for="postcode_textbox">Postcode:</label>
-                <input type="text" class="form-control" name="postcode_textbox" required placeholder="Enter your Postcode e.g 93350"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                    <label for="email_sec_textbox" class="text-secondary">Alternate Email Address:</label>
+                    <input id="email_sec_textbox" type="email" class="form-control" name="email_sec_textbox" placeholder="Enter your alternate email address"
+                    title="Please enter a valid email address, e.g., example@example.com.">
                 </div>
 
-                <div class="form-group">
-                <label for="state_country_textbox">State/Country:</label>
-                <input type="text" class="form-control" name="state_country_textbox" required placeholder="Enter your State or Country"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                </div>
-
-                <div class="form-group">
-                <label for="phone_textbox">Mobile Phone Number: +</label>
-                <input type="text" class="form-control" name="phone_code_textbox" required placeholder="Enter the country code without the Plus (+) e.g 60"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                    <input type="text" class="form-control" name="phone_textbox" required placeholder="Enter the rest of your Phone Number"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                </div>
-
-                <div class="form-group">
-                <label for="phone_alt_textbox">Alternate Phone Number: (compulsory for online exam) +</label>
-                    <input type="text" class="form-control" name="phone_alt_code_textbox" placeholder="Enter the country code without the Plus (+) e.g 60"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                <input type="text" class="form-control" name="phone_alt_textbox" placeholder="Enter the rest of your Alternate Number"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                </div>
-
-            
-
-                <div class="form-group">
-                <label for="phone_work_textbox">Work Phone Number: +</label>
-                    <input type="text" class="form-control" name="phone_work_code_textbox" placeholder="Enter the country code without the Plus (+) e.g 60"
-                    oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                <input type="text" class="form-control" name="phone_work_textbox" placeholder="Enter the rest of your Work Number"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                </div>
-
-                <div class="form-group">
-                <label for="email_pri_textbox">Primary Email Address:</label>
-                <input type="text" class="form-control" name="email_pri_textbox" required placeholder="Enter your email address"
-                title="Please enter a valid email address, e.g., example@example.com.">
-                </div>
-
-                <div class="form-group">
-                <label for="email_sec_textbox">Alternate Email Address:</label>
-                <input type="text" class="form-control" name="email_sec_textbox" placeholder="Enter your alternate email address"
-                title="Please enter a valid email address, e.g., example@example.com.">
-                </div>
             </div>
             <div class="form-section">
             <h2>Education Background</h2>
@@ -344,11 +431,16 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <input class="form-check-input" type="radio" name="education_radio" id="p_cert" value="p_cert">
                     <label class="form-check-label" for="p_cert">Professional Certificate</label>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="education_radio" id="edu_other" value="edu_other">
-                    <label class="form-check-label" for="edu_other">Other:</label>
-                    <input type="text" name="edu_other_textbox" class="form-control" placeholder="Specify other education">
+                <div class="form-check form-check-inline">
+                    <input id="edu_other" class="form-check-input" type="radio" name="education_radio" value="edu_other" 
+                    onclick="this.form.edu_other_textbox.required = this.checked;">
+                    <label for="edu_other" class="form-check-label">Other:</label>
+                    <input type="text" name="edu_other_textbox" id="edu_other_input" 
+                    class="form-control d-inline-block" style="width: auto;" 
+                    placeholder="Specify other education" title="Please enter alphabetic characters only (spaces allowed)." 
+                    pattern="[A-Za-z\s]+">
                 </div>
+
             </div>
 
             <div class="form-group">
@@ -357,60 +449,73 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <input class="form-check-input" type="radio" name="work_exp_radio" id="less" value="less">
                     <label class="form-check-label" for="less">&lt; 1 Year</label>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="work_exp_radio" id="more" value="more">
-                    <label class="form-check-label" for="more">&gt; 1 Year (Specify years):</label>
-                    <input type="number" name="work_other_textbox" class="form-control" placeholder="Number of years">
-                </div>
+                <div class="form-check form-check-inline">
+                <input id="more" class="form-check-input" type="radio" name="work_exp_radio" value="more" 
+                onclick="this.form.work_other_textbox.required = this.checked;">
+                <label for="more" class="form-check-label">&gt; 1 Year (Specify years):</label>
+                <input type="number" name="work_other_textbox" id="work_other_input" 
+                    class="form-control d-inline-block" style="width: auto;" 
+                    placeholder="Number of years" title="Please enter a valid number." min="1">
             </div>
-</div>
-<div class="form-section">
+
+            </div>
+        </div>
+        <div class="form-section">
             <h2>Company Information</h2>
             <div class="form-group">
                 <label for="comp_add_textbox">Company Address:</label>
-                <input type="text" name="comp_add_textbox" class="form-control" required placeholder="Enter your Company Address"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input id="comp_add_textbox" type="text" name="comp_add_textbox" class="form-control" required placeholder="Enter your Company Address"
+                oninput="toUpperCase(this)" title="The address must within maximum length." maxlength="114">
             </div>
 
             <div class="form-group">
                 <label for="comp_city_textbox">City:</label>
-                <input type="text" name="comp_city_textbox" class="form-control" required placeholder="Enter the City Name of your Company"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input id="comp_city_textbox" type="text" name="comp_city_textbox" class="form-control" required placeholder="Enter the City Name of your Company"
+                oninput="toUpperCase(this)" title="The address must within maximum length." maxlength="35">
             </div>
 
             <div class="form-group">
                 <label for="comp_post_textbox">Postcode:</label>
-                <input type="text" name="comp_post_textbox" class="form-control" required placeholder="Enter your Company Postcode e.g 93350"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input id="comp_post_textbox" type="number" class="form-control" name="comp_post_textbox" required placeholder="Enter your Company Postcode. e.g 93350"
+                    oninput="toUpperCase(this)" title="Please enter a 5-digit postcode." min="10000" max="99999" pattern="\d{5}" 
+                    maxlength="5" />
             </div>
 
             <div class="form-group">
                 <label for="comp_state_country_textbox">State/Country:</label>
-                <input type="text" name="comp_state_country_textbox" class="form-control" required placeholder="Enter your Company State or Country"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input id="comp_state_country_textbox" type="text" class="form-control" name="comp_state_country_textbox" required placeholder="Enter your Company State or Country"
+                oninput="toUpperCase(this)"  title="Please enter alphabetic characters only (spaces allowed)." 
+                pattern="[A-Za-z\s]+">
             </div>
 
             <div class="form-group">
                 <label for="comp_con_name_textbox">Contact Person (HR):</label>
-                <input type="text" name="comp_con_name_textbox" class="form-control" required placeholder="Enter your Company Contact Person"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input id="comp_con_name_textbox" type="text" name="comp_con_name_textbox" class="form-control" required placeholder="Enter the Name of your Company Contact Person"
+                oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+                    pattern="[A-Za-z\s]+" maxlength="82">
             </div>
-
+            
+            <label>Contact Person's Phone Number: </label>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label for="comp_con_num_code_textbox" class="text-secondary">Country Code (+):</label>
+                    <input id="comp_con_num_code_textbox" type="text" class="form-control" name="comp_con_num_code_textbox" 
+                    placeholder="Enter the country code (first 3 digits)" maxlength="3" pattern="\d{3}" title="Please enter exactly 3 digits" />
+                </div>
+                <div class="col-md-8">
+                    <label for="comp_con_num_textbox" class="text-secondary">Phone Number:</label>
+                    <input id="comp_con_num_textbox" type="text" class="form-control" name="comp_con_num_textbox" placeholder="Enter the rest of Phone Numbesr"
+                    title="Please enter numbers only." inputmode="numeric">
+                </div>
+            </div>
+            
             <div class="form-group">
-                <label for="comp_con_num_textbox">Contact Person's Phone Number: +</label>
-                <input type="text" name="comp_con_num_code_textbox" class="form-control" placeholder="Enter the country code without the Plus (+) e.g 60"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                <input type="text" name="comp_con_num_textbox" class="form-control" placeholder="Enter the rest of the Phone Number"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <label for="comp_email_textbox">Contact Person's Email Address:</label>
+                <input id="comp_email_textbox" type="email" class="form-control" name="comp_email_textbox" required placeholder="Enter the Email address of you Contact Person"
+                    title="Please enter a valid email address, e.g., example@example.com.">
             </div>
-
-            <div class="form-group">
-                <label for="comp_email_textbox">Contact Person's Email:</label>
-                <input type="email" name="comp_email_textbox" class="form-control" required placeholder="Enter the Email address of you Contact Person"
-                title="Please enter a valid email address, e.g., example@example.com.">
-            </div>
-</div>
-<div class="form-section">
+        </div>
+        <div class="form-section">
             <h2>Examination Session Information</h2>
             <div class="form-group">
                 <label for="exam_type_radio">Exam Type:</label><br>
@@ -446,39 +551,60 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
 
             <div class="form-group">
                 <label for="exam_location_textbox">Examination Location/Center:</label>
-                <input type="text" name="exam_location_textbox" class="form-control" placeholder="Enter location of your exam"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input id="exam_location_textbox" type="text" name="exam_location_textbox" class="form-control" placeholder="Enter location of your exam"
+                oninput="toUpperCase(this)" 
+                title="Please enter alphabetic characters and commas (spaces allowed)."
+                pattern="[A-Za-z\s,]+" maxlength="35">
             </div>
 
-            <div class="form-group">
-                <label for="exam_date_textbox">Exam Date (Day):</label>
-                <input type="text" name="exam_date_day_textbox" class="form-control" required placeholder="Enter the DAY (01-31)"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                <label for="exam_date_textbox">Exam Date (Month):</label>
-                <input type="text" name="exam_date_month_textbox" class="form-control" required placeholder="Enter the MONTH (01-12)"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-                <label for="exam_date_textbox">Exam Date (Year):</label>
-                <input type="text" name="exam_date_year_textbox" class="form-control" required placeholder="Enter the YEAR"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-            </div>
-</div>
-<div class="form-section">
-            <h2>Special Assistance</h2>
-            <div class="form-group">
-                <label for="disability_textbox">Type of Special Needs/Physical Disability (if any):</label>
-                <input type="text" class="form-control" name="disability_textbox" placeholder="Enter your Disability e.g Deaf, Blind etc."
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+            <label>Exam Date</label>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label for="exam_date_day_textbox" class="text-secondary">Day:</label>
+                    <input id="exam_date_day_textbox" type="number" class="form-control" name="exam_date_day_textbox" 
+                        placeholder="Enter the DAY (01-31) of the exam" oninput="toUpperCase(this)" 
+                        title="Please enter the day of the exam (01-31)." 
+                        min="1" max="31" 
+                        pattern="^(?:[1-9]|[12][0-9]|3[01])$" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="exam_date_month_textbox" class="text-secondary">Month:</label>
+                    <input id="exam_date_month_textbox" type="number" class="form-control" name="exam_date_month_textbox" 
+                        placeholder="Enter the MONTH (01-12) of the exam" oninput="toUpperCase(this)" 
+                        title="Please enter the month of the exam (01-12)." 
+                        min="1" max="12" 
+                        pattern="^(?:1[0-2]|[1-9])$" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="exam_date_year_textbox" class="text-secondary">Year:</label>
+                    <input id="exam_date_year_textbox" type="number" class="form-control" name="exam_date_year_textbox" 
+                        placeholder="Enter the YEAR of the exam" oninput="toUpperCase(this)" 
+                        title="Please enter the year of the exam in numeric format." 
+                        pattern="^\d{4}$" min="0" max="9999" required>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="assistance_textbox">Assistance Required:</label>
-                <input type="text" class="form-control" name="assistance_textbox" placeholder="Enter YES or NO"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
-            </div>
+            <div class="alert alert-info mt-4">
+            <p class="font-weight-bold mb-2">Terms & conditions:</p>
+            <i><ul>
+                <li>* Compulsory to fill up the information.</li>
+                <li>** Exam link (online exam), result notification & e-certificate will be sent to the primary email address.</li>
+                <li>Applicants will be notified of the exam result between three (3) to ten (10) working days from the examination date.</li>
+                <li>E-Certificates will be sent to the successful applicant within a week from the date of the results notification.</li>
+                <li>E-Certificates will only be issued after clearance of payment dues, if any.</li>
+            </ul></i>
+        </div>
 
-    </div>
-<div class="form-section">
-            <h2>Language Information</h2>
+        </div>  
+        <div class="form-section">
+            <h2>Request For Exam Time Extension</h2>
+            <!-- Enhanced Note Section with Bootstrap -->
+            <div class="alert alert-info mt-4">
+                <p class="font-weight-bold mb-2">Note:</p>
+                <i><ul>
+                    <li>Candidates will only be entitled to additional time if both boxes are ticked ‘No’ below.</li>
+                </ul></i>
+            </div>
             <div class="form-group">
                 <label for="lang_spoke_radio">Is English your primary/native spoken language?</label><br>
                 <div class="form-check form-check-inline">
@@ -486,9 +612,13 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <label class="form-check-label" for="lang_spoke_yes">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="lang_spoke_radio" value="lang_no" id="lang_spoke_no">
-                    <label class="form-check-label" for="lang_spoke_no">No (Specify first language):</label>
-                    <input type="text" class="form-control-inline" name="lang_spoke_no_textbox" style="width: auto; display: inline-block;">
+                    <input id="lang_spoke_no" class="form-check-input" type="radio" name="lang_spoke_radio" value="lang_no" 
+                        onclick="this.form.lang_spoke_no_textbox.required = this.checked;">
+                    <label for="lang_spoke_no" class="form-check-label">No (Specify first language):</label>
+                    <input type="text" class="form-control d-inline-block" style="width: auto;" name="lang_spoke_no_textbox" 
+                        oninput="toUpperCase(this)" 
+                         title="Please enter alphabetic characters only (spaces allowed)." 
+                        pattern="[A-Za-z\s]+" id="lang_spoke_no_textbox">
                 </div>
             </div>
 
@@ -499,44 +629,126 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                     <label class="form-check-label" for="lang_writ_yes">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="lang_writ_radio" value="lang_writ_no" id="lang_writ_no">
-                    <label class="form-check-label" for="lang_writ_no">No (Specify primary written language):</label>
-                    <input type="text" class="form-control-inline" name="lang_write_no_textbox" style="width: auto; display: inline-block;">
+                    <input id="lang_writ_no" class="form-check-input" type="radio" name="lang_writ_radio" value="lang_writ_no" 
+                        onclick="this.form.lang_write_no_textbox.required = this.checked;">
+                    <label for="lang_writ_no" class="form-check-label">No (Specify first language):</label>
+                    <input type="text" class="form-control d-inline-block" style="width: auto;" name="lang_write_no_textbox" 
+                        oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+                        pattern="[A-Za-z\s]+" id="lang_write_no_textbox">
                 </div>
             </div>
 
+        </div>
+
+            
+        <div class="form-section">
+            <h2>Special Assistance</h2>
+            <!-- Enhanced Note Section with Bootstrap -->
+            <div class="alert alert-info mt-4">
+                <p class="font-weight-bold mb-2">Note:</p>
+                <i><ul>
+                    <li>Applicant with special needs or physical disabilities may request for special assistance, within reason, in advance.</li>
+                    <li>Special assistance requested will be subject to our approval and verification, and subject to constraints that may be within or outside our ability to address. Special assistance that could violate the integrity of the examination will not be entertained.</li>
+                    <li>Request must be made at least three (3) days in advance from date of exam. We reserve the right to decline last minute requests.</li>
+                </ul></i>
             </div>
-<div class="form-section">
+            <div class="form-group">
+                <label for="disability_textbox">Type of Special Needs/Physical Disability (if any):</label>
+                <input type="text" class="form-control" id="disability_textbox" name="disability_textbox" placeholder="Enter your Disability e.g Deaf, Blind etc."
+                oninput="toUpperCase(this)" 
+                title="Please enter alphabetic characters and commas (spaces allowed)."
+                pattern="[A-Za-z\s,]+" maxlength="35">
+            </div>
+            <div class="form-group">
+                <label for="assistance_textbox">Assistance Required:</label>
+                <input type="text" id="assistance_textbox" class="form-control" name="assistance_textbox" placeholder="Describe the assistance you required for your Disability."
+                oninput="toUpperCase(this)" 
+                title="Please enter alphabetic characters and commas (spaces allowed)."
+                pattern="[A-Za-z\s,]+" maxlength="82">
+            </div>
+        </div>
+
+        <div class="form-section">
             <h2>Publishing Consent</h2>
             <div class="form-group">
                 <label for="privacy_radio">Publishing of Successful Candidate's Name in MSTB Portal:</label><br>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="privacy_radio" value="agree" id="privacy_agree">
-                    <label class="form-check-label" for="privacy_agree">I agree</label>
+                    <label class="form-check-label" for="privacy_agree">I agree to my name being published in MSTB portal once I have passed the exam.</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="privacy_radio" value="no_agree" id="privacy_no_agree">
-                    <label class="form-check-label" for="privacy_no_agree">I do not agree</label>
+                    <label class="form-check-label" for="privacy_no_agree">I do not agree to my name being published in MSTB portal once I have passed the exam</label>
                 </div>
             </div>
+        </div>
 
+        <div class="form-section">
+
+        
+            <h2>General Terms of Application and Code of Conduct</h2>
+            <div class="alert alert-info" role="alert">
+            <strong>By signing and submitting my application for certification, I consent to the general terms of application & Code of Conduct below:</strong><br><br>
+            <p>With my application I have reviewed and understood the certification and examination information posted at 
+                MSTB’s website of <a href="http://www.qportal.com.my" target="_blank">http://www.qportal.com.my</a>. 
+                I have fully reviewed the information on the certification process, the requested qualifications and 
+                the general terms of the certification. I agree that I am able to abide to the certification process as stated and that 
+                I will notify MSTB on any arising change of circumstances that will affect my ability to do so, to enable timely remedial 
+                arrangements prior to the exam.</p>
+            
+            <p>On request I shall provide further information to prove my qualification to sit the requested exam.</p>
+        
+            <p><strong>Code of Conduct:</strong> I agree that if and when awarded the requested certification, I shall:</p>
+            <p><strong>a)</strong> comply with the relevant provisions and requirements of the ISTQB certification, as publicly stated on the MSTB website and as notified to me from time to time;</p>
+            <p><strong>b)</strong> make claims regarding the ISTQB certification only with respect to the scope for which certification has been granted, as publicly stated on MSTB website and as notified to me from time to time;</p>
+            <p><strong>c)</strong> not use the certification in such a manner as to bring the MSTB and/or ISTQB into disrepute, and that I shall not make any statement regarding the certification which the MSTB and/or may consider misleading or unauthorized;</p>
+            <p><strong>d)</strong> discontinue the use of all claims to certification that contains any reference MSTB and/or ISTQB or certification upon suspension or withdrawal of certification, and to return any certificates issued by the board;</p>
+            <p><strong>e)</strong> not use the certificate in a misleading manner and shall adhere to the conditions for use of the certification mark and/or logos;</p>
+            <p><strong>f)</strong> On request I shall provide further information to prove my qualification to sit the requested;</p>
+            <p><strong>g)</strong> Adhere to the ISTQB Code of Ethics as publicly stated on the ISTQB website and as notified to me from time to time.</p>
             </div>
-<div class="form-section">
-            <h2>Declaration</h2>
+<!-- 
             <div class="form-group">
                 <label for="app_name_textbox">Name of Applicant:</label>
-                <input type="text" class="form-control" name="app_name_textbox" required placeholder="Enter your First Name and Last Name"
-                oninput="toUpperCase(this)" title="Please enter in uppercase letters.">
+                <input type="text" class="form-control" id="app_name_textbox" name="app_name_textbox" required placeholder="Enter your Full Name"
+                oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+                pattern="[A-Za-z\s]+" maxlength="82">
             </div>
-
-            <!-----------------------  SIGNATURE DRAW FUNCTION  ---------------------------------->
-            <div class="form-group">
-                <label for="signature_textbox">Signature:</label><br>
+            
+            <div class="form-group signaturecontainer_main">
+            <label for="signature_textbox" class="signature-label">Signature:</label>
                 <div class="signature-container">
                     <canvas id="signature-pad" width="220" height="100"></canvas>
                 </div>
-                <button type="button" id="clear-signature" class="btn btn-secondary mt-2">Clear</button>
-            </div>
+                <br>
+                <button type="button" id="clear-signature" class="btn btn-secondary mt-2  signature-clear-btn">Clear</button>
+            </div> -->
+
+
+<div class="form-group row">
+    <label for="app_name_textbox" class="col-sm-3 col-form-label">Name of Applicant:</label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" id="app_name_textbox" name="app_name_textbox" required placeholder="Enter your Full Name"
+        oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+        pattern="[A-Za-z\s]+" maxlength="82">
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="signature_textbox" class="col-sm-3 col-form-label signature-label">Signature:</label>
+    <div>
+        <div class="signature-container col-sm-12">
+            <canvas id="signature-pad" width="220" height="100"></canvas>
+        </div>
+        <button type="button" id="clear-signature" class="btn btn-secondary mt-2 signature-clear-btn col-sm-12">Clear</button>
+    </div>
+</div>
+
+
+
+
+
+            <!-----------------------  SIGNATURE DRAW FUNCTION  ---------------------------------->
             <input type="hidden" id="signature_textbox" name="signature_textbox">
             <script>
                 const canvas = document.getElementById('signature-pad');
@@ -578,16 +790,15 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                 });
             </script>
             <!-----------------------  SIGNATURE DRAW FUNCTION  ---------------------------------->
-
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <button type="submit" class="btn btn-primary formsubmit">Submit</button>
+                <button type="reset" class="btn btn-secondary formreset">Reset</button>
             </div>
+
             </div>
         </form>
     </div>
-        
+
     </main>
 
 <!-- Footer -->

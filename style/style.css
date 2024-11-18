@@ -852,6 +852,8 @@ header nav ul li.dropdown:hover .dropdown_menu {
     border-radius: 5px;
 }
 
+
+ /* Form signature */
 .signature-container {
     border: 2px solid #007bff; /* Blue border */
     border-radius: 10px; /* Rounded corners */
@@ -861,6 +863,66 @@ header nav ul li.dropdown:hover .dropdown_menu {
     display: inline-block; /* Allow padding and shadow to be shown */
     cursor: crosshair; /* Change cursor to indicate drawing */
 }
+
+
+.signaturecontainer_main {
+    border-radius: 8px;
+    max-width: 300px !important;
+    margin-bottom: 30px;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    
+}
+
+.signature-container {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    border: 2px dashed #aaa;  /* Dashed border to resemble a signature area */
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);  /* Inner shadow to highlight the canvas */
+}
+
+#signature-pad {
+    width: 220px !important;
+    height: 100px !important;
+}
+
+
+
+
+
+.formsubmit{
+    margin-right: 40px;
+}
+
+.formsubmit, .formreset{
+    margin-top: 50px;
+    padding: 7px;
+    font-size: 13pt;
+    border-radius: 10px; /* Rounded corners */
+    width: 30% !important;
+}
+
+
+.signature-clear-btn {
+    background-color: #f44336; /* Clear button with a red background */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+
+.signature-clear-btn:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+    cursor: pointer;
+}
+
 
 canvas {
     border-radius: 5px; /* Rounded corners for the canvas */
@@ -1255,8 +1317,17 @@ canvas {
     background-color: #004d40;
 }
 
+/* lecturer dashboard */
 
+.lec_dashboard, .stu_dashboard{
+    width: 82% !important;
+}
 
+/* Form validation */
+.cert_error{
+    color: red; 
+    display: none;
+}
 
 /* Footer styling */
 footer {
