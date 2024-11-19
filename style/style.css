@@ -1240,8 +1240,8 @@ canvas {
 }
 
 .view_profile_img {
-    width: 180px;
-    height: 180px;
+    width: 190px;
+    height: 190px;
     border-radius: 50%;
     object-fit: cover;
 }

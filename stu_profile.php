@@ -76,7 +76,7 @@ if (!isset($_SESSION['student_full_name'])) {
         }
         
         // Check if the student has a profile image, otherwise use default
-        $profile_image = !empty($student_info['profileimg']) ? $student_info['profileimg'] : 'image_user/default.jpg';// https://www.vecteezy.com/free-vector/default-profile-picture
+        $profile_image = !empty($student_info['profileimg']) ? $student_info['profileimg'] : 'uploads/profile_images/default.jpg';// https://www.vecteezy.com/free-vector/default-profile-picture
     
     
     

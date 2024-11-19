@@ -94,10 +94,6 @@
         <div class="container-fluid  lec_overview_reg_main">
             <!-- Welcome Section -->
             <!-- example -->
-            <!-- Display session info -->
-            <p>Logged in as: <strong><?php echo $_SESSION['lecturer_full_name']; ?></strong></p>
-            <p> ID is: <strong><?php echo $_SESSION['lecturer_id']; ?></strong></p>
-            <!-- example -->
             <!-- Filter Section -->
             <section class="filter mb-4">
                 <form method="GET" action="" class="form-inline">
