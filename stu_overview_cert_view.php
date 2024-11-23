@@ -30,7 +30,6 @@
 <main>
 <div class="stu_overview_cert_view">
 <div class="container">
-        <h1 class="text-center my-4">Certification Details</h1>
         <div class="certification-details">
             <?php
             session_start();
@@ -61,32 +60,49 @@
                     // Output data for the selected certification
                     $row = $result->fetch_assoc();
                     ?>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" colspan="2" class="importantth text-center"><?php echo htmlspecialchars($row['certification_name']); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row"><i class="fas fa-info-circle"></i> Description:</th>
-                                <td><?php echo htmlspecialchars($row['description']); ?></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fas fa-check-circle"></i> Requirements:</th>
-                                <td><?php echo htmlspecialchars($row['requirements']); ?></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fas fa-calendar-alt"></i> Schedule:</th>
-                                <td><?php echo htmlspecialchars($row['schedule']); ?></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fas fa-dollar-sign"></i> Cost:</th>
-                                <td>$<?php echo htmlspecialchars($row['cost']); ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a class="btn btn-primary register-button text-center" href='stu_overview_cert_form.php'>Register</a>
+                    
+        <h1 class="text-center my-4"><?php echo htmlspecialchars($row['certification_name']); ?></h1>
+<table class="table table-bordered table-striped shadow-sm">
+    <tbody>
+        <tr class="align-middle">
+            <th scope="row"><i class="fas fa-info-circle text-primary"></i> Description:</th>
+            <td class="text-muted"><?php echo htmlspecialchars($row['description']); ?></td>
+        </tr>
+        <tr class="align-middle">
+            <th scope="row"><i class="fas fa-check-circle text-success"></i> Requirements:</th>
+            <td class="text-muted"><?php echo htmlspecialchars($row['requirements']); ?></td>
+        </tr>
+        <tr class="align-middle">
+            <th scope="row"><i class="fas fa-calendar-alt text-warning"></i> Schedule:</th>
+            <td class="text-muted">
+                <?php 
+                // Assuming $row['schedule'] contains a datetime string
+                $schedule = $row['schedule'];
+                
+                // Create a DateTime object from the string
+                $date = new DateTime($schedule);
+                
+                // Format the date as Month Day, Year, and AM/PM time
+                echo $date->format('F j, Y h:i A'); // Example: November 23, 2024 04:30 PM
+                ?>
+            </td>
+        </tr>
+
+        <tr class="align-middle">
+            <th scope="row"><i class="fas fa-dollar-sign text-danger"></i> Cost:</th>
+            <td class="text-muted">RM <?php echo htmlspecialchars($row['cost']); ?></td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="btn btn-primary" href='stu_overview_cert_form.php'>
+Register Now
+</a>
+<a class="btn btn-secondary" href='stu_overview_cert.php'>Return</a>
+
+
+
+
                     <?php
                 } else {
                     echo "<p class='text-danger'>No details found for this certification.</p>";
@@ -139,9 +155,6 @@
     <?php 
     
             // Print out the session information
-            echo "<p>Session Information</p>";
-            echo "<p>Student ID: " . htmlspecialchars($studentId) . "</p>";
-            echo "<p>Student Name: " . htmlspecialchars($studentname) . "</p>";
             echo "<p>Certification ID: " . htmlspecialchars($certificationId) . "</p>";
     ?>
     

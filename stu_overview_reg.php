@@ -58,7 +58,7 @@
                r.student_id, r.certification_id, 
                c.certification_name, s.full_name, 
                rf.filepath AS registration_form_path,
-               pi.invoice_id, pi.filepath AS payment_invoice_path,
+               pi.invoice_id, pi.filepath AS payment_invoice_path, pi.status AS payment_invoice_status, pi.reason AS payment_invoice_reason,
                ts.transaction_id, ts.filepath AS transaction_slip_path,
                pr.receipt_id, pr.filepath AS payment_receipt_path,
                ecl.confirmation_id, ecl.filepath AS exam_confirmation_letter_path,
@@ -97,11 +97,6 @@
         <div class="container-fluid  lec_overview_reg_main">
             <!-- Welcome Section -->
 
-
-            <!-- Session Info -->
-            <p>Logged in as: <strong><?php echo $_SESSION['student_full_name']; ?></strong></p>
-            <p>Your student ID is: <strong><?php echo $_SESSION['student_id']; ?></strong></p>
-
             <!-- Filter Section -->
             <section class="filter mb-4">
                 <form method="GET" action="" class="form-inline">
@@ -126,10 +121,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Certificate Name</th>
+                            <th>Registration Form</th>
                             <th>Payment Invoice</th>
                             <th>Transaction Slip</th>
                             <th>Payment Receipt</th>
-                            <th>Exam Confirmation Letter</th>
+                            <th>Confirmation Letter</th>
                             <th>Exam Results</th>
                             <th>Certificate</th>
                         </tr>
@@ -141,6 +137,8 @@
                                 <tr>
                                     <td><?= htmlspecialchars($registration['registration_id']) ?></td>
                                     <td><?= htmlspecialchars($registration['certification_name']) ?></td>
+                                    <td><a href="<?= htmlspecialchars($registration['registration_form_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">View</a>
+                                    </td>
 
 
                                     <td>
@@ -154,10 +152,69 @@
                                             $registration['registration_status'] === 'invoice_submitted'
                                         ): ?>
                                             <?php if (!empty($registration['payment_invoice_path'])): ?>
+
                                                 <a href="<?= htmlspecialchars($registration['payment_invoice_path']) ?>" class="btn btn-sm btn-info " onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && (empty($registration['transaction_slip_path']))) { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>
+                                                <!-- Action Button -->
+                                                <br><br>
+
+
+<!-- Action Button -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#actionModal">
+    Action
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="actionModalLabel">Modal Table</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Option</th>
+                            <th>Action</th>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Choose:</td>
+                            <td>
+                                <div>
+                                    <input type="radio" name="actionOption" id="accept" value="accept">
+                                    <label for="accept">Accept</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="actionOption" id="reject" value="reject">
+                                    <label for="reject">Reject</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="reasonRow" style="display: none;">
+                            <td>Reason:</td>
+                            <td>
+                                <input type="text" class="form-control" id="reasonInput" placeholder="Enter your reason">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                                             <?php else: ?>
                                                 Please wait for lecturer to upload Payment Invoice.
                                             <?php endif; ?>
@@ -176,17 +233,9 @@
                                             $registration['registration_status'] === 'invoice_submitted'
                                         ): ?>
                                             <?php if (!empty($registration['transaction_slip_path'])): ?>
-                                                <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" target="_blank">Download</a>
+                                                <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" target="_blank">View</a>
                                             <?php else: ?>
                                                 Please upload Transaction Slip. <br>
-
-                                                <!-- <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="form-inline mt-2">
-                                                    <input type="hidden" name="transaction_id" value="<?= htmlspecialchars($registration['transaction_id']) ?>">
-                                                    <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
-                                                    <input type="file" name="transaction_slip" accept=".pdf" class="form-control-file mb-2">
-                                                    <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                                                </form> -->
-
 
                                                 <!-- Upload Transaction Slip -->
                                                 <button type="button" class="btn btn-sm btn-info transactionUploadButton" 
@@ -356,6 +405,11 @@
     include 'include/footer.php';
     ?>
 
+    
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
 
         /////////////////////// Javascript ////////////////////////////////
@@ -380,6 +434,34 @@
                 });
             });
         });
+
+
+        ////////////////////////////////// Reupload Files /////////////////////////////////////////
+        // JavaScript to toggle reason text box
+    $(document).ready(function () {
+        $('input[name="actionOption"]').change(function () {
+            if ($('#reject').is(':checked')) {
+                $('#reasonRow').show();
+            } else {
+                $('#reasonRow').hide();
+                $('#reasonInput').val(''); // Clear input when hidden
+            }
+        });
+
+        $('#confirmButton').click(function () {
+            const selectedOption = $('input[name="actionOption"]:checked').val();
+            const reason = $('#reasonInput').val();
+
+            if (selectedOption === 'reject' && !reason) {
+                alert('Please provide a reason for rejection.');
+                return;
+            }
+
+            alert(`You selected: ${selectedOption}${selectedOption === 'reject' ? ` with reason: ${reason}` : ''}`);
+            $('#actionModal').modal('hide');
+        });
+    });
+
 
         //////////////////////////////////////   JQUERY   ////////////////////////////////////////////////
         // Display accurate information on modal table (Insert) JQuert

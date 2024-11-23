@@ -74,7 +74,12 @@
     }
 
     // SQL query to fetch data
-    $sql = "SELECT certification_name, description, requirements, schedule, cost FROM certifications";  // Replace with your table name
+    $sql = "SELECT c.certification_name, c.description, c.requirements, c.schedule, c.cost, 
+    COUNT(cr.student_id) AS student_count,
+    DATEDIFF(c.schedule, CURRENT_DATE) AS deadline
+    FROM certifications c
+    LEFT JOIN CertificationRegistrations cr ON c.certification_id = cr.certification_id
+    GROUP BY c.certification_id";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -85,30 +90,40 @@
                     <th>Certification Name</th>
                     <th>Requirements</th>
                     <th>Schedule</th>
+                    <th>Deadline</th>
                     <th>Cost</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>";
         
-        // Output data of each row
+       // Output data of each row
         while($row = $result->fetch_assoc()) {
+            // Check if the deadline has expired
+            if ($row['deadline'] < 0) {
+                continue; // Skip this row if the deadline is expired
+            }
+
+            // Otherwise, output the row data
+            $deadlineText = ($row['deadline'] < 0) ? "Expired" : $row['deadline'] . " day(s) left";
             echo "<tr>
                     <td>" . $row["certification_name"] . "</td>
                     <td>" . $row["requirements"] . "</td>
                     <td>";
             
-                // Create a DateTime object and format the date
-                $dateTime = new DateTime($row["schedule"]); // Create DateTime object
-                echo htmlspecialchars($dateTime->format('m/d/Y, h:i A')); // Output formatted date
+            // Create a DateTime object and format the date
+            $dateTime = new DateTime($row["schedule"]); // Create DateTime object
+            echo htmlspecialchars($dateTime->format('m/d/Y, h:i A')); // Output formatted date
             
-                echo "</td>
-                    <td>" . $row["cost"] . "</td>
+            echo "</td>
+                    <td>" . htmlspecialchars($deadlineText) . "</td>
+                    <td> RM" . htmlspecialchars($row["cost"]) . "</td>
                     <td>
-                        <a href='stu_overview_cert_view.php?cert_name=" . urlencode($row["certification_name"]) . "' class='btn btn-view'>[View]</a>
+                        <a href='stu_overview_cert_view.php?cert_name=" . urlencode($row["certification_name"]) . "' class='btn btn-primary'>View</a>
                     </td>
                 </tr>";
         }
+
         // End the table
         echo "</tbody></table>";
     } else {

@@ -568,15 +568,6 @@ header nav ul li.dropdown:hover .dropdown_menu {
 .stu_overview_cert_main tr:hover {
     background-color: #efebe9 !important; /* Light gray on hover */
 }
-.stu_overview_cert_main .btn{
-    color: black; /* White text for button */
-    text-decoration: none;
-}
-.stu_overview_cert_main .btn:hover {
-    text-decoration: underline;
-    color: red; /* Keep white text */
-}
-
 
 .stu_overview_cert_formfiller .success-message {
     padding: 20px;
@@ -590,8 +581,17 @@ header nav ul li.dropdown:hover .dropdown_menu {
 
 /* Student Certification Overview Detail */
 
+.stu_overview_cert_view{
+    background-color: white;
+    width: 60%;
+    margin: 60px auto;
+    padding: 30px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
 .stu_overview_cert_view .table{
     background-color: white;
+    margin: 80px auto;
 }
 
 .stu_overview_cert_view .certification-details {
@@ -604,6 +604,7 @@ header nav ul li.dropdown:hover .dropdown_menu {
 }
 .stu_overview_cert_view .table td{
     font-size: 14pt;
+    color: black !important;
 }
 
 .stu_overview_cert_view .table .importantth{
@@ -617,10 +618,32 @@ header nav ul li.dropdown:hover .dropdown_menu {
     display: block;  
 }
 
-.stu_overview_cert_view .table, .stu_overview_cert_view .table td, .stu_overview_cert_view .table th{
-    border: 1px solid black;
+
+.stu_overview_cert_view table th, .stu_overview_cert_view table td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle;
 }
 
+.stu_overview_cert_view table thead th {
+    font-size: 1.2rem;
+}
+
+.stu_overview_cert_view table tbody td {
+    font-size: 1rem;
+}
+
+.stu_overview_cert_view .btn {
+    transition: all 0.3s ease-in-out;
+}
+
+.stu_overview_cert_view .btn:hover {
+    transform: translateY(-5px);
+}
+
+.stu_overview_cert_view .table tbody tr:hover {
+    background-color: #f8f9fa;
+}
 
 /* Lecturer registration overview upload file features */
 
@@ -645,6 +668,16 @@ header nav ul li.dropdown:hover .dropdown_menu {
     display: inline-block;
     cursor: pointer;
 }
+
+.modaltablestu{
+    color: black;
+}
+
+.modal-body table thead {
+    visibility: visible !important;
+    display: table-header-group !important;
+}
+
 
 
 
