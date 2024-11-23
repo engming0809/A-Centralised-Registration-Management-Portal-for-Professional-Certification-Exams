@@ -42,14 +42,14 @@ try {
 
             if ($stmt->rowCount() > 0) {
                 // If receipt exists, update the filepath
-                $stmt = $pdo->prepare("UPDATE reg_paymentreceipt SET filepath = :filepath WHERE receipt_id = :receipt_id");
+                $stmt = $pdo->prepare("UPDATE reg_paymentreceipt SET filepath = :filepath, status = 'pending' WHERE receipt_id = :receipt_id");
                 $stmt->bindParam(':receipt_id', $receiptId);
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->execute();
                 echo "Receipt updated successfully!";
             } else {
                 // If receipt doesn't exist, insert a new record
-                $stmt = $pdo->prepare("INSERT INTO reg_paymentreceipt (filepath, registration_id) VALUES (:filepath, :registration_id)");
+                $stmt = $pdo->prepare("INSERT INTO reg_paymentreceipt (filepath, registration_id, status) VALUES (:filepath, :registration_id, 'pending')");
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->bindParam(':registration_id', $registrationId);
                 $stmt->execute();

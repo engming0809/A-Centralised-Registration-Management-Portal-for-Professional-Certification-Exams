@@ -42,14 +42,14 @@ try {
 
             if ($stmt->rowCount() > 0) {
                 // If Transaction exists, update the filepath
-                $stmt = $pdo->prepare("UPDATE reg_transactionslip SET filepath = :filepath WHERE transaction_id = :transaction_id");
+                $stmt = $pdo->prepare("UPDATE reg_transactionslip SET filepath = :filepath, status = 'pending' WHERE transaction_id = :transaction_id");
                 $stmt->bindParam(':transaction_id', $transactionId);
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->execute();
                 echo "Transaction updated successfully!";
             } else {
                 // If Transaction doesn't exist, insert a new record
-                $stmt = $pdo->prepare("INSERT INTO reg_transactionslip (filepath, registration_id) VALUES (:filepath, :registration_id)");
+                $stmt = $pdo->prepare("INSERT INTO reg_transactionslip (filepath, registration_id, status) VALUES (:filepath, :registration_id, 'pending')");
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->bindParam(':registration_id', $registrationId);
                 $stmt->execute();

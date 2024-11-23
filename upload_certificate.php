@@ -42,14 +42,14 @@ try {
 
             if ($stmt->rowCount() > 0) {
                 // If confirmation letter exists, update the filepath
-                $stmt = $pdo->prepare("UPDATE reg_certificate SET filepath = :filepath WHERE certificate_id = :certificate_id");
+                $stmt = $pdo->prepare("UPDATE reg_certificate SET filepath = :filepath, status = 'pending' WHERE certificate_id = :certificate_id");
                 $stmt->bindParam(':certificate_id', $certificateId);
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->execute();
                 echo "Certificate updated successfully!";
             } else {
                 // If invoice doesn't exist, insert a new record
-                $stmt = $pdo->prepare("INSERT INTO reg_certificate (filepath, registration_id) VALUES (:filepath, :registration_id)");
+                $stmt = $pdo->prepare("INSERT INTO reg_certificate (filepath, registration_id, status) VALUES (:filepath, :registration_id, 'pending')");
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->bindParam(':registration_id', $registrationId);
                 $stmt->execute();

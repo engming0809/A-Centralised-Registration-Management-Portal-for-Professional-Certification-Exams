@@ -122,7 +122,7 @@ $sql = "CREATE TABLE IF NOT EXISTS reg_RegistrationForm (
     form_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
     registration_id INT,
-    status ENUM('pending', 'accept', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
     reason VARCHAR(255),
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
@@ -131,7 +131,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS reg_PaymentInvoice (
     invoice_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
-    status ENUM('pending', 'accept', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
     reason VARCHAR(255),
     registration_id INT,
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
@@ -141,7 +141,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS reg_TransactionSlip (
     transaction_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
-    status ENUM('pending', 'accept', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
     reason VARCHAR(255),
     registration_id INT,
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
@@ -151,7 +151,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS reg_PaymentReceipt (
     receipt_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
-    status ENUM('pending', 'accept', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
     reason VARCHAR(255),
     registration_id INT,
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
@@ -161,7 +161,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS reg_ExamConfirmationLetter (
     confirmation_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
-    status ENUM('pending', 'accept', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
     reason VARCHAR(255),
     registration_id INT,
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
@@ -180,7 +180,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS reg_Certificate (
     certificate_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
-    status ENUM('pending', 'accept', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
     reason VARCHAR(255),
     registration_id INT,
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE

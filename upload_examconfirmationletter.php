@@ -42,14 +42,14 @@ try {
 
             if ($stmt->rowCount() > 0) {
                 // If confirmation letter exists, update the filepath
-                $stmt = $pdo->prepare("UPDATE reg_examconfirmationletter SET filepath = :filepath WHERE confirmation_id = :confirmation_id");
+                $stmt = $pdo->prepare("UPDATE reg_examconfirmationletter SET filepath = :filepath, status = 'pending' WHERE confirmation_id = :confirmation_id");
                 $stmt->bindParam(':confirmation_id', $confirmationId);
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->execute();
                 echo "Exam Confirmation Letter updated successfully!";
             } else {
                 // If invoice doesn't exist, insert a new record
-                $stmt = $pdo->prepare("INSERT INTO reg_examconfirmationletter (filepath, registration_id) VALUES (:filepath, :registration_id)");
+                $stmt = $pdo->prepare("INSERT INTO reg_examconfirmationletter (filepath, registration_id, status) VALUES (:filepath, :registration_id, 'pending')");
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->bindParam(':registration_id', $registrationId);
                 $stmt->execute();
