@@ -174,7 +174,9 @@ if (isset($_GET['cert_name'])) {
     }
 }
 
-// Check if the session variables are set
+
+
+// To allow new form added
 if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
     // Retrieve the values from the session
     $studentId = $_SESSION['student_id'];
@@ -187,27 +189,44 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
     $stmt->bind_param("sii", $status, $studentId, $certificationId);
     
     // After successfully processing the form and before the closing PHP tag
-if ($stmt->execute()) {
-    // Step 2: Get the last inserted ID
-    $registrationId = $conn->insert_id; // Get the ID of the newly inserted registration
-
-    // Now insert into reg_registrationform with the last inserted ID
-    $stmt = $conn->prepare("INSERT INTO reg_registrationform (filepath, registration_id) VALUES (?, ?)");
-    $stmt->bind_param("si", $outputPDF, $registrationId);
-    
     if ($stmt->execute()) {
-        // Use JavaScript to show an alert and redirect
-        echo "<script>alert('Form submitted successfully.'); window.location.href='stu_overview_cert.php';</script>";
-        exit; // Ensure the script stops after this
+        // Step 2: Get the last inserted ID
+        $registrationId = $conn->insert_id; // Get the ID of the newly inserted registration
+
+        // Now insert into reg_registrationform with the last inserted ID
+        $stmt = $conn->prepare("INSERT INTO reg_registrationform (filepath, registration_id) VALUES (?, ?)");
+        $stmt->bind_param("si", $outputPDF, $registrationId);
+        
+        if ($stmt->execute()) {
+            // Use JavaScript to show an alert and redirect
+            echo "<script>alert('Form submitted successfully.'); window.location.href='stu_overview_cert.php';</script>";
+            exit; // Ensure the script stops after this
+        } else {
+            echo "<script>alert('Error inserting record into reg_registrationform: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
+            exit; // Ensure the script stops after this
+        }
     } else {
-        echo "<script>alert('Error inserting record into reg_registrationform: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
+        echo "<script>alert('Error inserting record into CertificationRegistrations: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
         exit; // Ensure the script stops after this
     }
-} else {
-    echo "<script>alert('Error inserting record into CertificationRegistrations: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
-    exit; // Ensure the script stops after this
-}
-} else {
+    //To reupload form
+} elseif(isset($_SESSION['form_id'])){
+    $formID = $_SESSION['form_id'];
+    
+    $stmt = $conn->prepare("UPDATE reg_RegistrationForm SET filepath = ?, status = ? WHERE form_id = ?");
+    $status = 'pending'; 
+    $stmt->bind_param("ssi", $outputPDF, $status, $formID);
+
+    // Execute the query and check if it's successful
+    if ($stmt->execute()) {
+        echo "<script>alert('Form Reupload successfully.'); window.location.href='stu_overview_cert.php';</script>";
+        header("Location: stu_overview_reg.php");
+        exit();
+    } else {
+        // Handle any errors (optional)
+        echo "Error updating record: " . $stmt->error;
+    }
+}else {
     // Handle the case where session variables are not set
     echo "<p>No session information available.</p>";
 }

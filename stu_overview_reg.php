@@ -57,7 +57,7 @@
         SELECT r.registration_id, r.registration_status, r.created_at, r.updated_at, 
             r.student_id, r.certification_id, 
             c.certification_name, s.full_name, 
-            rf.filepath AS registration_form_path, rf.status AS registration_form_status, rf.reason AS registration_form_reason,
+            rf.form_id, rf.filepath AS registration_form_path, rf.status AS registration_form_status, rf.reason AS registration_form_reason,
             pi.invoice_id, pi.filepath AS payment_invoice_path, pi.status AS payment_invoice_status, pi.reason AS payment_invoice_reason,
             ts.transaction_id, ts.filepath AS transaction_slip_path, ts.status AS transaction_slip_status, ts.reason AS transaction_slip_reason,
             pr.receipt_id, pr.filepath AS payment_receipt_path, pr.status AS payment_receipt_status, pr.reason AS payment_receipt_reason,
@@ -95,6 +95,12 @@
             echo "Connection failed: " . $e->getMessage();
             exit();
         }
+
+        // To allow reupload registration form without issue
+        if (isset($_SESSION['certification_id'])) {
+            unset($_SESSION['certification_id']);
+        }
+
         ?>
         <div class="container-fluid  lec_overview_reg_main">
             <!-- Welcome Section -->
@@ -139,8 +145,78 @@
                                 <tr>
                                     <td><?= htmlspecialchars($registration['registration_id']) ?></td>
                                     <td><?= htmlspecialchars($registration['certification_name']) ?></td>
-                                    <td><a href="<?= htmlspecialchars($registration['registration_form_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">View</a>
-                                    </td>
+                                    <td>
+                                        <?php if (
+                                            $registration['registration_status'] === 'form_submitted' ||
+                                            $registration['registration_status'] === 'transaction_submitted' ||
+                                            $registration['registration_status'] === 'receipt_submitted' ||
+                                            $registration['registration_status'] === 'examletter_submitted' ||
+                                            $registration['registration_status'] === 'result_submitted' ||
+                                            $registration['registration_status'] === 'certificate_submitted' ||
+                                            $registration['registration_status'] === 'invoice_submitted'
+                                        ): ?>    
+                                    <a href="<?= htmlspecialchars($registration['registration_form_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">View</a>
+                                    
+                                
+
+<!-- Reupload Registration Form -->
+<br><br><button type="button" class="btn btn-sm btn-danger regformReuploadButton" 
+data-toggle="modal" 
+data-target="#reuploadRegFormModal"
+data-reregform-id="<?= htmlspecialchars($registration['form_id']) ?>"
+data-reregform-reason="<?= htmlspecialchars($registration['registration_form_reason']) ?>"
+data-reregform-filepath="<?= htmlspecialchars($registration['registration_form_path'] ?? '') ?>">
+	Reupload
+</button>
+											
+
+
+<!---------------------------- MODAL table for Registration Form ---------------------------------->
+<div class="modal fade" id="reuploadRegFormModal" tabindex="-1" role="dialog" aria-labelledby="reuploadRegFormModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="reuploadRegFormModalLabel">Reupload Registration Form</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- Form for file upload -->
+				<form method="POST" enctype="multipart/form-data" action="stu_overview_cert_form.php" class="mt-2">
+					<div class="form-row align-items-center mb-3">
+						<div class="col-md-4">
+							<label for="regformReasonModal" class="col-form-label">Reason of Rejection:</label>
+						</div>
+						<div class="col-md-8">
+							<textarea name="displayreason" id="regformReasonModal" class="form-control reasondisplay" rows="4" readonly></textarea>
+						</div>
+					</div>
+					<div class="form-row align-items-center mb-3">
+						<div class="col-md-4">
+							<label class="col-form-label">Refill Form:</label>
+						</div>
+						<div class="col-md-8">
+                            <a href="stu_overview_cert_form.php?regform_id=<?= htmlspecialchars($registration['form_id']) ?>" class="btn btn-danger">Fill Form</a>
+                        </div>
+					</div>
+					<!---------- Hidden fields ------->
+					<input type="hidden" name="form_id" id="modalReuploadRegFormId">
+					<!-------------------------------->
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+                                
+                                    <?php else: ?>
+                                            N/A
+                                        <?php endif; ?>
+                                </td>
 
 
                                     <td>
@@ -181,7 +257,7 @@ data-invoice-reason="<?= htmlspecialchars($registration['payment_invoice_reason'
         <div class="modal-content">
             <form action="verify_invoice.php" method="POST">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="invoiceUpdateModalLabel">Modal Table</h5>
+                    <h5 class="modal-title" id="invoiceUpdateModalLabel">Accept or Reject This Payment Invoice</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -720,6 +796,7 @@ data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason'
             const examletterUpdateButtons = document.querySelectorAll(".examletterUpdateButton");
             const certificateUpdateButtons = document.querySelectorAll(".certificateUpdateButton");
             const transactionReuploadButtons = document.querySelectorAll(".transactionReuploadButton");
+            const regformReuploadButtons = document.querySelectorAll(".regformReuploadButton");
             
 
             //////////////////////////////////////////// Upload ///////////////////////////////////////
@@ -815,6 +892,18 @@ data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason'
                 });
             });
 
+            // Registration Form
+            regformReuploadButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const regFormId = this.getAttribute("data-reregform-id") || "";
+                    const regFormReason = this.getAttribute("data-reregform-reason") || "";
+
+                    // Set modal field values (For functionality in upload.php files)
+                    document.getElementById("modalReuploadRegFormId").value = regFormId;
+                    document.getElementById("regformReasonModal").value = regFormReason;
+                });
+            });
+
         });
 
 
@@ -905,6 +994,18 @@ data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason'
                     $(this).prop('checked', false);
                 }
             });
+        });
+
+        // Registration Form
+        $('#reuploadRegFormModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); 
+            var regFormId = button.data('reregform-id'); 
+            var regFormReason = button.data('reregform-reason'); 
+
+            var modal = $(this);
+            modal.find('#modalReuploadRegFormId').val(regFormId); 
+            modal.find('#regformReasonModal').val(regFormReason); 
+
         });
 
                 

@@ -45,6 +45,27 @@
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
+        
+///////////////////////////////////////////////// Reupload Form//////////////////////////////
+if (isset($_GET['regform_id'])) {
+    $regformID = $_GET['regform_id'];
+    // Prepare the SQL statement to retrieve the ID
+    $stmt = $conn->prepare("SELECT form_id FROM reg_registrationform WHERE form_id = ?");
+    $stmt->bind_param("s", $regformID); // Use "s" for string
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if the certification exists
+    if ($result->num_rows > 0) {
+        // Fetch the certification ID
+        $row = $result->fetch_assoc();
+        $_SESSION['form_id'] = $row['form_id']; // Store the ID in the session
+    } else {
+        // Handle the case where the certification does not exist
+        echo "";
+    }
+}
+
 
 ///////////////////////////////////////////////// Check if the certification name is provided//////////////////////////////
 if (isset($_GET['cert_name'])) {

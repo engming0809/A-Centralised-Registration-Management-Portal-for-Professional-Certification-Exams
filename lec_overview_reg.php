@@ -55,7 +55,7 @@ SELECT r.registration_id, r.registration_status, r.created_at, r.updated_at,
 r.student_id, r.certification_id, 
 s.email as studentemail,
 c.certification_name, s.full_name, c.schedule,
-rf.filepath AS registration_form_path, rf.status AS registration_form_status, rf.reason AS registration_form_reason,
+rf.form_id, rf.filepath AS registration_form_path, rf.status AS registration_form_status, rf.reason AS registration_form_reason,
 pi.invoice_id, pi.filepath AS payment_invoice_path, pi.status AS payment_invoice_status, pi.reason AS payment_invoice_reason,
 ts.transaction_id, ts.filepath AS transaction_slip_path, ts.status AS transaction_slip_status, ts.reason AS transaction_slip_reason,
 pr.receipt_id, pr.filepath AS payment_receipt_path, pr.status AS payment_receipt_status, pr.reason AS payment_receipt_reason,
@@ -171,6 +171,78 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
                                                 <?php if ($registration['notification'] == "1" && empty($registration['payment_invoice_path'])) { ?>
                                                     <span class="notification" ></span>
                                                 <?php } ?>
+                                                
+
+<br><br>
+<button type="button" class="btn btn-sm btn-danger regFormUpdateButton" 
+data-toggle="modal" 
+data-target="#regFormUpdateModal"
+data-regform-id="<?= htmlspecialchars($registration['form_id']) ?>"
+data-regform-status="<?= htmlspecialchars($registration['registration_form_status']) ?>"
+data-regform-reason="<?= htmlspecialchars($registration['registration_form_reason']) ?>">
+    Verify
+</button>
+<!-- Modal -->
+<div class="modal fade" id="regFormUpdateModal" tabindex="-1" aria-labelledby="regFormUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="verify_registrationform.php" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="regFormUpdateModalLabel">Modal Table</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Option</th>
+                                <th>Action</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Choose:</td>
+                                <td>
+                                    <div>
+                                        <input type="radio" name="regformStatusOption" id="regformaccept" value="accept">
+                                        <label for="regformaccept">Accept</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="regformStatusOption" id="regformreject" value="reject">
+                                        <label for="regformreject">Reject</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="regformStatusOption" id="regformpending" value="pending">
+                                        <label for="regformpending">Pending</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="regformReasonRow" style="display: none;">
+                                <td>Reason:</td>
+                                <td>
+                                    <textarea class="form-control" id="ModalRegFormReasonInput" name="registration_form_reason" placeholder="Enter your reason" rows="4"></textarea>
+                                </td>
+                            </tr>
+                            <!-- Hidden fields to store data to be sent to upload php files -->
+                            <input type="hidden" name="form_id" id="modalRegFormID">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="regformConfirmButton">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
                                             <?php else: ?>
                                                 Please wait for student to upload what
                                             <?php endif; ?>
@@ -986,6 +1058,7 @@ data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'
             const examletterReuploadButtons = document.querySelectorAll(".examletterReuploadButton");
             const certificateReuploadButtons = document.querySelectorAll(".certificateReuploadButton");
             const transactionUpdateButtons = document.querySelectorAll(".transactionUpdateButton");
+            const regFormUpdateButtons = document.querySelectorAll(".regFormUpdateButton");
 
             //////////////////////////////////////////// Upload ///////////////////////////////////////
             // Exam Result
@@ -1174,6 +1247,19 @@ data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'
                 });
             });
 
+            // Update Registration Form
+            regFormUpdateButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const regformUpdateID = this.getAttribute("data-regform-id") || "";
+                    const regformStatus = this.getAttribute("data-regform-status") || "";
+                    const regformReason = this.getAttribute("data-regform-reason") || "";
+
+                    document.getElementById("modalRegFormID").value = regformUpdateID;
+                    document.getElementById("modalregformStatus").value = regformStatus;
+                    document.getElementById("ModalRegFormReasonInput").value = regformReason;
+                });
+            });
+
 
 
 
@@ -1335,6 +1421,27 @@ data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'
             });
         }); 
 
+        $('#regFormUpdateModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); 
+            var regformId = button.data('regform-id'); 
+            var regformStatus = button.data('regform-status'); 
+            var regformReason = button.data('regform-reason'); 
+
+            var modal = $(this);
+            
+            modal.find('#modalRegFormID').val(regformId); 
+            modal.find('#ModalRegFormReasonInput').val(regformReason); 
+
+            // Set radio button
+            modal.find('input[type=radio][name=regformStatusOption]').each(function() {
+                if ($(this).val() === regformStatus) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            });
+        });
+
         // JavaScript to toggle reason text box
         $(document).ready(function () {
             /////// Transaction Slip
@@ -1361,7 +1468,35 @@ data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'
                 alert(`You selected: ${selectedOption}${selectedOption === 'reject' ? ' with reason: ' + reason : ''}`);
                 $('#transactionUpdateModal').modal('hide');
             });
+
+            ////// Registration Form
+            $('input[name="regformStatusOption"]').change(function () {
+                if ($('#regformreject').is(':checked')) {
+                    $('#regformReasonRow').show();
+                } else {
+                    $('#regformReasonRow').hide();
+                }
+            });
+
+            $('#regformConfirmButton').click(function (event) { 
+                const selectedOption = $('input[name="regformStatusOption"]:checked').val();
+                const reason = $('#ModalRegFormReasonInput').val();
+
+                // If the status is "regformreject" and the reason is empty, alert the user and stop form submission
+                if (selectedOption === 'reject' && !reason) {
+                    alert('Please provide a reason for rejection.');
+                    event.preventDefault(); 
+                    return;
+                }
+
+                // If a reason is provided, show the selection and reason
+                alert(`You selected: ${selectedOption}${selectedOption === 'reject' ? ' with reason: ' + reason : ''}`);
+                $('#regFormUpdateModal').modal('hide');
+            });
         });
+
+
+        
 
 
 
