@@ -45,6 +45,16 @@
         include 'include/stu_main_header.php';
     ?>
 
+
+<?php
+// Check if the user is logged in, if not redirect to login page
+if (!isset($_SESSION['student_full_name'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
+
 <!-- Main Content -->
     <main>
     <div class="stu_overview_cert_main"> 
@@ -58,7 +68,6 @@
     <?php
 
     
-    session_start();
     // Database credentials
     $servername = 'localhost';  // Typically 'localhost' for local databases
     $db   = 'cert_reg_management_db';  // Replace with your database name

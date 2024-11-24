@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php
-// Start the session
-session_start();
 
-// Check if the user is logged in, if not redirect to login page
-if (!isset($_SESSION['student_full_name'])) {
-    header("Location: index.php");
-    exit();
-}
-?>
-head>
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,6 +27,16 @@ head>
         $pageHomeStuActive = "pageHomeStuActive";
         include 'include/stu_main_header.php';
     ?>
+
+<?php
+// Start the session
+
+// Check if the user is logged in, if not redirect to login page
+if (!isset($_SESSION['student_full_name'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
 
 <!-- Main Content -->
     <main class="container-fluid stu_dashboard py-5">

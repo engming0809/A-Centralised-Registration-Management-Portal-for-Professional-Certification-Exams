@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php
-// Start the session
-session_start();
-
-// Check if the user is logged in, if not redirect to login page
-if (!isset($_SESSION['lecturer_full_name'])) {
-    header("Location: index.php");
-    exit();
-}
-?>
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,6 +25,16 @@ if (!isset($_SESSION['lecturer_full_name'])) {
         $pageHomeLecActive = "pageHomeLecActive";
         include 'include/lec_main_header.php';
     ?>
+
+
+<?php
+// Check if the user is logged in, if not redirect to login page
+if (!isset($_SESSION['lecturer_full_name'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 
 <!-- Main Content -->
     <main class="container-fluid py-5 lec_dashboard">

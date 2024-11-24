@@ -54,14 +54,16 @@
                     // Validate email format
                     if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($password)) {
                         // Prepare and execute statement
-                        $stmt = $conn->prepare("SELECT full_name, password, status,lecturer_id FROM Lecturer WHERE email = ?");
+                        // $stmt = $conn->prepare("SELECT full_name, password, status,lecturer_id FROM Lecturer WHERE email = ?");
+                        $stmt = $conn->prepare("SELECT full_name, password, status FROM Lecturer WHERE email = ?");
                         $stmt->bind_param("s", $email);
                         $stmt->execute();
                         $stmt->store_result();
 
                         // Check if email exists
                         if ($stmt->num_rows > 0) {
-                            $stmt->bind_result($fullname, $ss_password, $status,$lecturer_id);
+                            // $stmt->bind_result($fullname, $ss_password, $status,$lecturer_id);
+                            $stmt->bind_result($fullname, $ss_password, $status);
                             $stmt->fetch();
 
                             // Check user status

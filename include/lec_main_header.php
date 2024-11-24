@@ -9,7 +9,10 @@
         $host = '127.0.0.1';
         $db = 'cert_reg_management_db';
         $user = 'root';
-        $pass = '';
+        $pass = ''; 
+
+        
+        session_start();
 
         $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

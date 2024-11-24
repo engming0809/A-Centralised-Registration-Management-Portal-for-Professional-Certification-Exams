@@ -11,12 +11,26 @@
             $db = 'cert_reg_management_db';
             $user = 'root';
             $pass = '';
-            $student_id=$_SESSION['student_id'];
             $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $countno="";
             // INITIALISE retrieve the query from database 
-            $certStmt = $pdo->query("SELECT count(*) as noti FROM `certificationregistrations` WHERE registration_status in('invoice_submitted','receipt_submitted','examletter_submitted','certificate_submitted') and notification = 1 and student_id=$student_id");
+            // $student_id=$_SESSION['student_id'];
+
+            // original
+            // $certStmt = $pdo->query("SELECT count(*) as noti FROM `certificationregistrations` WHERE registration_status in('invoice_submitted','receipt_submitted','examletter_submitted','certificate_submitted') and notification = 1");
+
+            // Ming
+            // $student_id=$_SESSION['student_id'];
+            // $certStmt = $pdo->query("SELECT count(*) as noti FROM `certificationregistrations` WHERE registration_status in('invoice_submitted','receipt_submitted','examletter_submitted','certificate_submitted') and notification = 1 and student_id=$student_id");
+            // $countnotification = $certStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // New
+            session_start();
+            $student_id = $_SESSION['student_id']; // Ensure this is set correctly in the session
+            $certStmt = $pdo->prepare("SELECT count(*) as noti FROM `certificationregistrations` WHERE registration_status IN ('invoice_submitted', 'receipt_submitted', 'examletter_submitted', 'certificate_submitted') AND notification = 1 AND student_id = :student_id");
+            $certStmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+            $certStmt->execute();
             $countnotification = $certStmt->fetchAll(PDO::FETCH_ASSOC);
             if(!empty($countnotification)){
                 foreach ($countnotification as $key ) {

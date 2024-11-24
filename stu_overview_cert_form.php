@@ -30,7 +30,6 @@
 <!-- Main Content -->
     <main class="student_form">
     <?php
-        session_start();
 
         // Database credentials
         $servername = 'localhost';  // Typically 'localhost' for local databases

@@ -44,6 +44,14 @@
         include 'include/lec_main_header.php';
     ?>
 
+<?php
+// Check if the user is logged in, if not redirect to login page
+if (!isset($_SESSION['lecturer_full_name'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 <!-- Main Content -->
     <main>
 

@@ -33,9 +33,16 @@
     <main>
 
 
+    <?php
+// Check if the user is logged in, if not redirect to login page
+if (!isset($_SESSION['student_full_name'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 
         <?php
-        session_start();
 
         $host = '127.0.0.1';
         $db = 'cert_reg_management_db';
@@ -781,10 +788,6 @@ data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason'
     ?>
 
     
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script>
 
         /////////////////////// Javascript ////////////////////////////////

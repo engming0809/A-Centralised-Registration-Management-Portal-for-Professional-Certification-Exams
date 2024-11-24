@@ -26,13 +26,14 @@
         include 'include/stu_main_header.php';
     ?>
 
+    
+
 <!-- Main Content -->
 <main>
 <div class="stu_overview_cert_view">
 <div class="container">
         <div class="certification-details">
             <?php
-            session_start();
 
             // Database credentials
             $servername = 'localhost';  

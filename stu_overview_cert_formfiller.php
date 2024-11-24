@@ -219,9 +219,8 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
 
     // Execute the query and check if it's successful
     if ($stmt->execute()) {
-        echo "<script>alert('Form Reupload successfully.'); window.location.href='stu_overview_cert.php';</script>";
-        header("Location: stu_overview_reg.php");
-        exit();
+        echo "<script>alert('Form Reupload successfully.'); window.location.href='stu_overview_reg.php';</script>";
+        exit;
     } else {
         // Handle any errors (optional)
         echo "Error updating record: " . $stmt->error;

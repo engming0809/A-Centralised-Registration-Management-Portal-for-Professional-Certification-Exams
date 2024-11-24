@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <!-- Include DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
@@ -15,7 +16,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 
     <link rel="stylesheet" href="style/style.css">
 </head>
@@ -30,11 +30,20 @@
     include 'include/lec_main_header.php';
     ?>
 
+    
+<?php
+// Check if the user is logged in, if not redirect to login page
+if (!isset($_SESSION['lecturer_full_name'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
+
     <!-- Main Content -->
     <main>
 
         <?php
-        session_start();
 
         $host = '127.0.0.1';
         $db = 'cert_reg_management_db';
@@ -1038,11 +1047,6 @@ data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'
     <?php
     include 'include/footer.php';
     ?>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
         /////////////////////// Javascript //////////////////////////////// mysword
