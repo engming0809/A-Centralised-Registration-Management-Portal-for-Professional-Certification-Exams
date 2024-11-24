@@ -42,14 +42,14 @@ try {
 
             if ($stmt->rowCount() > 0) {
                 // If invoice exists, update the filepath
-                $stmt = $pdo->prepare("UPDATE reg_PaymentInvoice SET filepath = :filepath WHERE invoice_id = :invoice_id");
+                $stmt = $pdo->prepare("UPDATE reg_PaymentInvoice SET filepath = :filepath, status = 'pending' WHERE invoice_id = :invoice_id");
                 $stmt->bindParam(':invoice_id', $invoiceId);
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->execute();
                 echo "Invoice updated successfully!";
             } else {
                 // If invoice doesn't exist, insert a new record
-                $stmt = $pdo->prepare("INSERT INTO reg_PaymentInvoice (filepath, registration_id) VALUES (:filepath, :registration_id)");
+                $stmt = $pdo->prepare("INSERT INTO reg_PaymentInvoice (filepath, registration_id, status) VALUES (:filepath, :registration_id, 'pending')");
                 $stmt->bindParam(':filepath', $filePath);
                 $stmt->bindParam(':registration_id', $registrationId);
                 $stmt->execute();

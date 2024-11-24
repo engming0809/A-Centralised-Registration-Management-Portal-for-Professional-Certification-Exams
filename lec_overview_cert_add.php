@@ -28,54 +28,72 @@
     $cert_name = $description = $requirements = $schedule = $cost = "";//Empty input variables
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["cert_name"])) {
-        $cert_nameErr = "A name of this certification is required";
-    } else {
-        $cert_name = $_POST["cert_name"];
-    }
-    
-    if (empty($_POST["description"])) {
-        $descriptionErr = "A description is required";
-    } else {
-        $description = $_POST["description"];
-    }
-    
-    if (empty($_POST["requirements"])) {
-        $requirementsErr = "This field is required";
-    } else {
-        $requirements = $_POST["requirements"];
-    }
-    
-    if (empty($_POST["schedule"])) {
-        $scheduleErr = "A schedule is required";
-    } else {
-        $schedule = $_POST["schedule"];
+        if (empty($_POST["cert_name"])) {
+            $cert_nameErr = "A name of this certification is required";
+        } else {
+            $cert_name = $_POST["cert_name"];
+        }
+        
+        if (empty($_POST["description"])) {
+            $descriptionErr = "A description is required";
+        } else {
+            $description = $_POST["description"];
+        }
+        
+        if (empty($_POST["requirements"])) {
+            $requirementsErr = "This field is required";
+        } else {
+            $requirements = $_POST["requirements"];
+        }
+        
+        if (empty($_POST["schedule"])) {
+            $scheduleErr = "A schedule is required";
+        } else {
+            $schedule = $_POST["schedule"];
+        }
+
+        if (empty($_POST["cost"])) {
+            $costErr = "A cost is required";
+        } else {
+            $cost = $_POST["cost"];
+        }
     }
 
-    if (empty($_POST["cost"])) {
-        $costErr = "A cost is required";
-    } else {
-        $cost = $_POST["cost"];
-    }
-    }
-
-    if (!empty($_POST["cert_name"]) && !empty($_POST["description"])) {
-        $record = "<p class='success-message'>Record is saved</p>";
-    } else {
-        $record = "";
-        $overview = "";
-    }
 
     if (!empty($_POST["cert_name"]) && !empty($_POST["description"])) {
         $conn = connectDB();
-        insertRecord($cert_name, $description, $requirements, $schedule, $cost, $conn);
+
+        // Sanitize user inputs
+        $cert_name = $conn->real_escape_string($_POST["cert_name"]);
+        $description = $conn->real_escape_string($_POST["description"]);
+        $requirements = $conn->real_escape_string($_POST["requirements"] ?? "");
+        $schedule = $conn->real_escape_string($_POST["schedule"] ?? "");
+        $cost = $conn->real_escape_string($_POST["cost"] ?? "");
+
+        // Check if cert_name already exists
+        $query = "SELECT COUNT(*) AS count FROM certifications WHERE certification_name = '$cert_name'";
+        $result = $conn->query($query);
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+            if ($row['count'] > 0) {
+                echo "<script>alert('Certification name already exists. Please choose a different name.');</script>";
+            } else {
+                // Insert the new record
+                insertRecord($cert_name, $description, $requirements, $schedule, $cost, $conn);
+                echo "<script>alert('Certification added successfully!');</script>";
+            }
+        } else {
+            echo "<script>alert('localhost said: Error checking for duplicate certification: " . $conn->error . "');</script>";
+        }
+        
     }
 
     function insertRecord($cert_name, $description, $requirements, $schedule, $cost, $conn) {
         $sql = "INSERT INTO certifications (certification_name, description, requirements, schedule, cost) 
                 VALUES ('$cert_name', '$description', '$requirements', '$schedule', '$cost')";
         if (!mysqli_query($conn, $sql)) {
-            echo "ERROR: Could not execute SQL" . mysqli_error($conn);
+            echo "<script>alert('ERROR: Could not execute SQL!');</script>". mysqli_error($conn);
         }
     }
 
@@ -125,15 +143,15 @@
                 
                 <div class="form-group">
                     <label for="cost">Cost</label>
-                    <input type="text" id="cost" name="cost" class="form-control">
+                    <input type="number" id="cost" name="cost" class="form-control" step="1" min="0" required>
                     <span class="error"><?php echo $costErr;?></span>
                 </div>
+
 
                 <button type="submit" class="btn btn-primary">Add Certification</button>
                 <a href="lec_overview_cert.php" class="btn btn-secondary mb-3">Return to Overview</a>
             </fieldset>
         </form>
-        <?= $record ?>
     </div>
 </section>
 

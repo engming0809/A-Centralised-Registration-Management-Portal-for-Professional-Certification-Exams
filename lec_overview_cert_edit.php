@@ -95,8 +95,9 @@
             
             <div class="form-group">
                 <label for="cost">Cost:</label>
-                <input type="text" class="form-control" name="cost" value="<?php echo $record['cost']; ?>" required>
+                <input type="number" class="form-control" name="cost" value="<?php echo $record['cost']; ?>" required step="1" min="0">
             </div>
+
             
             <button type="submit" name="update" class="btn btn-primary">Update</button>
             <a href="lec_overview_cert.php" class="btn btn-secondary mb-3">Return to Overview</a>

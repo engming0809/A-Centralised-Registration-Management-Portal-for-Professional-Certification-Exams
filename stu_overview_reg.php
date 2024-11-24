@@ -55,15 +55,15 @@
 
             $query = "
         SELECT r.registration_id, r.registration_status, r.created_at, r.updated_at, 
-               r.student_id, r.certification_id, 
-               c.certification_name, s.full_name, 
-               rf.filepath AS registration_form_path,
-               pi.invoice_id, pi.filepath AS payment_invoice_path,
-               ts.transaction_id, ts.filepath AS transaction_slip_path,
-               pr.receipt_id, pr.filepath AS payment_receipt_path,
-               ecl.confirmation_id, ecl.filepath AS exam_confirmation_letter_path,
-               er.result AS exam_result, er.publish AS publish,
-               cert.certificate_id, cert.filepath AS certificate_path, r.notification
+            r.student_id, r.certification_id, 
+            c.certification_name, s.full_name, 
+            rf.filepath AS registration_form_path, rf.status AS registration_form_status, rf.reason AS registration_form_reason,
+            pi.invoice_id, pi.filepath AS payment_invoice_path, pi.status AS payment_invoice_status, pi.reason AS payment_invoice_reason,
+            ts.transaction_id, ts.filepath AS transaction_slip_path, ts.status AS transaction_slip_status, ts.reason AS transaction_slip_reason,
+            pr.receipt_id, pr.filepath AS payment_receipt_path, pr.status AS payment_receipt_status, pr.reason AS payment_receipt_reason,
+            ecl.confirmation_id, ecl.filepath AS exam_confirmation_letter_path, ecl.status AS exam_confirmation_letter_status, ecl.reason AS exam_confirmation_letter_reason,
+            er.examresult_id, er.result AS exam_result, er.publish AS publish,
+            cert.certificate_id, cert.filepath AS certificate_path, cert.status AS certificate_status, cert.reason AS certificate_reason, r.notification
         FROM certificationregistrations r
         JOIN certifications c ON r.certification_id = c.certification_id
         LEFT JOIN student s ON r.student_id = s.student_id
@@ -81,6 +81,8 @@
                 $query .= " AND r.certification_id = :certification_id";
             }
 
+            
+
             // FINALISE retrieve the query from database 
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':student_id', $studentId); // Bind the student ID
@@ -96,11 +98,6 @@
         ?>
         <div class="container-fluid  lec_overview_reg_main">
             <!-- Welcome Section -->
-
-
-            <!-- Session Info -->
-            <p>Logged in as: <strong><?php echo $_SESSION['student_full_name']; ?></strong></p>
-            <p>Your student ID is: <strong><?php echo $_SESSION['student_id']; ?></strong></p>
 
             <!-- Filter Section -->
             <section class="filter mb-4">
@@ -126,10 +123,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Certificate Name</th>
+                            <th>Registration Form</th>
                             <th>Payment Invoice</th>
                             <th>Transaction Slip</th>
                             <th>Payment Receipt</th>
-                            <th>Exam Confirmation Letter</th>
+                            <th>Confirmation Letter</th>
                             <th>Exam Results</th>
                             <th>Certificate</th>
                         </tr>
@@ -141,6 +139,8 @@
                                 <tr>
                                     <td><?= htmlspecialchars($registration['registration_id']) ?></td>
                                     <td><?= htmlspecialchars($registration['certification_name']) ?></td>
+                                    <td><a href="<?= htmlspecialchars($registration['registration_form_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">View</a>
+                                    </td>
 
 
                                     <td>
@@ -154,10 +154,84 @@
                                             $registration['registration_status'] === 'invoice_submitted'
                                         ): ?>
                                             <?php if (!empty($registration['payment_invoice_path'])): ?>
+
                                                 <a href="<?= htmlspecialchars($registration['payment_invoice_path']) ?>" class="btn btn-sm btn-info " onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && (empty($registration['transaction_slip_path']))) { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>
+                                                <!-- Action Button -->
+                                                <br><br>
+
+<!-- Action Button mysword -->
+<!-- Here I store the value from initial first so that I can use java to put it in modal table, 
+becuase if i open modal table after this, the id will be lost. Hence I use php to get it here first,
+then i use java to store it in variable, then i use java to set it in the modal table -->
+<button type="button" class="btn btn-sm btn-danger invoiceUpdateButton" 
+data-toggle="modal" 
+data-target="#invoiceUpdateModal"
+data-invoice-id="<?= htmlspecialchars($registration['invoice_id']) ?>"
+data-invoice-status="<?= htmlspecialchars($registration['payment_invoice_status']) ?>"
+data-invoice-reason="<?= htmlspecialchars($registration['payment_invoice_reason']) ?>">
+    Verify
+</button>
+<h1><?= htmlspecialchars($registration['payment_invoice_reason']) ?></h1>
+<!-- Modal -->
+<div class="modal fade" id="invoiceUpdateModal" tabindex="-1" aria-labelledby="invoiceUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="verify_invoice.php" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="invoiceUpdateModalLabel">Modal Table</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Option</th>
+                                <th>Action</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Choose:</td>
+                                <td>
+                                    <div>
+                                        <input type="radio" name="invoiceStatusOption" id="invoiceaccept" value="accept">
+                                        <label for="invoiceaccept">Accept</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="invoiceStatusOption" id="invoicereject" value="reject">
+                                        <label for="invoicereject">Reject</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="invoiceStatusOption" id="invoicepending" value="pending">
+                                        <label for="invoicepending">Pending</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="reasonRow" style="display: none;">
+                                <td>Reason:</td>
+                                <td>
+                                    <textarea class="form-control" id="ModalinvoiceReasonInput" name="payment_invoice_reason" placeholder="Enter your reason" rows="4"></textarea>
+                                </td>
+                            </tr>
+                            <!-- Hidden fields to store data to be sent to upload php files -->
+                            <input type="hidden" name="invoice_id" id="modalInvoiceID">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="confirmButton">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
                                             <?php else: ?>
                                                 Please wait for lecturer to upload Payment Invoice.
                                             <?php endif; ?>
@@ -176,20 +250,13 @@
                                             $registration['registration_status'] === 'invoice_submitted'
                                         ): ?>
                                             <?php if (!empty($registration['transaction_slip_path'])): ?>
-                                                <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" target="_blank">Download</a>
+                                                <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" target="_blank">View</a>
                                             <?php else: ?>
                                                 Please upload Transaction Slip. <br>
-
-                                                <!-- <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="form-inline mt-2">
-                                                    <input type="hidden" name="transaction_id" value="<?= htmlspecialchars($registration['transaction_id']) ?>">
-                                                    <input type="hidden" name="registration_id" value="<?= htmlspecialchars($registration['registration_id']) ?>">
-                                                    <input type="file" name="transaction_slip" accept=".pdf" class="form-control-file mb-2">
-                                                    <input type="submit" value="Upload" class="btn btn-sm btn-primary">
-                                                </form> -->
-
+                                            <?php endif; ?>
 
                                                 <!-- Upload Transaction Slip -->
-                                                <button type="button" class="btn btn-sm btn-info transactionUploadButton" 
+                                                <br><button type="button" class="btn btn-sm btn-info transactionUploadButton" 
                                                 data-toggle="modal" 
                                                 data-target="#uploadInvoiceModal"
                                                 data-regtransaction-id="<?= htmlspecialchars($registration['registration_id']) ?>"
@@ -242,8 +309,72 @@
                                                     </div>
                                                 </div>
 
+<!-- Reupload Transaction Slip -->
+<br><button type="button" class="btn btn-sm btn-danger transactionReuploadButton" 
+data-toggle="modal" 
+data-target="#reuploadTransactionModal"
+data-retransaction-id="<?= htmlspecialchars($registration['transaction_id']) ?>"
+data-retransaction-reason="<?= htmlspecialchars($registration['transaction_slip_reason']) ?>"
+data-retransaction-filepath="<?= htmlspecialchars($registration['transaction_slip_path'] ?? '') ?>">
+	Reupload
+</button>
+											
 
-                                            <?php endif; ?>
+
+<!---------------------------- MODAL table for Transaction Slip ---------------------------------->
+<div class="modal fade" id="reuploadTransactionModal" tabindex="-1" role="dialog" aria-labelledby="reuploadTransactionModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="reuploadTransactionModalLabel">Reupload Transaction Slip</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- Form for file upload -->
+				<form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
+					<div class="form-row align-items-center mb-3">
+						<div class="col-md-4">
+							<label for="transactionReasonModal" class="col-form-label">Reason of Rejection:</label>
+						</div>
+						<div class="col-md-8">
+							<textarea name="displayreason" id="transactionReasonModal" class="form-control reasondisplay" rows="4" readonly></textarea>
+						</div>
+					</div>
+					<div class="form-row align-items-center mb-3">
+						<div class="col-md-4">
+							<label for="oldTransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+						</div>
+						<div class="col-md-8">
+							<input type="text" name="displayfilepath" id="oldTransactionFilePathModal" class="form-control filePathDisplay" readonly>
+						</div>
+					</div>
+					<div class="form-row align-items-center mb-3">
+						<div class="col-md-4">
+							<label class="col-form-label">Select File:</label>
+						</div>
+						<div class="col-md-8">
+							<input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+						</div>
+					</div>
+					<!---------- Hidden fields ------->
+					<input type="hidden" name="transaction_id" id="modalReuploadTransactionId">
+					<!-------------------------------->
+					<div class="text-right">
+						<input type="submit" value="Upload" class="btn btn-primary">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+                                                
+
+
+
+                                            
                                         <?php else: ?>
                                             N/A
                                         <?php endif; ?>
@@ -262,6 +393,76 @@
                                                 <?php if ($registration['notification'] == "1" && empty($registration['exam_confirmation_letter_path'])) { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>
+
+
+                                                <br><br>
+<button type="button" class="btn btn-sm btn-danger receiptUpdateButton" 
+data-toggle="modal" 
+data-target="#receiptUpdateModal"
+data-receipt-id="<?= htmlspecialchars($registration['receipt_id']) ?>"
+data-receipt-status="<?= htmlspecialchars($registration['payment_receipt_status']) ?>"
+data-receipt-reason="<?= htmlspecialchars($registration['payment_receipt_reason']) ?>">
+    Verify
+</button>
+<!-- Modal -->
+<div class="modal fade" id="receiptUpdateModal" tabindex="-1" aria-labelledby="receiptUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="verify_receipt.php" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="receiptUpdateModalLabel">Accept or Reject This Payment Receipt</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Option</th>
+                                <th>Action</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Choose:</td>
+                                <td>
+                                    <div>
+                                        <input type="radio" name="receiptStatusOption" id="receipteaccept" value="accept">
+                                        <label for="receipteaccept">Accept</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="receiptStatusOption" id="receiptreject" value="reject">
+                                        <label for="receiptreject">Reject</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="receiptStatusOption" id="receiptpending" value="pending">
+                                        <label for="receiptpending">Pending</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="receiptReasonRow" style="display: none;">
+                                <td>Reason:</td>
+                                <td>
+                                    <textarea class="form-control" id="ModalReceiptReasonInput" name="payment_receipt_reason" placeholder="Enter your reason" rows="4"></textarea>
+                                </td>
+                            </tr>
+                            <!-- Hidden fields to store data to be sent to upload php files -->
+                            <input type="hidden" name="receipt_id" id="modalReceiptID">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="confirmReceiptButton">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>                                        
+
+
+
                                                 <?php else: ?>
                                                 Please wait for lecturer to upload the Payment Receipt.
                                             <?php endif; ?>
@@ -282,6 +483,77 @@
                                                 <?php if ($registration['notification'] == "1" && empty($registration['certificate_path'])) { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>
+
+                                                <br><br>
+<button type="button" class="btn btn-sm btn-danger examletterUpdateButton" 
+data-toggle="modal" 
+data-target="#examletterUpdateModal"
+data-examletter-id="<?= htmlspecialchars($registration['confirmation_id']) ?>"
+data-examletter-status="<?= htmlspecialchars($registration['exam_confirmation_letter_status']) ?>"
+data-examletter-reason="<?= htmlspecialchars($registration['exam_confirmation_letter_reason']) ?>">
+    Verify
+</button>
+<!-- Modal -->
+<div class="modal fade" id="examletterUpdateModal" tabindex="-1" aria-labelledby="examletterUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="verify_examconfirmationletter.php" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="examletterUpdateModalLabel">Accept or Reject This Confirmation Letter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Option</th>
+                                <th>Action</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Choose:</td>
+                                <td>
+                                    <div>
+                                        <input type="radio" name="examletterStatusOption" id="eclaccept" value="accept">
+                                        <label for="eclaccept">Accept</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="examletterStatusOption" id="eclreject" value="reject">
+                                        <label for="eclreject">Reject</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="examletterStatusOption" id="eclpending" value="pending">
+                                        <label for="eclpending">Pending</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="examletterReasonRow" style="display: none;">
+                                <td>Reason:</td>
+                                <td>
+                                    <textarea class="form-control" id="ModalExamLetterReasonInput" name="exam_confirmation_letter_reason" placeholder="Enter your reason" rows="4"></textarea>
+                                </td>
+                            </tr>
+                            <!-- Hidden fields to store data to be sent to upload php files -->
+                            <input type="hidden" name="confirmation_id" id="modalExamLetterID">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="examletterConfirmButton">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
                                                 <?php else: ?>
                                                 Please wait for lecturer to uplaod Exam Confirmation Letter.
                                             <?php endif; ?>
@@ -318,6 +590,82 @@
                                                 <?php if ($registration['notification'] == "1") { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>  
+
+
+                                                <br><br>
+<button type="button" class="btn btn-sm btn-danger certificateUpdateButton" 
+data-toggle="modal" 
+data-target="#certificateUpdateModal"
+data-certificate-id="<?= htmlspecialchars($registration['certificate_id']) ?>"
+data-certificate-status="<?= htmlspecialchars($registration['certificate_status']) ?>"
+data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason']) ?>">
+    Verify
+</button>
+<!-- Modal -->
+<div class="modal fade" id="certificateUpdateModal" tabindex="-1" aria-labelledby="certificateUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="verify_certificate.php" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="certificateUpdateModalLabel">Modal Table</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Option</th>
+                                <th>Action</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Choose:</td>
+                                <td>
+                                    <div>
+                                        <input type="radio" name="certificateStatusOption" id="certificateaccept" value="accept">
+                                        <label for="certificateaccept">Accept</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="certificateStatusOption" id="certificatereject" value="reject">
+                                        <label for="certificatereject">Reject</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="certificateStatusOption" id="certificatepending" value="pending">
+                                        <label for="certificatepending">Pending</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="certificateReasonRow" style="display: none;">
+                                <td>Reason:</td>
+                                <td>
+                                    <textarea class="form-control" id="ModalCertificateReasonInput" name="certificate_reason" placeholder="Enter your reason" rows="4"></textarea>
+                                </td>
+                            </tr>
+                            <!-- Hidden fields to store data to be sent to upload php files -->
+                            <input type="hidden" name="certificate_id" id="modalCertificateID">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="certificateConfirmButton">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
                                                 <?php else: ?>
                                                 Please wait for lecturer to upload the Certificate.
                                             <?php endif; ?>
@@ -356,13 +704,26 @@
     include 'include/footer.php';
     ?>
 
+    
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
 
         /////////////////////// Javascript ////////////////////////////////
         // Display accurate information on modal table (Edit) 
         document.addEventListener("DOMContentLoaded", function () {
             const transactionUploadButtons = document.querySelectorAll(".transactionUploadButton");
-            // Payment Invoice
+            const invoiceUpdateButtons = document.querySelectorAll(".invoiceUpdateButton");
+            const receiptUpdateButtons = document.querySelectorAll(".receiptUpdateButton");
+            const examletterUpdateButtons = document.querySelectorAll(".examletterUpdateButton");
+            const certificateUpdateButtons = document.querySelectorAll(".certificateUpdateButton");
+            const transactionReuploadButtons = document.querySelectorAll(".transactionReuploadButton");
+            
+
+            //////////////////////////////////////////// Upload ///////////////////////////////////////
+            // Upload Transaction Slip
             transactionUploadButtons.forEach(button => {
                 button.addEventListener("click", function () {
                     const transactionFilePath = this.getAttribute("data-transaction-filepath") || "";
@@ -379,11 +740,288 @@
                     document.getElementById("modalTransactionId").value = transactionId;
                 });
             });
+
+
+            //////////////////////////////////////////// Reupload ///////////////////////////////////////
+            // Update Payment Invoice (mysword)
+            invoiceUpdateButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const invoiceUpdateID = this.getAttribute("data-invoice-id") || "";
+                    const invoiceStatus = this.getAttribute("data-invoice-status") || "";
+                    const invoiceReason = this.getAttribute("data-invoice-reason") || "";
+
+                    document.getElementById("modalInvoiceID").value = invoiceUpdateID;
+                    document.getElementById("modalInvoiceStatus").value = invoiceStatus;
+                    document.getElementById("ModalinvoiceReasonInput").value = invoiceReason;
+                });
+            });
+            
+            // Update Payment Receipt
+            receiptUpdateButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const receiptUpdateID = this.getAttribute("data-receipt-id") || "";
+                    const receiptStatus = this.getAttribute("data-receipt-status") || "";
+                    const receiptReason = this.getAttribute("data-receipt-reason") || "";
+
+                    document.getElementById("modalReceiptID").value = receiptUpdateID;
+                    document.getElementById("modalreceiptStatus").value = receiptStatus;
+                    document.getElementById("ModalReceiptReasonInput").value = receiptReason;
+                });
+            });
+
+
+            // Update Exam Confirmation Letter
+            examletterUpdateButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const examletterUpdateID = this.getAttribute("data-examletter-id") || "";
+                    const examletterStatus = this.getAttribute("data-examletter-status") || "";
+                    const examletterReason = this.getAttribute("data-examletter-reason") || "";
+
+                    document.getElementById("modalExamLetterID").value = examletterUpdateID;
+                    document.getElementById("modalexamletterStatus").value = examletterStatus;
+                    document.getElementById("ModalExamLetterReasonInput").value = examletterReason;
+                });
+            });
+
+            // Update Certificate
+            certificateUpdateButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const certificateUpdateID = this.getAttribute("data-certificate-id") || "";
+                    const certificateStatus = this.getAttribute("data-certificate-status") || "";
+                    const certificateReason = this.getAttribute("data-certificate-reason") || "";
+
+                    document.getElementById("modalCertificateID").value = certificateUpdateID;
+                    document.getElementById("modalcertificateStatus").value = certificateStatus;
+                    document.getElementById("ModalCertificateReasonInput").value = certificateReason;
+                });
+            });
+	
+
+            // Transaction Slip
+            transactionReuploadButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const transactionFilePath = this.getAttribute("data-retransaction-filepath") || "";
+                    const transactionId = this.getAttribute("data-retransaction-id") || "";
+                    const transactionReason = this.getAttribute("data-retransaction-reason") || "";
+
+                    // Extract the valid filename (after the last hyphen)
+                    const fileName = transactionFilePath.substring(transactionFilePath.lastIndexOf('/') + 1).substring(24);
+
+                    // Set modal field values (Display)
+                    document.getElementById("oldTransactionFilePathModal").value = fileName;
+                    // Set modal field values (For functionality in upload.php files)
+                    document.getElementById("modalReuploadTransactionId").value = transactionId;
+                    document.getElementById("transactionReasonModal").value = transactionReason;
+                });
+            });
+
         });
 
+
         //////////////////////////////////////   JQUERY   ////////////////////////////////////////////////
+
+        //////////////////////////////// Reupload Files (Store Reason and ID)  ////////////////////////
+        $('#invoiceUpdateModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); 
+            var invoiceId = button.data('invoice-id'); 
+            var invoiceStatus = button.data('invoice-status'); 
+            var invoiceReason = button.data('invoice-reason'); 
+
+            var modal = $(this);
+            
+            modal.find('#modalInvoiceID').val(invoiceId); 
+            modal.find('#ModalinvoiceReasonInput').val(invoiceReason); 
+
+            // Set radio button
+            modal.find('input[type=radio][name=invoiceStatusOption]').each(function() {
+                if ($(this).val() === invoiceStatus) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            });
+        });
+
+
+        $('#receiptUpdateModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); 
+            var invoiceId = button.data('receipt-id'); 
+            var receiptStatus = button.data('receipt-status'); 
+            var receiptReason = button.data('receipt-reason'); 
+
+            var modal = $(this);
+            
+            modal.find('#modalReceiptID').val(invoiceId); 
+            modal.find('#ModalReceiptReasonInput').val(receiptReason); 
+
+            // Set radio button
+            modal.find('input[type=radio][name=receiptStatusOption]').each(function() {
+                if ($(this).val() === receiptStatus) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            });
+        });
+
+
+        $('#examletterUpdateModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); 
+            var examletterId = button.data('examletter-id'); 
+            var examletterStatus = button.data('examletter-status'); 
+            var examletterReason = button.data('examletter-reason'); 
+
+            var modal = $(this);
+            
+            modal.find('#modalExamLetterID').val(examletterId); 
+            modal.find('#ModalExamLetterReasonInput').val(examletterReason); 
+
+            // Set radio button
+            modal.find('input[type=radio][name=examletterStatusOption]').each(function() {
+                if ($(this).val() === examletterStatus) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            });
+        });
+
+        $('#certificateUpdateModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); 
+            var certificateId = button.data('certificate-id'); 
+            var certificateStatus = button.data('certificate-status'); 
+            var certificateReason = button.data('certificate-reason'); 
+
+            var modal = $(this);
+            
+            modal.find('#modalCertificateID').val(certificateId); 
+            modal.find('#ModalCertificateReasonInput').val(certificateReason); 
+
+            // Set radio button
+            modal.find('input[type=radio][name=certificateStatusOption]').each(function() {
+                if ($(this).val() === certificateStatus) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            });
+        });
+
+                
+
+        ////////////////////////////////// Reupload Files (Show Reason Input When Reject) /////////////////////////////////////////
+        // JavaScript to toggle reason text box
+        $(document).ready(function () {
+
+            /////// Payment Invoice
+            $('input[name="invoiceStatusOption"]').change(function () {
+                if ($('#invoicereject').is(':checked')) {
+                    $('#reasonRow').show();
+                } else {
+                    $('#reasonRow').hide();
+                }
+            });
+
+            $('#confirmButton').click(function (event) { 
+                const selectedOption = $('input[name="invoiceStatusOption"]:checked').val();
+                const reason = $('#ModalinvoiceReasonInput').val();
+
+                // If the status is "invoicereject" and the reason is empty, alert the user and stop form submission
+                if (selectedOption === 'reject' && !reason) {
+                    alert('Please provide a reason for rejection.');
+                    event.preventDefault(); 
+                    return;
+                }
+
+                // If a reason is provided, show the selection and reason
+                alert(`You selected: ${selectedOption}${selectedOption === 'reject' ? ' with reason: ' + reason : ''}`);
+                $('#invoiceUpdateModal').modal('hide');
+            });
+
+
+            ////// Payment Receipt
+            $('input[name="receiptStatusOption"]').change(function () {
+                if ($('#receiptreject').is(':checked')) {
+                    $('#receiptReasonRow').show();
+                } else {
+                    $('#receiptReasonRow').hide();
+                }
+            });
+
+            $('#confirmReceiptButton').click(function (event) { 
+                const selectedOption = $('input[name="receiptStatusOption"]:checked').val();
+                const reason = $('#ModalReceiptReasonInput').val();
+
+                // If the status is "receiptreject" and the reason is empty, alert the user and stop form submission
+                if (selectedOption === 'reject' && !reason) {
+                    alert('Please provide a reason for rejection.');
+                    event.preventDefault(); 
+                    return;
+                }
+
+                // If a reason is provided, show the selection and reason
+                alert(`You selected: ${selectedOption}${selectedOption === 'reject' ? ' with reason: ' + reason : ''}`);
+                $('#receiptUpdateModal').modal('hide');
+            });
+
+            /////// Exam Confirmation Letter
+            $('input[name="examletterStatusOption"]').change(function () {
+                if ($('#eclreject').is(':checked')) {
+                    $('#examletterReasonRow').show();
+                } else {
+                    $('#examletterReasonRow').hide();
+                }
+            });
+
+            $('#examletterConfirmButton').click(function (event) { 
+                const selectedOption = $('input[name="examletterStatusOption"]:checked').val();
+                const reason = $('#ModalExamLetterReasonInput').val();
+
+                // If the status is "eclreject" and the reason is empty, alert the user and stop form submission
+                if (selectedOption === 'reject' && !reason) {
+                    alert('Please provide a reason for rejection.');
+                    event.preventDefault(); 
+                    return;
+                }
+
+                // If a reason is provided, show the selection and reason
+                alert(`You selected: ${selectedOption}${selectedOption === 'reject' ? ' with reason: ' + reason : ''}`);
+                $('#examletterUpdateModal').modal('hide');
+            });
+
+            /////// Certificate
+            $('input[name="certificateStatusOption"]').change(function () {
+                if ($('#certificatereject').is(':checked')) {
+                    $('#certificateReasonRow').show();
+                } else {
+                    $('#certificateReasonRow').hide();
+                }
+            });
+
+            $('#certificateConfirmButton').click(function (event) { 
+                const selectedOption = $('input[name="certificateStatusOption"]:checked').val();
+                const reason = $('#ModalCertificateReasonInput').val();
+
+                // If the status is "certificatereject" and the reason is empty, alert the user and stop form submission
+                if (selectedOption === 'reject' && !reason) {
+                    alert('Please provide a reason for rejection.');
+                    event.preventDefault(); 
+                    return;
+                }
+
+                // If a reason is provided, show the selection and reason
+                alert(`You selected: ${selectedOption}${selectedOption === 'reject' ? ' with reason: ' + reason : ''}`);
+                $('#certificateUpdateModal').modal('hide');
+            });
+
+
+     
+        });
+
+
+        //////////////////////////////////////////// Upload ///////////////////////////////////////
         // Display accurate information on modal table (Insert) JQuert
-        // Payment Invoice
+        // Transaction
         $('#uploadInvoiceModal').on('show.bs.modal', function(event) {
             // jQuery to update the hidden inputs in the modal when the button is clicked
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -393,6 +1031,18 @@
             var modal = $(this);
             modal.find('#modalRegTransactionId').val(regtransactionId); 
             modal.find('#modalTransactionId').val(transactionId); 
+
+        });
+
+        // Transaction Slip
+        $('#reuploadTransactionModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); 
+            var transactionId = button.data('retransaction-id'); 
+            var transactionReason = button.data('retransaction-reason'); 
+
+            var modal = $(this);
+            modal.find('#modalReuploadTransactionId').val(transactionId); 
+            modal.find('#transactionReasonModal').val(transactionReason); 
 
         });
 

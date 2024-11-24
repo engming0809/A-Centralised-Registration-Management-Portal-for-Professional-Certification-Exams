@@ -100,7 +100,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Certifications (
     description TEXT,
     requirements TEXT,
     schedule DATETIME,
-    cost VARCHAR(255) NOT NULL
+    cost INT NOT NULL,
+    status ENUM('available', 'expired') NOT NULL DEFAULT 'available'
 )";
 $conn->query($sql);
 
@@ -113,48 +114,57 @@ $sql = "CREATE TABLE IF NOT EXISTS CertificationRegistrations (
     certification_id INT,
     notification TINYINT(1) NOT NULL DEFAULT 1,
     FOREIGN KEY (student_id) REFERENCES Student(student_id),
-    FOREIGN KEY (certification_id) REFERENCES Certifications(certification_id)
+    FOREIGN KEY (certification_id) REFERENCES Certifications(certification_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
-
 
 $sql = "CREATE TABLE IF NOT EXISTS reg_RegistrationForm (
     form_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
     registration_id INT,
-    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
+    reason VARCHAR(255),
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS reg_PaymentInvoice (
     invoice_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
+    reason VARCHAR(255),
     registration_id INT,
-    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS reg_TransactionSlip (
     transaction_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
+    reason VARCHAR(255),
     registration_id INT,
-    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS reg_PaymentReceipt (
     receipt_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
+    reason VARCHAR(255),
     registration_id INT,
-    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS reg_ExamConfirmationLetter (
     confirmation_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
+    reason VARCHAR(255),
     registration_id INT,
-    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
 
@@ -163,17 +173,20 @@ $sql = "CREATE TABLE IF NOT EXISTS reg_ExamResult (
     result VARCHAR(255) NOT NULL,
     registration_id INT,
     publish ENUM('published', 'not_published') NOT NULL DEFAULT 'not_published',
-    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS reg_Certificate (
     certificate_id INT AUTO_INCREMENT PRIMARY KEY,
     filepath VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'accept', 'reject') NOT NULL DEFAULT 'pending',
+    reason VARCHAR(255),
     registration_id INT,
-    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id)
+    FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
+
 
 $conn->close();
 ?>
