@@ -11,12 +11,12 @@
             $db = 'cert_reg_management_db';
             $user = 'root';
             $pass = '';
-    
+            $student_id=$_SESSION['student_id'];
             $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $countno="";
             // INITIALISE retrieve the query from database 
-            $certStmt = $pdo->query("SELECT count(*) as noti FROM `certificationregistrations` WHERE registration_status in('invoice_submitted','receipt_submitted','examletter_submitted','certificate_submitted') and notification = 1");
+            $certStmt = $pdo->query("SELECT count(*) as noti FROM `certificationregistrations` WHERE registration_status in('invoice_submitted','receipt_submitted','examletter_submitted','certificate_submitted') and notification = 1 and student_id=$student_id");
             $countnotification = $certStmt->fetchAll(PDO::FETCH_ASSOC);
             if(!empty($countnotification)){
                 foreach ($countnotification as $key ) {
