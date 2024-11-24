@@ -18,22 +18,25 @@ try {
         // Determine publish status based on the radio button selection
         // Expecting '1' for published and '0' for not published
         $publish = $_POST['publish'] == 'published' ? 'published' : 'not_published';
+        $examStatus = $_POST['examstatus'] ?? '';
 
         // Check if the exam result already exists
         if ($examResultId) {
             // Update the existing result
-            $stmt = $pdo->prepare("UPDATE reg_ExamResult SET result = :result, publish = :publish WHERE examresult_id = :examresult_id");
+            $stmt = $pdo->prepare("UPDATE reg_ExamResult SET result = :result, publish = :publish, status = :status WHERE examresult_id = :examresult_id");
             $stmt->bindParam(':examresult_id', $examResultId);
             $stmt->bindParam(':result', $examResult);
             $stmt->bindParam(':publish', $publish);
+            $stmt->bindParam(':status', $examStatus);
             $stmt->execute();
             echo "Exam result updated successfully!";
         } else {
             // Insert a new exam result
-            $stmt = $pdo->prepare("INSERT INTO reg_ExamResult (result, registration_id, publish) VALUES (:result, :registration_id, :publish)");
+            $stmt = $pdo->prepare("INSERT INTO reg_ExamResult (result, registration_id, publish, status) VALUES (:result, :registration_id, :publish, :status)");
             $stmt->bindParam(':result', $examResult);
             $stmt->bindParam(':registration_id', $registrationId);
             $stmt->bindParam(':publish', $publish);
+            $stmt->bindParam(':status', $examStatus);
             $stmt->execute();
             echo "Exam result submitted successfully!";
 

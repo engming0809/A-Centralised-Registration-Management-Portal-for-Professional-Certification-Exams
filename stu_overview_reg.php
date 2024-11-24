@@ -10,7 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -69,7 +70,7 @@ if (!isset($_SESSION['student_full_name'])) {
             ts.transaction_id, ts.filepath AS transaction_slip_path, ts.status AS transaction_slip_status, ts.reason AS transaction_slip_reason,
             pr.receipt_id, pr.filepath AS payment_receipt_path, pr.status AS payment_receipt_status, pr.reason AS payment_receipt_reason,
             ecl.confirmation_id, ecl.filepath AS exam_confirmation_letter_path, ecl.status AS exam_confirmation_letter_status, ecl.reason AS exam_confirmation_letter_reason,
-            er.examresult_id, er.result AS exam_result, er.publish AS publish,
+            er.examresult_id, er.result AS exam_result, er.publish AS publish, er.status AS exam_status,
             cert.certificate_id, cert.filepath AS certificate_path, cert.status AS certificate_status, cert.reason AS certificate_reason, r.notification
         FROM certificationregistrations r
         JOIN certifications c ON r.certification_id = c.certification_id
@@ -164,8 +165,9 @@ if (!isset($_SESSION['student_full_name'])) {
                                         ): ?>    
                                     <a href="<?= htmlspecialchars($registration['registration_form_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">View</a>
                                     
-                                
-
+                                        <?php if ($registration['registration_form_status'] === 'reject' ): ?>
+        
+                                            
 <!-- Reupload Registration Form -->
 <br><br><button type="button" class="btn btn-sm btn-danger regformReuploadButton" 
 data-toggle="modal" 
@@ -173,7 +175,7 @@ data-target="#reuploadRegFormModal"
 data-reregform-id="<?= htmlspecialchars($registration['form_id']) ?>"
 data-reregform-reason="<?= htmlspecialchars($registration['registration_form_reason']) ?>"
 data-reregform-filepath="<?= htmlspecialchars($registration['registration_form_path'] ?? '') ?>">
-	Reupload
+	Resubmit
 </button>
 											
 
@@ -215,10 +217,13 @@ data-reregform-filepath="<?= htmlspecialchars($registration['registration_form_p
 		</div>
 	</div>
 </div>
-
-
-
-
+                                            
+                                            <?php elseif ($registration['registration_form_status'] === 'pending' ): ?>   
+                                                <br><br>Please wait for Lecturer to verify this Registration Form
+                                            <?php else: ?>
+                                                    
+                                                <?php endif; ?>
+                                
                                 
                                     <?php else: ?>
                                             N/A
@@ -228,27 +233,26 @@ data-reregform-filepath="<?= htmlspecialchars($registration['registration_form_p
 
                                     <td>
                                         <?php if (
-                                            $registration['registration_status'] === 'form_submitted' ||
-                                            $registration['registration_status'] === 'transaction_submitted' ||
-                                            $registration['registration_status'] === 'receipt_submitted' ||
-                                            $registration['registration_status'] === 'examletter_submitted' ||
-                                            $registration['registration_status'] === 'result_submitted' ||
-                                            $registration['registration_status'] === 'certificate_submitted' ||
-                                            $registration['registration_status'] === 'invoice_submitted'
-                                        ): ?>
+                                                ($registration['registration_status'] === 'form_submitted' ||
+                                                    $registration['registration_status'] === 'transaction_submitted' ||
+                                                    $registration['registration_status'] === 'receipt_submitted' ||
+                                                    $registration['registration_status'] === 'examletter_submitted' ||
+                                                    $registration['registration_status'] === 'result_submitted' ||
+                                                    $registration['registration_status'] === 'certificate_submitted' ||
+                                                    $registration['registration_status'] === 'invoice_submitted'
+                                                ) && $registration['registration_form_status'] === 'accept'
+                                            ): ?>
                                             <?php if (!empty($registration['payment_invoice_path'])): ?>
 
                                                 <a href="<?= htmlspecialchars($registration['payment_invoice_path']) ?>" class="btn btn-sm btn-info " onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && (empty($registration['transaction_slip_path']))) { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>
-                                                <!-- Action Button -->
-                                                <br><br>
 
-<!-- Action Button mysword -->
-<!-- Here I store the value from initial first so that I can use java to put it in modal table, 
-becuase if i open modal table after this, the id will be lost. Hence I use php to get it here first,
-then i use java to store it in variable, then i use java to set it in the modal table -->
+<?php if ($registration['payment_invoice_status'] === 'pending' ): ?>
+	
+
+    <br><br>
 <button type="button" class="btn btn-sm btn-danger invoiceUpdateButton" 
 data-toggle="modal" 
 data-target="#invoiceUpdateModal"
@@ -257,7 +261,6 @@ data-invoice-status="<?= htmlspecialchars($registration['payment_invoice_status'
 data-invoice-reason="<?= htmlspecialchars($registration['payment_invoice_reason']) ?>">
     Verify
 </button>
-<h1><?= htmlspecialchars($registration['payment_invoice_reason']) ?></h1>
 <!-- Modal -->
 <div class="modal fade" id="invoiceUpdateModal" tabindex="-1" aria-labelledby="invoiceUpdateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -315,8 +318,22 @@ data-invoice-reason="<?= htmlspecialchars($registration['payment_invoice_reason'
     </div>
 </div>
 
+    
+<?php elseif ($registration['payment_invoice_status'] === 'reject' ): ?>   
+
+<br><br>Please wait for Lecturer to reupload this Payment Invoice
+<?php else: ?>
+<?php endif; ?>
+
+
+
+
                                             <?php else: ?>
-                                                Please wait for lecturer to upload Payment Invoice.
+                                                <?php if ($registration['registration_form_status'] !== 'accept' ): ?>
+                                                    N/A
+                                                <?php else: ?>
+                                                    Please wait for lecturer to upload Payment Invoice.
+                                                    <?php endif; ?>
                                             <?php endif; ?>
                                         <?php else: ?>
                                             N/A
@@ -325,139 +342,151 @@ data-invoice-reason="<?= htmlspecialchars($registration['payment_invoice_reason'
 
                                     <td>
                                         <?php if (
-                                            $registration['registration_status'] === 'transaction_submitted' ||
+                                            ($registration['registration_status'] === 'transaction_submitted' ||
                                             $registration['registration_status'] === 'receipt_submitted' ||
                                             $registration['registration_status'] === 'examletter_submitted' ||
                                             $registration['registration_status'] === 'result_submitted' ||
                                             $registration['registration_status'] === 'certificate_submitted' ||
                                             $registration['registration_status'] === 'invoice_submitted'
+                                        ) && $registration['payment_invoice_status'] === 'accept'
                                         ): ?>
                                             <?php if (!empty($registration['transaction_slip_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['transaction_slip_path']) ?>" class="btn btn-sm btn-info" target="_blank">View</a>
-                                            <?php else: ?>
-                                                Please upload Transaction Slip. <br>
-                                            <?php endif; ?>
-
-                                                <!-- Upload Transaction Slip -->
-                                                <br><button type="button" class="btn btn-sm btn-info transactionUploadButton" 
-                                                data-toggle="modal" 
-                                                data-target="#uploadInvoiceModal"
-                                                data-regtransaction-id="<?= htmlspecialchars($registration['registration_id']) ?>"
-                                                data-transaction-id="<?= htmlspecialchars($registration['transaction_id']) ?>"
-                                                data-transaction-filepath="<?= htmlspecialchars($registration['transaction_slip_path'] ?? '') ?>">
-                                                    Upload
-                                                </button>
-                                                                                            
-
-
-                                                <!---------------------------- MODAL table for Transaction Slip ---------------------------------->
-                                                <div class="modal fade" id="uploadInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="uploadInvoiceModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="uploadInvoiceModalLabel">Upload Transaction Slip</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <!-- Form for file upload -->
-                                                                <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
-                                                                    <div class="form-row align-items-center mb-3">
-                                                                        <div class="col-md-4">
-                                                                            <label for="TransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
-                                                                        </div>
-                                                                        <div class="col-md-8">
-                                                                            <input type="text" name="displayfilepath" id="TransactionFilePathModal" class="form-control filePathDisplay" readonly>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-row align-items-center mb-3">
-                                                                        <div class="col-md-4">
-                                                                            <label class="col-form-label">Select File:</label>
-                                                                        </div>
-                                                                        <div class="col-md-8">
-                                                                            <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
-                                                                        </div>
-                                                                    </div>
-                                                                    <!---------- Hidden fields ------->
-                                                                    <input type="hidden" name="registration_id" id="modalRegTransactionId">
-                                                                    <input type="hidden" name="transaction_id" id="modalTransactionId">
-                                                                    <!-------------------------------->
-                                                                    <div class="text-right">
-                                                                        <input type="submit" value="Upload" class="btn btn-primary">
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                                <?php if ($registration['transaction_slip_status'] === 'pending' ): ?>
+	
+	
+                                <br><br>Please wait for Lecturer to verify this Transaction Slip
+   
+<?php elseif ($registration['transaction_slip_status'] === 'reject' ): ?>   
+                                       
 <!-- Reupload Transaction Slip -->
-<br><button type="button" class="btn btn-sm btn-danger transactionReuploadButton" 
+<br><br><button type="button" class="btn btn-sm btn-danger transactionReuploadButton" 
 data-toggle="modal" 
 data-target="#reuploadTransactionModal"
 data-retransaction-id="<?= htmlspecialchars($registration['transaction_id']) ?>"
 data-retransaction-reason="<?= htmlspecialchars($registration['transaction_slip_reason']) ?>"
 data-retransaction-filepath="<?= htmlspecialchars($registration['transaction_slip_path'] ?? '') ?>">
-	Reupload
+Reupload
 </button>
-											
+                                       
 
 
 <!---------------------------- MODAL table for Transaction Slip ---------------------------------->
 <div class="modal fade" id="reuploadTransactionModal" tabindex="-1" role="dialog" aria-labelledby="reuploadTransactionModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="reuploadTransactionModalLabel">Reupload Transaction Slip</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<!-- Form for file upload -->
-				<form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
-					<div class="form-row align-items-center mb-3">
-						<div class="col-md-4">
-							<label for="transactionReasonModal" class="col-form-label">Reason of Rejection:</label>
-						</div>
-						<div class="col-md-8">
-							<textarea name="displayreason" id="transactionReasonModal" class="form-control reasondisplay" rows="4" readonly></textarea>
-						</div>
-					</div>
-					<div class="form-row align-items-center mb-3">
-						<div class="col-md-4">
-							<label for="oldTransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
-						</div>
-						<div class="col-md-8">
-							<input type="text" name="displayfilepath" id="oldTransactionFilePathModal" class="form-control filePathDisplay" readonly>
-						</div>
-					</div>
-					<div class="form-row align-items-center mb-3">
-						<div class="col-md-4">
-							<label class="col-form-label">Select File:</label>
-						</div>
-						<div class="col-md-8">
-							<input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
-						</div>
-					</div>
-					<!---------- Hidden fields ------->
-					<input type="hidden" name="transaction_id" id="modalReuploadTransactionId">
-					<!-------------------------------->
-					<div class="text-right">
-						<input type="submit" value="Upload" class="btn btn-primary">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+<div class="modal-dialog" role="document">
+   <div class="modal-content">
+       <div class="modal-header">
+           <h5 class="modal-title" id="reuploadTransactionModalLabel">Reupload Transaction Slip</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+           </button>
+       </div>
+       <div class="modal-body">
+           <!-- Form for file upload -->
+           <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
+               <div class="form-row align-items-center mb-3">
+                   <div class="col-md-4">
+                       <label for="transactionReasonModal" class="col-form-label">Reason of Rejection:</label>
+                   </div>
+                   <div class="col-md-8">
+                       <textarea name="displayreason" id="transactionReasonModal" class="form-control reasondisplay" rows="4" readonly></textarea>
+                   </div>
+               </div>
+               <div class="form-row align-items-center mb-3">
+                   <div class="col-md-4">
+                       <label for="oldTransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                   </div>
+                   <div class="col-md-8">
+                       <input type="text" name="displayfilepath" id="oldTransactionFilePathModal" class="form-control filePathDisplay" readonly>
+                   </div>
+               </div>
+               <div class="form-row align-items-center mb-3">
+                   <div class="col-md-4">
+                       <label class="col-form-label">Select File:</label>
+                   </div>
+                   <div class="col-md-8">
+                       <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+                   </div>
+               </div>
+               <!---------- Hidden fields ------->
+               <input type="hidden" name="transaction_id" id="modalReuploadTransactionId">
+               <!-------------------------------->
+               <div class="text-right">
+                   <input type="submit" value="Upload" class="btn btn-primary">
+               </div>
+           </form>
+       </div>
+   </div>
+</div>
 </div>
 
-                                                
+<?php else: ?>
+       
+   <?php endif; ?>
+
+                                            <?php else: ?>
+                                                Please upload Transaction Slip.
+
+	
+	
+	
+		
+		 <!-- Upload Transaction Slip -->
+         <br><button type="button" class="btn btn-sm btn-info transactionUploadButton" 
+        data-toggle="modal" 
+        data-target="#uploadInvoiceModal"
+        data-regtransaction-id="<?= htmlspecialchars($registration['registration_id']) ?>"
+        data-transaction-id="<?= htmlspecialchars($registration['transaction_id']) ?>"
+        data-transaction-filepath="<?= htmlspecialchars($registration['transaction_slip_path'] ?? '') ?>">
+            Upload
+        </button>
+                                                    
 
 
+        <!---------------------------- MODAL table for Transaction Slip ---------------------------------->
+        <div class="modal fade" id="uploadInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="uploadInvoiceModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadInvoiceModalLabel">Upload Transaction Slip</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form for file upload -->
+                        <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
+                            <div class="form-row align-items-center mb-3">
+                                <div class="col-md-4">
+                                    <label for="TransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="displayfilepath" id="TransactionFilePathModal" class="form-control filePathDisplay" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label">Select File:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
+                                </div>
+                            </div>
+                            <!---------- Hidden fields ------->
+                            <input type="hidden" name="registration_id" id="modalRegTransactionId">
+                            <input type="hidden" name="transaction_id" id="modalTransactionId">
+                            <!-------------------------------->
+                            <div class="text-right">
+                                <input type="submit" value="Upload" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
-                                            
+                                            <?php endif; ?>
                                         <?php else: ?>
                                             N/A
                                         <?php endif; ?>
@@ -465,20 +494,23 @@ data-retransaction-filepath="<?= htmlspecialchars($registration['transaction_sli
 
                                     <td>
                                         <?php if (
-                                            $registration['registration_status'] === 'transaction_submitted' ||
+                                            ($registration['registration_status'] === 'transaction_submitted' ||
                                             $registration['registration_status'] === 'receipt_submitted' ||
                                             $registration['registration_status'] === 'examletter_submitted' ||
                                             $registration['registration_status'] === 'result_submitted' ||
                                             $registration['registration_status'] === 'certificate_submitted'
+                                        )&& $registration['transaction_slip_status'] === 'accept'
                                         ): ?>
                                             <?php if (!empty($registration['payment_receipt_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['payment_receipt_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1" && empty($registration['exam_confirmation_letter_path'])) { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>
+	
+<?php if ($registration['payment_receipt_status'] === 'pending' ): ?>
+	
 
-
-                                                <br><br>
+<br><br>
 <button type="button" class="btn btn-sm btn-danger receiptUpdateButton" 
 data-toggle="modal" 
 data-target="#receiptUpdateModal"
@@ -542,7 +574,16 @@ data-receipt-reason="<?= htmlspecialchars($registration['payment_receipt_reason'
             </form>
         </div>
     </div>
-</div>                                        
+</div>                         
+    
+<?php elseif ($registration['payment_receipt_status'] === 'reject' ): ?>   
+
+<br><br>Please wait for Lecturer to reupload this Payment Receipt
+<?php else: ?>
+<?php endif; ?>
+
+
+               
 
 
 
@@ -556,10 +597,11 @@ data-receipt-reason="<?= htmlspecialchars($registration['payment_receipt_reason'
 
                                     <td>
                                         <?php if (
-                                            $registration['registration_status'] === 'examletter_submitted' ||
+                                            ($registration['registration_status'] === 'examletter_submitted' ||
                                             $registration['registration_status'] === 'receipt_submitted' ||
                                             $registration['registration_status'] === 'result_submitted' ||
                                             $registration['registration_status'] === 'certificate_submitted'
+                                        )&& $registration['transaction_slip_status'] === 'accept'
                                         ): ?>
                                             <?php if (!empty($registration['exam_confirmation_letter_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['exam_confirmation_letter_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
@@ -567,7 +609,10 @@ data-receipt-reason="<?= htmlspecialchars($registration['payment_receipt_reason'
                                                     <span class="notification"></span>
                                                 <?php } ?>
 
-                                                <br><br>
+<?php if ($registration['exam_confirmation_letter_status'] === 'pending' ): ?>
+	
+
+    <br><br>
 <button type="button" class="btn btn-sm btn-danger examletterUpdateButton" 
 data-toggle="modal" 
 data-target="#examletterUpdateModal"
@@ -632,6 +677,14 @@ data-examletter-reason="<?= htmlspecialchars($registration['exam_confirmation_le
         </div>
     </div>
 </div>
+    
+<?php elseif ($registration['exam_confirmation_letter_status'] === 'reject' ): ?>   
+
+<br><br>Please wait for Lecturer to reupload this Exam Confirmation Letter
+<?php else: ?>
+<?php endif; ?>
+
+
 
 
 
@@ -648,9 +701,10 @@ data-examletter-reason="<?= htmlspecialchars($registration['exam_confirmation_le
 
                                     <td>
                                         <?php if (
-                                            $registration['registration_status'] === 'examletter_submitted' ||
+                                            ($registration['registration_status'] === 'examletter_submitted' ||
                                             $registration['registration_status'] === 'result_submitted' ||
                                             $registration['registration_status'] === 'certificate_submitted'
+                                        )&& $registration['payment_receipt_status'] === 'accept' && $registration['exam_confirmation_letter_status'] === 'accept'
                                         ): ?>
                                             <?php if (!empty($registration['exam_result']) && $registration['publish'] === 'published'): ?>
                                                 <?= htmlspecialchars($registration['exam_result']) ?> 
@@ -665,17 +719,28 @@ data-examletter-reason="<?= htmlspecialchars($registration['exam_confirmation_le
 
                                     <td>
                                         <?php if (
-                                            $registration['registration_status'] === 'result_submitted' ||
+                                            ($registration['registration_status'] === 'result_submitted' ||
                                             $registration['registration_status'] === 'certificate_submitted'
+                                        )&& $registration['payment_receipt_status'] === 'accept' && $registration['exam_confirmation_letter_status'] === 'accept'
                                         ): ?>
+
+
+
+<?php if ($registration['exam_status'] === 'pass' ): ?>
+    <?php if ($registration['publish'] === 'published'): ?>
+
                                             <?php if (!empty($registration['certificate_path'])): ?>
                                                 <a href="<?= htmlspecialchars($registration['certificate_path']) ?>" class="btn btn-sm btn-info" onclick="return handleNotification('<?= $registration['registration_id'] ?>')" target="_blank">Download</a>
                                                 <?php if ($registration['notification'] == "1") { ?>
                                                     <span class="notification"></span>
                                                 <?php } ?>  
 
+	
+<?php if ($registration['certificate_status'] === 'pending' ): ?>
+	
 
-                                                <br><br>
+
+    <br><br>
 <button type="button" class="btn btn-sm btn-danger certificateUpdateButton" 
 data-toggle="modal" 
 data-target="#certificateUpdateModal"
@@ -741,17 +806,37 @@ data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason'
     </div>
 </div>
 
+    
+<?php elseif ($registration['certificate_status'] === 'reject' ): ?>   
+
+Please wait for Lecturer to reupload this Certificate
+<?php else: ?>
+<?php endif; ?>
 
 
 
 
+                <?php else: ?>
+                Please wait for lecturer to upload the Certificate.
+            <?php endif; ?>
+            <?php else: ?>
+        Certificate not available yet
+    <?php endif; ?>
+            
+<?php elseif ($registration['exam_status'] === 'fail' ): ?>   
+    <?php if ($registration['publish'] === 'published'): ?>
+	
+    Certificate not available due to failed exam
+                
+    <?php else: ?>
+        Certificate not available yet
+    <?php endif; ?>
+
+<?php else: ?>
+    Certificate not available yet
+<?php endif; ?>
 
 
-
-
-                                                <?php else: ?>
-                                                Please wait for lecturer to upload the Certificate.
-                                            <?php endif; ?>
                                         <?php else: ?>
                                             N/A
                                         <?php endif; ?>
@@ -1125,7 +1210,7 @@ data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason'
 
         //////////////////////////////////////////// Upload ///////////////////////////////////////
         // Display accurate information on modal table (Insert) JQuert
-        // Transaction
+        // Payment Invoice
         $('#uploadInvoiceModal').on('show.bs.modal', function(event) {
             // jQuery to update the hidden inputs in the modal when the button is clicked
             var button = $(event.relatedTarget); // Button that triggered the modal

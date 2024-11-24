@@ -173,6 +173,7 @@ $sql = "CREATE TABLE IF NOT EXISTS reg_ExamResult (
     result VARCHAR(255) NOT NULL,
     registration_id INT,
     publish ENUM('published', 'not_published') NOT NULL DEFAULT 'not_published',
+    status ENUM('pass', 'fail','pending') NOT NULL DEFAULT 'pending',
     FOREIGN KEY (registration_id) REFERENCES CertificationRegistrations(registration_id) ON DELETE CASCADE
 )";
 $conn->query($sql);
