@@ -57,9 +57,11 @@ if (!isset($_SESSION['lecturer_full_name'])) {
             $certStmt = $pdo->query("SELECT certification_id, certification_name, schedule FROM certifications");
             $certifications = $certStmt->fetchAll(PDO::FETCH_ASSOC);
             $certificationId = isset($_GET['certification']) ? $_GET['certification'] : null;
+            $resultStatus = isset($_GET['result_status']) ? $_GET['result_status'] : null;
+        
 
             $query = "
-SELECT r.registration_id, r.registration_status, r.created_at, r.updated_at, 
+SELECT r.registration_id, r.registration_status, r.result_status, r.created_at, r.updated_at, 
 r.student_id, r.certification_id, 
 s.email as studentemail,
 c.certification_name, s.full_name, c.schedule,
@@ -82,18 +84,34 @@ LEFT JOIN reg_examresult er ON r.registration_id = er.registration_id
 LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
     ";
 
-            // Add filter condition
+            /// Add filter conditions
+            $conditions = [];
             if ($certificationId) {
-                $query .= " WHERE r.certification_id = :certification_id";
+                $conditions[] = "r.certification_id = :certification_id";
+            }
+            if ($resultStatus) {
+                $conditions[] = "r.result_status = :result_status";
+            }
+
+            // If there are any filter conditions, add them to the query
+            if (count($conditions) > 0) {
+                $query .= " WHERE " . implode(" AND ", $conditions);
             }
 
             // FINALISE retrieve the query from database 
             $stmt = $pdo->prepare($query);
+
+            // Bind parameters
             if ($certificationId) {
                 $stmt->bindParam(':certification_id', $certificationId);
             }
+            if ($resultStatus) {
+                $stmt->bindParam(':result_status', $resultStatus);
+            }
+
             $stmt->execute();
             $registrations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
             exit();
@@ -101,20 +119,31 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
         ?>
         <div class="container-fluid  lec_overview_reg_main">
             <!-- Welcome Section -->
-            <!-- example -->
+             
+            <!-- Old filter (certification)
+            <label for="certification" class="mr-2">Filter by Certification:</label>
+                <select name="certification" id="certification" class="form-control mr-2">
+                    <option value="">All Certifications</option>
+                    <?php foreach ($certifications as $certification): ?>
+                        <option value="<?= htmlspecialchars($certification['certification_id']) ?>"
+                            <?= (isset($_GET['certification']) && $_GET['certification'] == $certification['certification_id']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($certification['certification_name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select> 
+                -->
             <!-- Filter Section -->
             <section class="filter mb-4">
                 <form method="GET" action="" class="form-inline">
-                    <label for="certification" class="mr-2">Filter by Certification:</label>
-                    <select name="certification" id="certification" class="form-control mr-2">
-                        <option value="">All Certifications</option>
-                        <?php foreach ($certifications as $certification): ?>
-                            <option value="<?= htmlspecialchars($certification['certification_id']) ?>"
-                                <?= (isset($_GET['certification']) && $_GET['certification'] == $certification['certification_id']) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($certification['certification_name']) ?>
-                            </option>
-                        <?php endforeach; ?>
+
+                    <label for="result_status" class="mr-2">Filter by Result Status:</label>
+                    <select name="result_status" id="result_status" class="form-control mr-2">
+                        <option value="">All Result Status</option>
+                        <option value="completed" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
+                        <option value="incomplete" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'incomplete') ? 'selected' : '' ?>>Incomplete</option>
+                        <option value="pending" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
                     </select>
+
                     <input type="submit" value="Filter" class="btn btn-primary">
                 </form>
             </section>
@@ -136,6 +165,7 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
                             <th>Exam Confirmation Letter</th>
                             <th>Exam Results</th>
                             <th>Certificate</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
 
@@ -1086,11 +1116,80 @@ Certificate is not available yet
                                             N/A
                                         <?php endif; ?>
                                     </td>
+
+<td>
+    <br>
+<button type="button" class="btn btn-sm btn-primary regresultstatusUpdateButton" 
+data-toggle="modal" 
+data-target="#regresultstatusUpdateModal"
+data-regresultstatus-id="<?= htmlspecialchars($registration['registration_id']) ?>"
+data-regresultstatus-status="<?= htmlspecialchars($registration['result_status']) ?>">
+    Action
+</button>
+<!-- Modal -->
+<div class="modal fade" id="regresultstatusUpdateModal" tabindex="-1" aria-labelledby="regresultstatusUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="update_registration_resultstatus.php" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="regresultstatusUpdateModalLabel">Change Registration Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Option</th>
+                                <th>Action</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Choose:</td>
+                                <td>
+                                    <div>
+                                        <input type="radio" name="regresultStatusOption" id="regcomplete" value="completed">
+                                        <label for="regcomplete">Completed</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="regresultStatusOption" id="regincomplete" value="incomplete">
+                                        <label for="regincomplete">Incomplete</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="regresultStatusOption" id="regpending" value="pending">
+                                        <label for="regpending">Pending</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Hidden fields to store data to be sent to upload php files -->
+                            <input type="hidden" name="registration_id" id="modalRegResultStatusID">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="regResultConfirmButton">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+
+
+
+
+</td>
+
+
+
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="11">No registrations found.</td>
+                                <td colspan="13">No registrations found.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -1121,6 +1220,7 @@ Certificate is not available yet
             const certificateReuploadButtons = document.querySelectorAll(".certificateReuploadButton");
             const transactionUpdateButtons = document.querySelectorAll(".transactionUpdateButton");
             const regFormUpdateButtons = document.querySelectorAll(".regFormUpdateButton");
+            const regresultstatusUpdateButtons = document.querySelectorAll(".regresultstatusUpdateButton");
 
             //////////////////////////////////////////// Upload ///////////////////////////////////////
             // Exam Result
@@ -1334,7 +1434,17 @@ Certificate is not available yet
             });
 
 
+            //////// Update Regstration Result Status
+            // Update Registration Result
+            regresultstatusUpdateButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const regResultUpdateID = this.getAttribute("data-regresultstatus-id") || "";
+                    const regResultStatus = this.getAttribute("data-regresultstatus-status") || "";
 
+                    document.getElementById("modalRegResultStatusID").value = regResultUpdateID;
+                    document.getElementById("modalregResultStatus").value = regResultStatus;
+                });
+            });
 
 
 
@@ -1505,6 +1615,7 @@ Certificate is not available yet
                     }
                 });
             });
+
         });
 
 
@@ -1529,6 +1640,33 @@ Certificate is not available yet
                 });
             });
         });
+
+        // Registration Result Status
+        $(document).ready(function() {
+            // Use event delegation for dynamically added elements
+            $(document).on('show.bs.modal', '#regresultstatusUpdateModal', function(event) {
+                var button = $(event.relatedTarget); 
+                var regResultId = button.data('regresultstatus-id'); 
+                var regResultStatus = button.data('regresultstatus-status'); 
+
+                var modal = $(this);
+                
+                modal.find('#modalRegResultStatusID').val(regResultId); 
+
+                // Set radio button
+                modal.find('input[type=radio][name=regresultStatusOption]').each(function() {
+                    if ($(this).val() === regResultStatus) {
+                        $(this).prop('checked', true);
+                    } else {
+                        $(this).prop('checked', false);
+                    }
+                });
+            });
+        });
+
+
+
+        
 
         ////////////////////////////////// Reupload Files (Show Reason Input When Reject) /////////////////////////////////////////
         // JavaScript to toggle reason text box

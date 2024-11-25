@@ -10,15 +10,15 @@
     <nav>
         <ul>
             <li><a href="admin_dashboard.php" class="<?php echo isset($pageAdminHomeActive) ? $pageAdminHomeActive : 'nothing'; ?>">Home</a></li>
-            <li><a href="admin_request.php" class="<?php echo isset($pageAdminRegActive) ? $pageAdminRegActive : 'nothing'; ?>">Registration Management</a></li>
-            <li><a href="admin_password.php" class="<?php echo isset($pageAdminPassActive) ? $pageAdminPassActive : 'nothing'; ?>">Password Management</a></li>
+            <li><a href="admin_request.php" class="<?php echo isset($pageAdminRegActive) ? $pageAdminRegActive : 'nothing'; ?>">Lecturer Verification</a></li>
             <li class="dropdown">
-                <a href="#" class="<?php echo isset($pageProfileActive) ? $pageProfileActive : 'nothing'; ?>">Profile</a>
-                <div class="dropdown_menu">
-                    <a href="admin_profile.php" >My Profile</a>
-                    <a href="logout.php">Logout</a>
+                <a href="#" class="<?php echo isset($pageAdminPassActive) ? $pageAdminPassActive : 'nothing'; ?>">Account Management</a>
+                <div class="dropdown_menu_admin">
+                    <a href="admin_management_stuacc.php">Student</a>
+                    <a href="admin_management_lecacc.php" >Lecturer</a>
                 </div>
-            </li>                  
+            </li>     
+            <li><a href="logout.php">Logout</a></li>             
         </ul>
     </nav>
 </header>

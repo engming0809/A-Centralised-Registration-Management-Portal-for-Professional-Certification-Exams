@@ -267,7 +267,7 @@ if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
                         required 
                         placeholder="Enter your Place of Birth"
                         title="Please enter alphabetic characters and commas (spaces allowed)."
-                        pattern="[A-Za-z\s,]+" maxlength="35">
+                        pattern="[A-Za-z\s,]+" maxlength="35" oninput="toUpperCase(this)" >
                 </div>
                 <div class="form-group">
                     <label>Race:</label><br>

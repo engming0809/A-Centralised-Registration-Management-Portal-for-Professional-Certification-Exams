@@ -108,6 +108,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS CertificationRegistrations (
     registration_id INT AUTO_INCREMENT PRIMARY KEY,
     registration_status VARCHAR(255),
+    result_status ENUM('completed', 'incomplete', 'pending') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     student_id INT,

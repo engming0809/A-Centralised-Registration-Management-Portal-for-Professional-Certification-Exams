@@ -155,8 +155,6 @@ Register Now
     </div>
     <?php 
     
-            // Print out the session information
-            echo "<p>Certification ID: " . htmlspecialchars($certificationId) . "</p>";
     ?>
     
 </main>

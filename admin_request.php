@@ -35,7 +35,7 @@ $result = $conn->query($sql);
         $pageAdminRegActive = "pageAdminRegActive";
         include 'include/admin_main_header.php';
     ?>
-<div class="container mt-5">
+<div class="adminapprovelecturermain container mt-5">
     <h2>Pending Lecturer Registrations</h2>
     <table class="table">
         <thead>
