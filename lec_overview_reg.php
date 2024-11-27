@@ -155,9 +155,9 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
                         <tr>
                             <th>ID</th>
                             <th>Student ID</th>
-                            <th>Schedule</th>
-                            <th>Certificate Name</th>
                             <th>Student Name</th>
+                            <th>Certificate Name</th>
+                            <th>Register Since</th>
                             <th>Registration Form</th>
                             <th>Payment Invoice</th>
                             <th>Transaction Slip</th>
@@ -185,14 +185,14 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
                                         <span class="short-email"><?= substr($studentEmail, 0, 9) ?></span>  <!-- Display only the first 9 characters -->
                                         <button class="copy-button btn btn-sm btn-info" onclick="copyEmail('<?= $studentEmail ?>')">Copy Email</button>
                                     </td>
+                                    <td><?= htmlspecialchars($registration['full_name'] ?? 'N/A') ?></td>
 
 
+                                    <td><?= htmlspecialchars($registration['certification_name']) ?></td>
                                     <td><?php
-                                        $schedule = new DateTime($registration['schedule']);
+                                        $schedule = new DateTime($registration['created_at']);
                                         echo htmlspecialchars($schedule->format('m/d/Y, h:i A'));?>
                                     </td>
-                                    <td><?= htmlspecialchars($registration['certification_name']) ?></td>
-                                    <td><?= htmlspecialchars($registration['full_name'] ?? 'N/A') ?></td>
 
                                     <td>
                                         <?php if (

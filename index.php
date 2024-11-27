@@ -29,7 +29,7 @@
             <!-- Description and Buttons -->
             <div class="col-md-6">
                 <div class="description">
-                    <h2>Welcome to the Centralised Registration Portal</h2>
+                    <h2>Welcome to the Certification Registration Portal</h2>
                     <p>Choose your role below to manage your professional certification journey. Whether you're a student looking to register for exams or a lecturer overseeing the certification process, our platform simplifies every step. Log in or register to get started!</p>
 
                     <div class="home_button_container">
