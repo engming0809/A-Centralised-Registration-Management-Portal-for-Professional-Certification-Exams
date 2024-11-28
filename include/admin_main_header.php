@@ -10,7 +10,6 @@
     <nav>
         <ul>
             <li><a href="admin_dashboard.php" class="<?php echo isset($pageAdminHomeActive) ? $pageAdminHomeActive : 'nothing'; ?>">Home</a></li>
-            <li><a href="admin_request.php" class="<?php echo isset($pageAdminRegActive) ? $pageAdminRegActive : 'nothing'; ?>">Lecturer Verification</a></li>
             <li class="dropdown">
                 <a href="#" class="<?php echo isset($pageAdminPassActive) ? $pageAdminPassActive : 'nothing'; ?>">Account Management</a>
                 <div class="dropdown_menu_admin">

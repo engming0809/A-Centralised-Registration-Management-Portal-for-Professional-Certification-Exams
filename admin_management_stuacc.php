@@ -81,29 +81,59 @@
             $query = "INSERT INTO Student (email, full_name, status, biography) VALUES ('$email', '$fullName', '$status', '$biography')";
             mysqli_query($conn, $query);
 
-            // Insert the user into the account_table (only necessary if accounts are separate)
-            $password = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : password_hash("defaultPassword", PASSWORD_DEFAULT); // Hash password
-            $query = "INSERT INTO account_table (email, password) VALUES ('$email', '$password')";
-            mysqli_query($conn, $query);
-
             $conn->close();
             echo "<script>alert('Student Added successfully!'); window.location.href = 'admin_management_stuacc.php';</script>";
         }
     }
 
-    // Handle Delete User (GET)
+   // Handle Delete User (GET)
     if (isset($_GET['delete'])) {
         $email = $_GET['delete'];
+
+        // Get the student_id for the email to ensure we delete the correct student
+        $result = mysqli_query($conn, "SELECT student_id FROM Student WHERE email = '$email'");
+        $row = mysqli_fetch_assoc($result);
+        $student_id = $row['student_id'];
+
+        // Delete related records in reg_registrationform first (to avoid foreign key constraint)
+        $query = "DELETE FROM reg_registrationform WHERE registration_id IN (SELECT registration_id FROM certificationregistrations WHERE student_id = '$student_id')";
+        mysqli_query($conn, $query);
+
+        $query = "DELETE FROM reg_PaymentInvoice WHERE registration_id IN (SELECT registration_id FROM certificationregistrations WHERE student_id = '$student_id')";
+        mysqli_query($conn, $query);
+        
+        $query = "DELETE FROM reg_TransactionSlip WHERE registration_id IN (SELECT registration_id FROM certificationregistrations WHERE student_id = '$student_id')";
+        mysqli_query($conn, $query);
+
+        $query = "DELETE FROM reg_PaymentReceipt WHERE registration_id IN (SELECT registration_id FROM certificationregistrations WHERE student_id = '$student_id')";
+        mysqli_query($conn, $query);
+
+        
+        $query = "DELETE FROM reg_ExamConfirmationLetter WHERE registration_id IN (SELECT registration_id FROM certificationregistrations WHERE student_id = '$student_id')";
+        mysqli_query($conn, $query);
+
+        
+        $query = "DELETE FROM reg_ExamResult WHERE registration_id IN (SELECT registration_id FROM certificationregistrations WHERE student_id = '$student_id')";
+        mysqli_query($conn, $query);
+
+        
+        $query = "DELETE FROM reg_Certificate WHERE registration_id IN (SELECT registration_id FROM certificationregistrations WHERE student_id = '$student_id')";
+        mysqli_query($conn, $query);
+
+        // Delete from certificationregistrations table
+        $query = "DELETE FROM certificationregistrations WHERE student_id = '$student_id'";
+        mysqli_query($conn, $query);
 
         // Delete student from Student table
         $query = "DELETE FROM Student WHERE email = '$email'";
         mysqli_query($conn, $query);
 
-        // Redirect back to the user management page (optional)
+        // Redirect back to the user management page
         $conn->close();
         header("Location: admin_management_stuacc.php");
         exit;
     }
+
 
     // Fetch Students to display in the table
     $query = "SELECT * FROM Student"; // Query updated to use 'Student' table
@@ -175,7 +205,11 @@
                     </div>
                     <div class="modal-body">
                         <form id="userForm" action="admin_management_stuacc.php" method="POST">
-                            <input type="hidden" id="userEmail" name="email">
+                            <!-- <input type="hidden" id="userEmail" name="email"> -->
+                            <div class="form-group">
+                                <label for="userEmail">Email</label>
+                                <input type="text" class="form-control" id="userEmail" name="email" required>
+                            </div>
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
                                 <input type="text" class="form-control" id="fullName" name="full_name" required>
@@ -209,11 +243,6 @@
     </section>
 
 </main>
-
-<!-- Footer -->
-<?php
-include 'include/footer.php';
-?>
 
 <!-- JavaScript for handling deletion, retrieve and display value for modal table-->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
