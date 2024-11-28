@@ -908,10 +908,9 @@ header nav ul li.dropdown:hover .dropdown_menu, header nav ul li.dropdown:hover 
 
 .signaturecontainer_main {
     border-radius: 8px;
-    max-width: 300px !important;
+    max-width: 200px !important;
     margin-bottom: 30px;
     transition: all 0.3s ease; /* Smooth transition for hover effects */
-    
 }
 
 .signature-container {
@@ -1160,3 +1159,62 @@ footer a:hover{
 }
 
 
+/* deadline warning */
+.near-deadline {
+    color: red;
+    font-weight: bold;
+}
+
+.far-deadline {
+    font-weight: bold;
+}
+
+.expired {
+    color: gray;
+    text-decoration: line-through;
+}
+
+
+/* incomplete or completed row for student */
+.non-interactable {
+    pointer-events: none; /* Disable all interactions */
+    background-color: #e9ecef; /* Light gray background for better visibility */
+    position: relative; /* For overlay styling */
+    opacity: 0.8; /* Keep the text fully visible */
+}
+
+/* Add a diagonal line overlay */
+.non-interactable::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 10px,
+        rgba(0, 0, 0, 0.05) 10px,
+        rgba(0, 0, 0, 0.05) 20px
+    );
+    pointer-events: none; /* Overlay does not block interactions */
+}
+
+/* Optional: Add a tooltip effect for non-interactable rows */
+.non-interactable:hover {
+    cursor: not-allowed;
+}
+
+.non-interactable:hover::before {
+    content: 'This row is non-interactable';
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    padding: 2px 8px;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+}

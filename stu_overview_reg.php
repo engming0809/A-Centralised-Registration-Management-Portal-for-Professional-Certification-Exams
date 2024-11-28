@@ -65,7 +65,8 @@ if (!isset($_SESSION['student_full_name'])) {
             $query = "
         SELECT r.registration_id, r.registration_status, r.result_status, r.created_at, r.updated_at, 
             r.student_id, r.certification_id, 
-            c.certification_name, s.full_name, 
+            c.certification_name, s.full_name, c.schedule,
+    DATEDIFF(c.schedule, CURRENT_DATE) AS deadline,
             rf.form_id, rf.filepath AS registration_form_path, rf.status AS registration_form_status, rf.reason AS registration_form_reason,
             pi.invoice_id, pi.filepath AS payment_invoice_path, pi.status AS payment_invoice_status, pi.reason AS payment_invoice_reason,
             ts.transaction_id, ts.filepath AS transaction_slip_path, ts.status AS transaction_slip_status, ts.reason AS transaction_slip_reason,
@@ -140,6 +141,17 @@ if (!isset($_SESSION['student_full_name'])) {
             unset($_SESSION['certification_id']);
         }
 
+        
+        // Check if result_status is not set in the query parameters
+        if (!isset($_GET['result_status'])) {
+            // Redirect to the same page with the default filter applied
+            header("Location: " . $_SERVER['PHP_SELF'] . "?result_status=pending");
+            exit();
+        }
+
+        // Set the default value for result_status based on the query parameter
+        $result_status = $_GET['result_status'];
+
         ?>
         <div class="container-fluid  lec_overview_reg_main">
             <!-- Welcome Section -->
@@ -147,13 +159,12 @@ if (!isset($_SESSION['student_full_name'])) {
             <!-- Filter Section -->
             <section class="filter mb-4">
                 <form method="GET" action="" class="form-inline">
-
                     <label for="result_status" class="mr-2">Filter by Result Status:</label>
                     <select name="result_status" id="result_status" class="form-control mr-2">
-                        <option value="">All Result Status</option>
-                        <option value="completed" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
-                        <option value="incomplete" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'incomplete') ? 'selected' : '' ?>>Incomplete</option>
-                        <option value="pending" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                        <option value="" <?= ($result_status == '') ? 'selected' : '' ?>>All Result Status</option>
+                        <option value="pending" <?= ($result_status == 'pending') ? 'selected' : '' ?>>Pending</option>
+                        <option value="completed" <?= ($result_status == 'completed') ? 'selected' : '' ?>>Completed</option>
+                        <option value="incomplete" <?= ($result_status == 'incomplete') ? 'selected' : '' ?>>Incomplete</option>
                     </select>
 
                     <input type="submit" value="Filter" class="btn btn-primary">
@@ -167,6 +178,7 @@ if (!isset($_SESSION['student_full_name'])) {
                         <tr>
                             <th>ID</th>
                             <th>Certificate Name</th>
+                            <th>Schedule</th>
                             <th>Registration Form</th>
                             <th>Payment Invoice</th>
                             <th>Transaction Slip</th>
@@ -180,9 +192,30 @@ if (!isset($_SESSION['student_full_name'])) {
                     <tbody>
                         <?php if (!empty($registrations)): ?>
                             <?php foreach ($registrations as $registration): ?>
-                                <tr>
+                                <tr  class="<?= in_array($registration['result_status'], ['incomplete', 'completed']) ? 'non-interactable' : '' ?>">
                                     <td><?= htmlspecialchars($registration['registration_id']) ?></td>
                                     <td><?= htmlspecialchars($registration['certification_name']) ?></td>
+                                    <td>
+                                        <?php 
+                                        $dateTime = new DateTime($registration["schedule"]); 
+                                        $deadline = $registration['deadline']; // Assuming this is the number of days left
+                                        if ($deadline < 0) {
+                                            $deadlineText = "Expired";
+                                            $deadlineClass = "expired"; // Optional class for expired items
+                                        } elseif ($deadline <= 3) {
+                                            $deadlineText = $deadline . " day(s) left";
+                                            $deadlineClass = "near-deadline"; // Class for deadlines within 3 days
+                                        } else {
+                                            $deadlineText = $deadline . " day(s) left";
+                                            $deadlineClass = "far-deadline"; // No special class
+                                        }
+                                        ?>
+                                        <?= htmlspecialchars($dateTime->format('m/d/Y, h:i A')) ?>
+                                        <br><br>
+                                        <span class="<?= htmlspecialchars($deadlineClass) ?>">
+                                            <?= htmlspecialchars($deadlineText) ?>
+                                        </span>
+                                    </td>
                                     <td>
                                         <?php if (
                                             $registration['registration_status'] === 'form_submitted' ||
@@ -236,12 +269,12 @@ data-reregform-filepath="<?= htmlspecialchars($registration['registration_form_p
 							<label class="col-form-label">Refill Form:</label>
 						</div>
 						<div class="col-md-8">
-                            <a href="stu_overview_cert_form.php?regform_id=<?= htmlspecialchars($registration['form_id']) ?>" class="btn btn-danger">Fill Form</a>
+                            <!---------- Hidden fields ------->
+                            <input type="hidden" name="regform_id" id="modalReuploadRegFormId">
+                            <!-------------------------------->
+                            <button type="submit" class="btn btn-primary" id="confirmButton">Confirm</button>
                         </div>
 					</div>
-					<!---------- Hidden fields ------->
-					<input type="hidden" name="form_id" id="modalReuploadRegFormId">
-					<!-------------------------------->
 				</form>
 			</div>
 		</div>
@@ -875,7 +908,7 @@ Please wait for Lecturer to reupload this Certificate
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="9">No registrations found.</td>
+                                <td colspan="10">No registrations found.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

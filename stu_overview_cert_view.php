@@ -33,122 +33,100 @@
 <div class="stu_overview_cert_view">
 <div class="container">
         <div class="certification-details">
-            <?php
+            
 
-            // Database credentials
-            $servername = 'localhost';  
-            $db = 'cert_reg_management_db';  
-            $user = 'root';  
-            $pass = '';  
+<?php
+// Database credentials
+$servername = 'localhost';  
+$db = 'cert_reg_management_db';  
+$user = 'root';  
+$pass = '';  
 
-            // Create a connection
-            $conn = new mysqli($servername, $user, $pass, $db);
+// Create a connection
+$conn = new mysqli($servername, $user, $pass, $db);
 
-            // Check the connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-            // Get the certification name from the URL
-            if (isset($_GET['cert_name'])) {
-                $cert_name = $conn->real_escape_string(urldecode($_GET['cert_name']));
+// Get the certification name from the URL
+if (isset($_GET['cert_name'])) {
+    $cert_name = $conn->real_escape_string(urldecode($_GET['cert_name']));
 
-                // SQL query to fetch the certification details
-                $sql = "SELECT certification_name, description, requirements, schedule, cost FROM certifications WHERE certification_name='$cert_name'";
-                $result = $conn->query($sql);
+    // SQL query to fetch the certification details
+    $sql = "SELECT certification_id, certification_name, description, requirements, schedule, cost FROM certifications WHERE certification_name='$cert_name'";
+    $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    // Output data for the selected certification
-                    $row = $result->fetch_assoc();
+    if ($result->num_rows > 0) {
+        // Output data for the selected certification
+        $row = $result->fetch_assoc();
+        
+        // Get the certification ID
+        $certificationID = $row['certification_id'];
+    } else {
+        echo "<p class='text-danger'>No details found for this certification.</p>";
+        exit();
+    }
+} else {
+    echo "<p class='text-danger'>No certification specified.</p>";
+    exit();
+}
+
+// Check if the session variables are set
+if (isset($_SESSION['student_id']) ) {
+    // Retrieve the values from the session
+    $studentId = $_SESSION['student_id'];
+    $studentname = $_SESSION['student_full_name']; 
+
+} else {
+    // Handle the case where session variables are not set
+    echo "<p>No session information available.</p>";
+}
+
+// Close the connection
+$conn->close();
+?>
+
+
+
+    <!-- Certification Details Table -->
+    <h1 class="text-center my-4"><?php echo htmlspecialchars($row['certification_name']); ?></h1>
+    <table class="table table-bordered table-striped shadow-sm">
+        <tbody>
+            <tr class="align-middle">
+                <th scope="row"><i class="fas fa-info-circle text-primary"></i> Description:</th>
+                <td class="text-muted"><?php echo htmlspecialchars($row['description']); ?></td>
+            </tr>
+            <tr class="align-middle">
+                <th scope="row"><i class="fas fa-check-circle text-success"></i> Requirements:</th>
+                <td class="text-muted"><?php echo htmlspecialchars($row['requirements']); ?></td>
+            </tr>
+            <tr class="align-middle">
+                <th scope="row"><i class="fas fa-calendar-alt text-warning"></i> Schedule:</th>
+                <td class="text-muted">
+                    <?php 
+                    // Assuming $row['schedule'] contains a datetime string
+                    $schedule = $row['schedule'];
+                    $date = new DateTime($schedule);
+                    echo $date->format('F j, Y h:i A'); // Example: November 23, 2024 04:30 PM
                     ?>
-                    
-        <h1 class="text-center my-4"><?php echo htmlspecialchars($row['certification_name']); ?></h1>
-<table class="table table-bordered table-striped shadow-sm">
-    <tbody>
-        <tr class="align-middle">
-            <th scope="row"><i class="fas fa-info-circle text-primary"></i> Description:</th>
-            <td class="text-muted"><?php echo htmlspecialchars($row['description']); ?></td>
-        </tr>
-        <tr class="align-middle">
-            <th scope="row"><i class="fas fa-check-circle text-success"></i> Requirements:</th>
-            <td class="text-muted"><?php echo htmlspecialchars($row['requirements']); ?></td>
-        </tr>
-        <tr class="align-middle">
-            <th scope="row"><i class="fas fa-calendar-alt text-warning"></i> Schedule:</th>
-            <td class="text-muted">
-                <?php 
-                // Assuming $row['schedule'] contains a datetime string
-                $schedule = $row['schedule'];
-                
-                // Create a DateTime object from the string
-                $date = new DateTime($schedule);
-                
-                // Format the date as Month Day, Year, and AM/PM time
-                echo $date->format('F j, Y h:i A'); // Example: November 23, 2024 04:30 PM
-                ?>
-            </td>
-        </tr>
+                </td>
+            </tr>
+            <tr class="align-middle">
+                <th scope="row"><i class="fas fa-dollar-sign text-danger"></i> Cost:</th>
+                <td class="text-muted">RM <?php echo htmlspecialchars($row['cost']); ?></td>
+            </tr>
+        </tbody>
+    </table>
 
-        <tr class="align-middle">
-            <th scope="row"><i class="fas fa-dollar-sign text-danger"></i> Cost:</th>
-            <td class="text-muted">RM <?php echo htmlspecialchars($row['cost']); ?></td>
-        </tr>
-    </tbody>
-</table>
+    <!-- Registration Button -->
+    <a class="btn btn-primary" href="stu_overview_cert_form.php?certificationID=<?php echo urlencode($certificationID); ?>"> 
+        Register Now
+    </a>
 
-<a class="btn btn-primary" href='stu_overview_cert_form.php'>
-Register Now
-</a>
-<a class="btn btn-secondary" href='stu_overview_cert.php'>Return</a>
-
-
-
-
-                    <?php
-                } else {
-                    echo "<p class='text-danger'>No details found for this certification.</p>";
-                }
-            } else {
-                echo "<p class='text-danger'>No certification specified.</p>";
-            }
-
-///////////////////////////////////////////////// Check if the certification name is provided//////////////////////////////
-        if (isset($_GET['cert_name'])) {
-            $certName = $_GET['cert_name'];
-            // Prepare the SQL statement to retrieve the ID
-            $stmt = $conn->prepare("SELECT certification_id FROM certifications WHERE certification_name = ?");
-            $stmt->bind_param("s", $certName); // Use "s" for string
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            // Check if the certification exists
-            if ($result->num_rows > 0) {
-                // Fetch the certification ID
-                $row = $result->fetch_assoc();
-                $_SESSION['certification_id'] = $row['certification_id']; // Store the ID in the session
-            } else {
-                // Handle the case where the certification does not exist
-                echo "Certification not found.";
-            }
-        }
-
-        // Check if the session variables are set
-        if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
-            // Retrieve the values from the session
-            $studentId = $_SESSION['student_id'];
-            $certificationId = $_SESSION['certification_id'];
-            $studentname = $_SESSION['student_full_name']; 
-
-        } else {
-            // Handle the case where session variables are not set
-            echo "<p>No session information available.</p>";
-        }
-
-        ///////////////////////////////////////////////// Check if the certification name is provided//////////////////////////////
-
-                // Close the connection
-                $conn->close();
-            ?>
+    <!-- Return Button -->
+    <a class="btn btn-secondary" href='stu_overview_cert.php'>Return</a>
 
         </div>
     </div>

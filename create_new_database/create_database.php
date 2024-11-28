@@ -190,6 +190,17 @@ $sql = "CREATE TABLE IF NOT EXISTS reg_Certificate (
 $conn->query($sql);
 
 
+
+
+$sql = "CREATE TABLE form_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    form_data JSON NOT NULL,
+    form_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$conn->query($sql);
+
 $conn->close();
 ?>
 

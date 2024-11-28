@@ -64,7 +64,8 @@ if (!isset($_SESSION['lecturer_full_name'])) {
 SELECT r.registration_id, r.registration_status, r.result_status, r.created_at, r.updated_at, 
 r.student_id, r.certification_id, 
 s.email as studentemail,
-c.certification_name, s.full_name, c.schedule,
+c.certification_name, s.full_name,  c.schedule,
+DATEDIFF(c.schedule, CURRENT_DATE) AS deadline,
 rf.form_id, rf.filepath AS registration_form_path, rf.status AS registration_form_status, rf.reason AS registration_form_reason,
 pi.invoice_id, pi.filepath AS payment_invoice_path, pi.status AS payment_invoice_status, pi.reason AS payment_invoice_reason,
 ts.transaction_id, ts.filepath AS transaction_slip_path, ts.status AS transaction_slip_status, ts.reason AS transaction_slip_reason,
@@ -116,32 +117,30 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
             echo "Connection failed: " . $e->getMessage();
             exit();
         }
+
+        // Check if result_status is not set in the query parameters
+        if (!isset($_GET['result_status'])) {
+            // Redirect to the same page with the default filter applied
+            header("Location: " . $_SERVER['PHP_SELF'] . "?result_status=pending");
+            exit();
+        }
+
+        // Set the default value for result_status based on the query parameter
+        $result_status = $_GET['result_status'];
+
         ?>
         <div class="container-fluid  lec_overview_reg_main">
             <!-- Welcome Section -->
              
-            <!-- Old filter (certification)
-            <label for="certification" class="mr-2">Filter by Certification:</label>
-                <select name="certification" id="certification" class="form-control mr-2">
-                    <option value="">All Certifications</option>
-                    <?php foreach ($certifications as $certification): ?>
-                        <option value="<?= htmlspecialchars($certification['certification_id']) ?>"
-                            <?= (isset($_GET['certification']) && $_GET['certification'] == $certification['certification_id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($certification['certification_name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select> 
-                -->
             <!-- Filter Section -->
             <section class="filter mb-4">
                 <form method="GET" action="" class="form-inline">
-
                     <label for="result_status" class="mr-2">Filter by Result Status:</label>
                     <select name="result_status" id="result_status" class="form-control mr-2">
-                        <option value="">All Result Status</option>
-                        <option value="completed" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
-                        <option value="incomplete" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'incomplete') ? 'selected' : '' ?>>Incomplete</option>
-                        <option value="pending" <?= (isset($_GET['result_status']) && $_GET['result_status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                        <option value="" <?= ($result_status == '') ? 'selected' : '' ?>>All Result Status</option>
+                        <option value="pending" <?= ($result_status == 'pending') ? 'selected' : '' ?>>Pending</option>
+                        <option value="completed" <?= ($result_status == 'completed') ? 'selected' : '' ?>>Completed</option>
+                        <option value="incomplete" <?= ($result_status == 'incomplete') ? 'selected' : '' ?>>Incomplete</option>
                     </select>
 
                     <input type="submit" value="Filter" class="btn btn-primary">
@@ -157,7 +156,7 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
                             <th>Student ID</th>
                             <th>Student Name</th>
                             <th>Certificate Name</th>
-                            <th>Register Since</th>
+                            <th>Schedule</th>
                             <th>Registration Form</th>
                             <th>Payment Invoice</th>
                             <th>Transaction Slip</th>
@@ -189,9 +188,27 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
 
 
                                     <td><?= htmlspecialchars($registration['certification_name']) ?></td>
-                                    <td><?php
-                                        $schedule = new DateTime($registration['created_at']);
-                                        echo htmlspecialchars($schedule->format('m/d/Y, h:i A'));?>
+                                    
+                                    <td>
+                                        <?php 
+                                        $dateTime = new DateTime($registration["schedule"]); 
+                                        $deadline = $registration['deadline']; // Assuming this is the number of days left
+                                        if ($deadline < 0) {
+                                            $deadlineText = "Expired";
+                                            $deadlineClass = "expired"; // Optional class for expired items
+                                        } elseif ($deadline <= 3) {
+                                            $deadlineText = $deadline . " day(s) left";
+                                            $deadlineClass = "near-deadline"; // Class for deadlines within 3 days
+                                        } else {
+                                            $deadlineText = $deadline . " day(s) left";
+                                            $deadlineClass = "far-deadline"; // No special class
+                                        }
+                                        ?>
+                                        <?= htmlspecialchars($dateTime->format('m/d/Y, h:i A')) ?>
+                                        <br><br>
+                                        <span class="<?= htmlspecialchars($deadlineClass) ?>">
+                                            <?= htmlspecialchars($deadlineText) ?>
+                                        </span>
                                     </td>
 
                                     <td>

@@ -151,80 +151,102 @@
 
 
 ///////////////////////////////////////////////// Check if the certification name is provided//////////////////////////////
-session_start();
 
-// Check if the certification name is provided
-if (isset($_GET['cert_name'])) {
-    $certName = $_GET['cert_name'];
-    // Prepare the SQL statement to retrieve the ID
-    $stmt = $conn->prepare("SELECT certification_id FROM certifications WHERE certification_name = ?");
-    $stmt->bind_param("s", $certName); // Use "s" for string
-    $stmt->execute();
-    $result = $stmt->get_result();
 
-    // Check if the certification exists
-    if ($result->num_rows > 0) {
-        // Fetch the certification ID
-        $row = $result->fetch_assoc();
-        $_SESSION['certification_id'] = $row['certification_id']; // Store the ID in the session
-    } else {
-        // Handle the case where the certification does not exist
-        echo "Certification not found.";
-        exit; // Exit the script if the certification is not found
-    }
-}
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     // Serialize form data (using JSON in this example)
+//     $form_data = json_encode($_POST);
+//     $studentId = $_SESSION['student_id'];
+//     $user_id = $studentId;
+
+//     // Assuming you have a database connection $conn and a user_id to associate the data
+//     $sql = "INSERT INTO form_data (user_id, form_data) VALUES ('$user_id', '$form_data')";
+    
+//     if (mysqli_query($conn, $sql)) {
+//         echo "Data saved successfully!";
+//     } else {
+//         echo "Error: " . mysqli_error($conn);
+//     }
+// }
+
 
 
 
 // To allow new form added
-if (isset($_SESSION['student_id']) && isset($_SESSION['certification_id'])) {
+if (isset($_SESSION['student_id'])) {
     // Retrieve the values from the session
     $studentId = $_SESSION['student_id'];
-    $certificationId = $_SESSION['certification_id'];
     $studentname = $_SESSION['student_full_name']; 
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $certificationID = $_POST['new_upload_form_id'];
+        $formID = $_POST['reupload_form_id'];
+        if (!empty($certificationID)){
+            // Step 1: Insert into CertificationRegistrations
+            $stmt = $conn->prepare("INSERT INTO CertificationRegistrations (registration_status, student_id, certification_id) VALUES (?, ?, ?)");
+            $status = 'form_submitted';
+            $stmt->bind_param("sii", $status, $studentId, $certificationID);
+            
+            // After successfully processing the form and before the closing PHP tag
+            if ($stmt->execute()) {
+                // Step 2: Get the last inserted ID
+                $registrationId = $conn->insert_id; // Get the ID of the newly inserted registration
 
-    // Step 1: Insert into CertificationRegistrations
-    $stmt = $conn->prepare("INSERT INTO CertificationRegistrations (registration_status, student_id, certification_id) VALUES (?, ?, ?)");
-    $status = 'form_submitted';
-    $stmt->bind_param("sii", $status, $studentId, $certificationId);
+                // Now insert into reg_registrationform with the last inserted ID
+                $stmt = $conn->prepare("INSERT INTO reg_registrationform (filepath, registration_id) VALUES (?, ?)");
+                $stmt->bind_param("si", $outputPDF, $registrationId);
+                
+                if ($stmt->execute()) {
+                    $formnewId = $conn->insert_id;
+                    $form_data = json_encode($_POST);
+                    $user_id = $studentId;
+
+                    $formsql = "INSERT INTO form_data (user_id, form_data, form_id) VALUES ('$user_id', '$form_data', '$formnewId')";
+                    
+                    if (mysqli_query($conn, $formsql)) {
+                        echo "Data saved successfully!";
+                    } else {
+                        echo "Error: " . mysqli_error($conn);
+                    }
+
+                    echo "<script>alert('Form submitted successfully.'); window.location.href='stu_overview_cert.php';</script>";
+                    exit; // Ensure the script stops after this
+                } else {
+                    echo "<script>alert('Error inserting record into reg_registrationform: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
+                    exit; // Ensure the script stops after this
+                }
+            } else {
+                echo "<script>alert('Error inserting record into CertificationRegistrations: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
+                exit; // Ensure the script stops after this
+            }
+        }elseif (!empty($formID)){
+            $stmt = $conn->prepare("UPDATE reg_RegistrationForm SET filepath = ?, status = ? WHERE form_id = ?");
+            $status = 'pending'; 
+            $stmt->bind_param("ssi", $outputPDF, $status, $formID);
     
-    // After successfully processing the form and before the closing PHP tag
-    if ($stmt->execute()) {
-        // Step 2: Get the last inserted ID
-        $registrationId = $conn->insert_id; // Get the ID of the newly inserted registration
+            // Execute the query and check if it's successful
+            if ($stmt->execute()) {
+                $formnewId = $formID;
+                $form_data = json_encode($_POST);
+                $user_id = $studentId;
 
-        // Now insert into reg_registrationform with the last inserted ID
-        $stmt = $conn->prepare("INSERT INTO reg_registrationform (filepath, registration_id) VALUES (?, ?)");
-        $stmt->bind_param("si", $outputPDF, $registrationId);
-        
-        if ($stmt->execute()) {
-            // Use JavaScript to show an alert and redirect
-            echo "<script>alert('Form submitted successfully.'); window.location.href='stu_overview_cert.php';</script>";
-            exit; // Ensure the script stops after this
-        } else {
-            echo "<script>alert('Error inserting record into reg_registrationform: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
-            exit; // Ensure the script stops after this
+                $formsql = "UPDATE form_data SET form_data = '$form_data', form_id = '$formnewId' WHERE user_id = '$user_id'";
+                
+                if (mysqli_query($conn, $formsql)) {
+                    echo "Data saved successfully!";
+                } else {
+                    echo "Error: " . mysqli_error($conn);
+                }
+
+
+                echo "<script>alert('Form Reupload successfully.'); window.location.href='stu_overview_reg.php';</script>";
+                exit;
+            } else {
+                // Handle any errors (optional)
+                echo "Error updating record: " . $stmt->error;
+            }
         }
-    } else {
-        echo "<script>alert('Error inserting record into CertificationRegistrations: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";
-        exit; // Ensure the script stops after this
     }
     //To reupload form
-} elseif(isset($_SESSION['form_id'])){
-    $formID = $_SESSION['form_id'];
-    
-    $stmt = $conn->prepare("UPDATE reg_RegistrationForm SET filepath = ?, status = ? WHERE form_id = ?");
-    $status = 'pending'; 
-    $stmt->bind_param("ssi", $outputPDF, $status, $formID);
-
-    // Execute the query and check if it's successful
-    if ($stmt->execute()) {
-        echo "<script>alert('Form Reupload successfully.'); window.location.href='stu_overview_reg.php';</script>";
-        exit;
-    } else {
-        // Handle any errors (optional)
-        echo "Error updating record: " . $stmt->error;
-    }
 }else {
     // Handle the case where session variables are not set
     echo "<p>No session information available.</p>";
