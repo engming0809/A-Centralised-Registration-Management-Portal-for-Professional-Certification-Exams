@@ -894,18 +894,6 @@ header nav ul li.dropdown:hover .dropdown_menu, header nav ul li.dropdown:hover 
 }
 
 /* Drag and Drop */
-/* .drop-zone {
-    border: 4px dashed #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    margin-bottom: 15px;
-}
-.drop-zone.dragover {
-    border-color: #0066cc;
-    background-color: #e6f7ff;
-} */
 .drop-zone {
     background: linear-gradient(to bottom right, #f9f9f9, #e0e0e0);
     border-radius: 10px;
@@ -927,13 +915,6 @@ header nav ul li.dropdown:hover .dropdown_menu, header nav ul li.dropdown:hover 
     background-color: #e6f7ff;
     border-color: #0066cc;
 }
-/* .file-preview {
-    margin-top: 10px;
-}
-.file-preview img {
-    max-width: 200px;
-    margin: 5px;
-} */
 
 .file-preview img {
     border: 1px solid #ddd;
@@ -951,6 +932,50 @@ header nav ul li.dropdown:hover .dropdown_menu, header nav ul li.dropdown:hover 
 }
 .form-control-file {
     display: none;
+}
+
+
+/* Data table */
+/* Enhance search bar appearance */
+.dataTables_filter input {
+    padding: 10px;
+    font-size: 19px;
+    border: 2px solid #007BFF; /* Blue border */
+    border-radius: 5px; /* Rounded corners */
+    outline: none; /* Remove default outline */
+    transition: border-color 0.3s ease;
+    width: 650px;
+}
+
+/* On focus */
+.dataTables_filter input:focus {
+    border-color: #0056b3; /* Darker blue on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a glow effect */
+}
+
+/* Styling the search label */
+.dataTables_filter label, .filter {
+    font-size: 20px;
+    margin-right: 10px;
+}
+/* Ensure the DataTable wrapper takes up full height */
+.dataTables_wrapper {
+    position: relative;
+}
+
+
+/* Center the pagination at the bottom */
+.dataTables_wrapper .dataTables_paginate {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px; /* Space from the bottom */
+}
+
+/* Optional: Center the info text at the bottom */
+.dataTables_wrapper .dataTables_info {
+    text-align: center;
 }
 
 

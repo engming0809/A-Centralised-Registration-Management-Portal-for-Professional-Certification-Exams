@@ -15,7 +15,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
 </head>
 
@@ -1880,7 +1880,12 @@ data-regresultstatus-status="<?= htmlspecialchars($registration['result_status']
                 "stateSave": true, // Enable state saving
                 "responsive": false
             });
-        });
+
+            // Add custom placeholder text and icon
+            $('.dataTables_filter input')
+                .attr('placeholder', 'Search...')
+                .before('<i class="fas fa-search" style="margin-right: 10px; color: #007BFF;"></i>');
+            });
 
         // Function for Basic Notificaiton 
         function handleNotification(registration_id) {
