@@ -155,7 +155,7 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
                             <th>ID</th>
                             <th>Student ID</th>
                             <th>Student Name</th>
-                            <th>Certificate Name</th>
+                            <th>Certification Name</th>
                             <th>Schedule</th>
                             <th>Registration Form</th>
                             <th>Payment Invoice</th>
@@ -371,20 +371,32 @@ data-reinvoice-filepath="<?= htmlspecialchars($registration['payment_invoice_pat
 
 					<div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
-							<label for="oldInvoiceFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+							<label for="oldInvoiceFilePathModal" class="col-form-label">Uploaded File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="text" name="displayfilepath" id="oldInvoiceFilePathModal" class="form-control filePathDisplay" readonly>
 						</div>
 					</div>
-					<div class="form-row align-items-center mb-3">
+					<!-- <div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
 							<label class="col-form-label">Select File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="file" name="payment_invoice" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
 						</div>
-					</div>
+					</div> -->
+
+
+    <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Payment Invoice:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="payment_invoice">Drag and drop file here or click to upload</div>
+            <input type="file" name="payment_invoice" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="payment_invoice-input">
+            <div class="file-preview" id="payment_invoice-preview"></div>
+        </div>
+    </div>
 					<!---------- Hidden fields ------->
 					<input type="hidden" name="invoice_id" id="modalReuploadInvoiceId">
 					<!-------------------------------->
@@ -407,7 +419,7 @@ data-reinvoice-filepath="<?= htmlspecialchars($registration['payment_invoice_pat
                                                 Please upload Payment Invoice<br>
 
 
-
+                                                <!-- Upload Payment Invoice -->
                                                 <br><button type="button" class="btn btn-sm btn-info invoiceUploadButton" 
                                             data-toggle="modal" 
                                             data-target="#uploadInvoiceModal"
@@ -432,22 +444,25 @@ data-reinvoice-filepath="<?= htmlspecialchars($registration['payment_invoice_pat
                                                         <div class="modal-body">
                                                             <!-- Form for file upload -->
                                                             <form method="POST" enctype="multipart/form-data" action="upload_invoice.php" class="mt-2">
-                                                                <div class="form-row align-items-center mb-3">
-                                                                    <div class="col-md-4">
-                                                                        <label for="InvoiceFilePathModal" class="col-form-label">Uploaded Filepath:</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" name="displayfilepath" id="InvoiceFilePathModal" class="form-control filePathDisplay" readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-row align-items-center mb-3">
+                                                                <!-- <div class="form-row align-items-center mb-3">
                                                                     <div class="col-md-4">
                                                                         <label class="col-form-label">Select File:</label>
                                                                     </div>
                                                                     <div class="col-md-8">
                                                                         <input type="file" name="payment_invoice" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
+
+    <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Payment Invoice:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="payment_invoice">Drag and drop file here or click to upload</div>
+            <input type="file" name="payment_invoice" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="payment_invoice-input">
+            <div class="file-preview" id="payment_invoice-preview"></div>
+        </div>
+    </div>
                                                                 <!---------- Hidden fields ------->
                                                                 <input type="hidden" name="registration_id" id="modalRegInvoiceId">
                                                                 <input type="hidden" name="invoice_id" id="modalInvoiceId">
@@ -633,20 +648,30 @@ data-rereceipt-filepath="<?= htmlspecialchars($registration['payment_receipt_pat
 					</div>
 					<div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
-							<label for="oldReceiptFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+							<label for="oldReceiptFilePathModal" class="col-form-label">Uploaded File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="text" name="displayfilepath" id="oldReceiptFilePathModal" class="form-control filePathDisplay" readonly>
 						</div>
 					</div>
-					<div class="form-row align-items-center mb-3">
+					<!-- <div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
 							<label class="col-form-label">Select File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="file" name="payment_receipt" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
 						</div>
-					</div>
+					</div> -->
+                    <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Payment Receipt:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="payment_receipt">Drag and drop file here or click to upload</div>
+            <input type="file" name="payment_receipt" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="payment_receipt-input">
+            <div class="file-preview" id="payment_receipt-preview"></div>
+        </div>
+    </div>
 					<!---------- Hidden fields ------->
 					<input type="hidden" name="receipt_id" id="modalReuploadReceiptId">
 					<!-------------------------------->
@@ -691,22 +716,24 @@ data-rereceipt-filepath="<?= htmlspecialchars($registration['payment_receipt_pat
                                                         <div class="modal-body">
                                                             <!-- Form for file upload -->
                                                             <form method="POST" enctype="multipart/form-data" action="upload_receipt.php" class="mt-2">
-                                                                <div class="form-row align-items-center mb-3">
-                                                                    <div class="col-md-4">
-                                                                        <label for="ReceiptFilePathModal" class="col-form-label">Uploaded Filepath:</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" name="displayfilepath" id="ReceiptFilePathModal" class="form-control filePathDisplay" readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-row align-items-center mb-3">
+                                                                <!-- <div class="form-row align-items-center mb-3">
                                                                     <div class="col-md-4">
                                                                         <label class="col-form-label">Select File:</label>
                                                                     </div>
                                                                     <div class="col-md-8">
                                                                         <input type="file" name="payment_receipt" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
+                                                                <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Payment Receipt:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="payment_receipt">Drag and drop file here or click to upload</div>
+            <input type="file" name="payment_receipt" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="payment_receipt-input">
+            <div class="file-preview" id="payment_receipt-preview"></div>
+        </div>
+    </div>
                                                                 <!---------- Hidden fields ------->
                                                                 <input type="hidden" name="registration_id" id="modalRegReceiptId">
                                                                 <input type="hidden" name="receipt_id" id="modalReceiptId">
@@ -785,20 +812,30 @@ data-reexamletter-filepath="<?= htmlspecialchars($registration['exam_confirmatio
 					</div>
 					<div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
-							<label for="oldExamLetterFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+							<label for="oldExamLetterFilePathModal" class="col-form-label">Uploaded File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="text" name="displayfilepath" id="oldExamLetterFilePathModal" class="form-control filePathDisplay" readonly>
 						</div>
 					</div>
-					<div class="form-row align-items-center mb-3">
+					<!-- <div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
 							<label class="col-form-label">Select File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="file" name="exam_confirmation_letter" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
 						</div>
-					</div>
+					</div> -->
+                    <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Exam Confirmation Letter:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="exam_confirmation_letter">Drag and drop file here or click to upload</div>
+            <input type="file" name="exam_confirmation_letter" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="exam_confirmation_letter-input">
+            <div class="file-preview" id="exam_confirmation_letter-preview"></div>
+        </div>
+    </div>
 					<!---------- Hidden fields ------->
 					<input type="hidden" name="confirmation_id" id="modalReuploadExamLetterId">
 					<!-------------------------------->
@@ -843,24 +880,25 @@ data-reexamletter-filepath="<?= htmlspecialchars($registration['exam_confirmatio
                                                         <div class="modal-body">
                                                             <!-- Form for file upload -->
                                                             <form method="POST" enctype="multipart/form-data" action="upload_examconfirmationletter.php" class="mt-2">
-                                                                <div class="form-row align-items-center mb-3">
-
-                                                                    <div class="col-md-4">
-                                                                        <label for="ExamLetterFilePathModal" class="col-form-label">Uploaded Filepath:</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" name="displayfilepath" id="ExamLetterFilePathModal" class="form-control filePathDisplay" readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-row align-items-center mb-3">
+                                                                
+                                                                <!-- <div class="form-row align-items-center mb-3">
                                                                     <div class="col-md-4">
                                                                         <label class="col-form-label">Select File:</label>
                                                                     </div>
-                                                                    <!-- Match with upload php file -->
                                                                     <div class="col-md-8">
                                                                         <input type="file" name="exam_confirmation_letter" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
+                                                                <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Exam Confirmation Letter:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="exam_confirmation_letter">Drag and drop file here or click to upload</div>
+            <input type="file" name="exam_confirmation_letter" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="exam_confirmation_letter-input">
+            <div class="file-preview" id="exam_confirmation_letter-preview"></div>
+        </div>
+    </div>
                                                                 <!---------- Hidden fields ------->
                                                                 <input type="hidden" name="registration_id" id="modalRegExamLetterId">
                                                                 <input type="hidden" name="confirmation_id" id="modalExamLetterId">
@@ -908,7 +946,7 @@ data-reexamletter-filepath="<?= htmlspecialchars($registration['exam_confirmatio
 
                                             <?php else: ?>
                                                 Please key in Exam Result.<br><br>
-                                                <a href="#" class="btn btn-sm btn-info"
+                                                <a href="#" class="btn btn-sm btn-danger"
                                                     data-toggle="modal"
                                                     data-target="#resultModal"
                                                     data-registration-id="<?= htmlspecialchars($registration['registration_id']) ?>"
@@ -1030,20 +1068,32 @@ data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'
 					</div>
 					<div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
-							<label for="oldCertificateFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+							<label for="oldCertificateFilePathModal" class="col-form-label">Uploaded File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="text" name="displayfilepath" id="oldCertificateFilePathModal" class="form-control filePathDisplay" readonly>
 						</div>
 					</div>
-					<div class="form-row align-items-center mb-3">
+					<!-- <div class="form-row align-items-center mb-3">
 						<div class="col-md-4">
 							<label class="col-form-label">Select File:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="file" name="certificate" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
 						</div>
-					</div>
+					</div> -->
+
+
+                    <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Certificate:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="certificate">Drag and drop file here or click to upload</div>
+            <input type="file" name="certificate" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="certificate-input">
+            <div class="file-preview" id="certificate-preview"></div>
+        </div>
+    </div>
 					<!---------- Hidden fields ------->
 					<input type="hidden" name="certificate_id" id="modalReuploadCertificateId">
 					<!-------------------------------->
@@ -1089,22 +1139,27 @@ data-certificate-filepath="<?= htmlspecialchars($registration['certificate_path'
                                                         <div class="modal-body">
                                                             <!-- Form for file upload -->
                                                             <form method="POST" enctype="multipart/form-data" action="upload_certificate.php" class="mt-2">
-                                                                <div class="form-row align-items-center mb-3">
-                                                                    <div class="col-md-4">
-                                                                        <label for="CertFilePathModal" class="col-form-label">Uploaded Filepath:</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" name="displayfilepath" id="CertFilePathModal" class="form-control filePathDisplay" readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-row align-items-center mb-3">
+                                                                
+                                                                <!-- <div class="form-row align-items-center mb-3">
                                                                     <div class="col-md-4">
                                                                         <label class="col-form-label">Select File:</label>
                                                                     </div>
                                                                     <div class="col-md-8">
                                                                         <input type="file" name="certificate" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
+                                                                
+    <div class="dragupload form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Certificate:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" data-target="certificate">Drag and drop file here or click to upload</div>
+            <input type="file" name="certificate" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="certificate-input">
+            <div class="file-preview" id="certificate-preview"></div>
+        </div>
+    </div>
+                                                              
                                                                 <!---------- Hidden fields ------->
                                                                 <input type="hidden" name="registration_id" id="modalRegCertificateId">
                                                                 <input type="hidden" name="certificate_id" id="modalCertificateId">
@@ -1464,9 +1519,64 @@ data-regresultstatus-status="<?= htmlspecialchars($registration['result_status']
             });
 
 
+        // drag and drop
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            const inputId = `${zone.dataset.target}-input`;
+            const fileInput = document.getElementById(inputId);
+            const preview = document.getElementById(`${zone.dataset.target}-preview`);
+
+            zone.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (event) => {
+                handleFileUpload(event.target.files, preview);
+            });
+
+            zone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                zone.classList.add('dragover');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('dragover');
+            });
+
+            zone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                zone.classList.remove('dragover');
+                fileInput.files = event.dataTransfer.files; // Assign dropped files to input
+                handleFileUpload(event.dataTransfer.files, preview);
+            });
+        });
+
+        function handleFileUpload(files, preview) {
+            preview.innerHTML = ''; // Clear existing previews
+            Array.from(files).forEach(file => {
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = fileReader.result;
+                        preview.appendChild(img);
+                    } else {
+                        const fileName = document.createElement('div');
+                        fileName.textContent = file.name;
+                        fileName.classList.add('file-name');
+                        preview.appendChild(fileName);
+                    }
+                };
+                fileReader.readAsDataURL(file);
+            });
+        }
+
+        
+
 
 
         });
+
+        
 
         //////////////////////////////////////   JQUERY   ////////////////////////////////////////////////
         // Display accurate information on modal table (Insert) JQuert

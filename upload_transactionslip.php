@@ -20,7 +20,10 @@ try {
 
         // Validate file type
         if (!in_array($file['type'], $allowedTypes)) {
-            echo "Only PDF and image files are allowed.";
+            echo "<script>
+                    alert('Only PDF and image files are allowed.');
+                    window.location.href = 'lec_overview_reg.php'; 
+                </script>";
             exit();
         }
 

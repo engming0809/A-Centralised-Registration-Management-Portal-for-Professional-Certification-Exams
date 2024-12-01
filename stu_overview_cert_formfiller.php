@@ -208,7 +208,7 @@ if (isset($_SESSION['student_id'])) {
                         echo "Error: " . mysqli_error($conn);
                     }
 
-                    echo "<script>alert('Form submitted successfully.'); window.location.href='stu_overview_cert.php';</script>";
+                    echo "<script>alert('Form submitted successfully.'); window.location.href='stu_overview_reg.php';</script>";
                     exit; // Ensure the script stops after this
                 } else {
                     echo "<script>alert('Error inserting record into reg_registrationform: " . $stmt->error . "'); window.location.href='stu_overview_cert.php';</script>";

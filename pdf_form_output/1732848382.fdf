@@ -1,0 +1,56 @@
+%FDF-1.2
+1 0 obj << /FDF << /Fields [
+<< /V /ctfl /T (type) >>
+<< /V /cash_che /T (payment) >>
+<< /V (BONGANI BHEKISIPHO LESLIE FUZWAYO) /T (full_name) >>
+<< /V (ZIMBABWEAN) /T (nationality) >>
+<< /V (FN724707) /T (pass_num) >>
+<< /V (02) /T (dob_day) >>
+<< /V (05) /T (dob_month) >>
+<< /V (1997) /T (dob_year) >>
+<< /V /male /T (gender) >>
+<< /V (ZIMBABWE) /T (pob) >>
+<< /V /other /T (race) >>
+<< /V (AFRI) /T (race_other) >>
+<< /V (SWINBURNE) /T (company_name) >>
+<< /V (STUDENT) /T (job) >>
+<< /V /pos_other /T (position_level) >>
+<< /V (INTERN) /T (position_other) >>
+<< /V (13290 BLOCK 9 KING CENTER) /T (address) >>
+<< /V (KUCHING) /T (city) >>
+<< /V (93350) /T (postcode) >>
+<< /V (SARAWAK) /T (state_country) >>
+<< /V (609) /T (phone_code) >>
+<< /V (1160672054) /T (phone) >>
+<< /V (263) /T (phone_alt_code) >>
+<< /V (7742475) /T (phone_alt) >>
+<< /V (bhekifuzwayo@gmail.com) /T (email_pri) >>
+<< /V (bonganiblfuzwayo@yandex.ru) /T (email_sec) >>
+<< /V /bachelor /T (education) >>
+<< /V /less /T (work_exp) >>
+<< /V (JALAN SIMPANG TIGA) /T (comp_add) >>
+<< /V (KUCHING) /T (comp_city) >>
+<< /V (93350) /T (comp_post) >>
+<< /V (SARAWAK) /T (comp_state_country) >>
+<< /V (JOHN DOE) /T (comp_con_name) >>
+<< /V (601) /T (comp_con_num_code) >>
+<< /V (1145653788) /T (comp_con_num) >>
+<< /V (jodoe@gmail.com) /T (comp_email) >>
+<< /V /first /T (exam_type) >>
+<< /V /online /T (exam_mode) >>
+<< /V (SWINBURNE) /T (exam_location) >>
+<< /V (22) /T (exam_date_day) >>
+<< /V (11) /T (exam_date_month) >>
+<< /V (2024) /T (exam_date_year) >>
+<< /V /lang_yes /T (lang_spoke) >>
+<< /V /lang_writ_yes /T (lang_writ) >>
+<< /V (NONE) /T (disability) >>
+<< /V (NONE) /T (assistance) >>
+<< /V /agree /T (privacy) >>
+<< /V (JOHN DOE) /T (app_name) >>
+<< /V (data:image/png;base64,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) /T (signature) >>
+] >> >>
+endobj
+trailer
+<</Root 1 0 R>>
+%%EOF

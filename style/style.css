@@ -893,6 +893,67 @@ header nav ul li.dropdown:hover .dropdown_menu, header nav ul li.dropdown:hover 
     border-radius: 5px;
 }
 
+/* Drag and Drop */
+/* .drop-zone {
+    border: 4px dashed #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+.drop-zone.dragover {
+    border-color: #0066cc;
+    background-color: #e6f7ff;
+} */
+.drop-zone {
+    background: linear-gradient(to bottom right, #f9f9f9, #e0e0e0);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 4px dashed #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+.drop-zone.dragover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 10px rgba(0, 102, 204, 0.2);
+    border-color: #0066cc;
+    background: linear-gradient(to bottom right, #e6f7ff, #d0eaff);
+}
+.drop-zone:hover {
+    background-color: #e6f7ff;
+    border-color: #0066cc;
+}
+/* .file-preview {
+    margin-top: 10px;
+}
+.file-preview img {
+    max-width: 200px;
+    margin: 5px;
+} */
+
+.file-preview img {
+    border: 1px solid #ddd;
+    max-width: 300px;
+    border-radius: 5px;
+    margin: 5px;
+    max-height: 300px;
+    transition: transform 0.2s;
+}
+.file-preview img:hover {
+    transform: scale(1.1);
+}
+.file-preview .file-name {
+    font-size: 14px;
+}
+.form-control-file {
+    display: none;
+}
+
+
 
  /* Form signature */
 .signature-container {

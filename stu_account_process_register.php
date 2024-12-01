@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Function to send verification email
 function sendVerificationEmail($email, $verification_token) {
-    $verification_link = "http://localhost/fyptest/verification.php?token=$verification_token";
+    $verification_link = "http://localhost/verification.php?token=$verification_token";
 
     $mail = new PHPMailer(true);
     try {

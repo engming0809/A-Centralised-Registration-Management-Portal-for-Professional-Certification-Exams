@@ -177,13 +177,13 @@ if (!isset($_SESSION['student_full_name'])) {
                     <thead class="thead-dark">
                         <tr>
                             <th>ID</th>
-                            <th>Certificate Name</th>
+                            <th>Certification Name</th>
                             <th>Schedule</th>
                             <th>Registration Form</th>
                             <th>Payment Invoice</th>
                             <th>Transaction Slip</th>
                             <th>Payment Receipt</th>
-                            <th>Confirmation Letter</th>
+                            <th>Exam Confirmation Letter</th>
                             <th>Exam Results</th>
                             <th>Certificate</th>
                         </tr>
@@ -457,20 +457,30 @@ Reupload
                </div>
                <div class="form-row align-items-center mb-3">
                    <div class="col-md-4">
-                       <label for="oldTransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                       <label for="oldTransactionFilePathModal" class="col-form-label">Uploaded File:</label>
                    </div>
                    <div class="col-md-8">
                        <input type="text" name="displayfilepath" id="oldTransactionFilePathModal" class="form-control filePathDisplay" readonly>
                    </div>
                </div>
-               <div class="form-row align-items-center mb-3">
+               <!-- <div class="form-row align-items-center mb-3">
                    <div class="col-md-4">
                        <label class="col-form-label">Select File:</label>
                    </div>
                    <div class="col-md-8">
                        <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
                    </div>
-               </div>
+               </div> -->
+               <div class="form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Transaction Slip:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" id="transaction-slip-zone">Drag and drop file here or click to upload</div>
+            <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="transaction-slip-input">
+            <div class="file-preview" id="transaction-slip-preview"></div>
+        </div>
+    </div>
                <!---------- Hidden fields ------->
                <input type="hidden" name="transaction_id" id="modalReuploadTransactionId">
                <!-------------------------------->
@@ -519,22 +529,35 @@ Reupload
                     <div class="modal-body">
                         <!-- Form for file upload -->
                         <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
-                            <div class="form-row align-items-center mb-3">
+                            <!-- <div class="form-row align-items-center mb-3">
                                 <div class="col-md-4">
-                                    <label for="TransactionFilePathModal" class="col-form-label">Uploaded Filepath:</label>
+                                    <label for="TransactionFilePathModal" class="col-form-label">Uploaded File:</label>
                                 </div>
                                 <div class="col-md-8">
                                     <input type="text" name="displayfilepath" id="TransactionFilePathModal" class="form-control filePathDisplay" readonly>
                                 </div>
-                            </div>
-                            <div class="form-row align-items-center mb-3">
+                            </div> -->
+
+                            
+                            <!-- <div class="form-row align-items-center mb-3">
                                 <div class="col-md-4">
                                     <label class="col-form-label">Select File:</label>
                                 </div>
                                 <div class="col-md-8">
                                     <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
                                 </div>
-                            </div>
+                            </div> -->
+
+    <div class="form-row align-items-center mb-3">
+        <div class="col-md-4">
+            <label class="col-form-label">Transaction Slip:</label>
+        </div>
+        <div class="col-md-8">
+            <div class="drop-zone" id="transaction-slip-zone">Drag and drop file here or click to upload</div>
+            <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="transaction-slip-input">
+            <div class="file-preview" id="transaction-slip-preview"></div>
+        </div>
+    </div>
                             <!---------- Hidden fields ------->
                             <input type="hidden" name="registration_id" id="modalRegTransactionId">
                             <input type="hidden" name="transaction_id" id="modalTransactionId">
@@ -802,7 +825,6 @@ data-examletter-reason="<?= htmlspecialchars($registration['exam_confirmation_le
 <?php if ($registration['certificate_status'] === 'pending' ): ?>
 	
 
-
     <br><br>
 <button type="button" class="btn btn-sm btn-danger certificateUpdateButton" 
 data-toggle="modal" 
@@ -871,7 +893,7 @@ data-certificate-reason="<?= htmlspecialchars($registration['certificate_reason'
 
     
 <?php elseif ($registration['certificate_status'] === 'reject' ): ?>   
-
+    <br><br>
 Please wait for Lecturer to reupload this Certificate
 <?php else: ?>
 <?php endif; ?>
@@ -1054,6 +1076,61 @@ Please wait for Lecturer to reupload this Certificate
                     document.getElementById("regformReasonModal").value = regFormReason;
                 });
             });
+
+
+            // drag and drop
+            const dropZone = document.getElementById('transaction-slip-zone');
+        const fileInput = document.getElementById('transaction-slip-input');
+        const preview = document.getElementById('transaction-slip-preview');
+
+        // Click to trigger file input
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection through input
+        fileInput.addEventListener('change', (event) => {
+            handleFileUpload(event.target.files);
+        });
+
+        // Handle drag-over event
+        dropZone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        // Handle drag-leave event
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        // Handle drop event
+        dropZone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropZone.classList.remove('dragover');
+            fileInput.files = event.dataTransfer.files; // Assign dropped files to the input
+            handleFileUpload(event.dataTransfer.files);
+        });
+
+        function handleFileUpload(files) {
+            preview.innerHTML = ''; // Clear existing previews
+            Array.from(files).forEach(file => {
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = fileReader.result;
+                        preview.appendChild(img);
+                    } else {
+                        const fileName = document.createElement('div');
+                        fileName.textContent = file.name;
+                        fileName.classList.add('file-name');
+                        preview.appendChild(fileName);
+                    }
+                };
+                fileReader.readAsDataURL(file);
+            });
+        }
 
         });
 
