@@ -1198,6 +1198,11 @@ canvas {
 
 /* lecturer dashboard */
 
+
+.adm_dashboard{
+    width: 87% !important;
+}
+
 .lec_dashboard, .stu_dashboard{
     width: 82% !important;
 }

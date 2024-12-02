@@ -81,11 +81,10 @@ try {
 ?>
 
 <!-- Main Content -->
-<main class="container-fluid py-5 lec_dashboard">
+<main class="container-fluid py-5 adm_dashboard">
 
 
         
-<div class="container mt-5">
 <div class="row">
             <div class="col-md-12">
                 <div class="card shadow-sm mb-4 border-light rounded">
@@ -99,11 +98,6 @@ try {
                         interface that allows admins to search, filter, and view user profiles, ensuring smooth 
                         management of the system.
                         </p>
-                        <p>Here's what you can do on our platform:</p>
-                        <ul>
-                            <li>Manage User Accounts.</li>
-                            <li>Approve Lecture Registrations.</li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -178,7 +172,6 @@ try {
             </tbody>
         </table>
     </div>
-</div>
 </div>
 
         </div>

@@ -69,7 +69,7 @@ if (!isset($_SESSION['lecturer_full_name'])) {
                     </div>
                     <div class="card-body">
                         <p><strong>Logged in as:</strong> <?php echo $_SESSION['lecturer_full_name']; ?></p>
-                        <p><strong>Your Email:</strong> <?php echo $_SESSION['lecturer_email']; ?></p>
+                        <p><strong>Your Lecturer Email:</strong> <?php echo $_SESSION['lecturer_email']; ?></p>
                     </div>
                 </div>
             </div>

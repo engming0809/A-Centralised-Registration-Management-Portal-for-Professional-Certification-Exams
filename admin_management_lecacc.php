@@ -176,7 +176,7 @@
     </div>
 </div>
     <div class="d-flex justify-content-end">
-        <button class="btn btn-primary adduserBtn mt-3" data-toggle="modal" data-target="#userModal">Add Lecturer</button>
+        <button class="btn btn-primary adduserBtn mt-3" data-toggle="modal" data-target="#userModal">Add New Lecturer</button>
     </div>
 </div>
 
