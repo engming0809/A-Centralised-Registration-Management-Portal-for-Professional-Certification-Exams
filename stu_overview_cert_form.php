@@ -476,13 +476,15 @@ if (isset($_GET['certificationID'])) {
                 <div class="form-group">
                     <label for="email_pri_textbox" class="text-secondary">Primary Email Address:</label>
                     <input id="email_pri_textbox" type="email" class="form-control" name="email_pri_textbox" required placeholder="Enter your email address"
-                        title="Please enter a valid email address, e.g., example@example.com." value="<?php echo htmlspecialchars($form_data['email_pri_textbox'] ?? ''); ?>">
+                        title="Please enter a valid email address, e.g., example@example.com." 
+                        oninput="toUpperCase(this)" value="<?php echo htmlspecialchars($form_data['email_pri_textbox'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="email_sec_textbox" class="text-secondary">Alternate Email Address:</label>
                     <input id="email_sec_textbox" type="email" class="form-control" name="email_sec_textbox" placeholder="Enter your alternate email address"
-                    title="Please enter a valid email address, e.g., example@example.com." value="<?php echo htmlspecialchars($form_data['email_sec_textbox'] ?? ''); ?>">
+                    title="Please enter a valid email address, e.g., example@example.com." 
+                    oninput="toUpperCase(this)" value="<?php echo htmlspecialchars($form_data['email_sec_textbox'] ?? ''); ?>">
                 </div>
 
             </div>
@@ -522,7 +524,7 @@ if (isset($_GET['certificationID'])) {
                     <input type="text" name="edu_other_textbox" id="edu_other_input" 
                         class="form-control d-inline-block" style="width: auto;" 
                         placeholder="Specify other education" title="Please enter alphabetic characters only (spaces allowed)." 
-						value="<?php echo htmlspecialchars($form_data['edu_other_textbox'] ?? ''); ?>"
+						value="<?php echo htmlspecialchars($form_data['edu_other_textbox'] ?? ''); ?>" oninput="toUpperCase(this)"
                         pattern="[A-Za-z\s]+">
                 </div>
             </div>
@@ -599,7 +601,8 @@ if (isset($_GET['certificationID'])) {
             <div class="form-group">
                 <label for="comp_email_textbox">Contact Person's Email Address:</label>
                 <input id="comp_email_textbox" type="email" class="form-control" name="comp_email_textbox" required placeholder="Enter the Email address of you Contact Person"
-                    title="Please enter a valid email address, e.g., example@example.com." value="<?php echo htmlspecialchars($form_data['comp_email_textbox'] ?? ''); ?>">
+                    title="Please enter a valid email address, e.g., example@example.com." 
+                    oninput="toUpperCase(this)" value="<?php echo htmlspecialchars($form_data['comp_email_textbox'] ?? ''); ?>">
             </div>
         </div>
         <div class="form-section">

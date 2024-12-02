@@ -192,7 +192,7 @@ if (!isset($_SESSION['student_full_name'])) {
                     <tbody>
                         <?php if (!empty($registrations)): ?>
                             <?php foreach ($registrations as $registration): ?>
-                                <tr  class="<?= in_array($registration['result_status'], ['incomplete', 'completed']) ? 'non-interactable' : '' ?>">
+                                <tr  class="<?= in_array($registration['result_status'], ['incomplete']) ? 'non-interactable' : '' ?>">
                                     <td><?= htmlspecialchars($registration['registration_id']) ?></td>
                                     <td><?= htmlspecialchars($registration['certification_name']) ?></td>
                                     <td>
