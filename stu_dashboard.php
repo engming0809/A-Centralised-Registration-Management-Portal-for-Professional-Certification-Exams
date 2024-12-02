@@ -71,7 +71,6 @@ if (!isset($_SESSION['student_full_name'])) {
                     <div class="card-body">
                         <p><strong>Logged in as:</strong> <?php echo $_SESSION['student_full_name']; ?></p>
                         <p><strong>Your Student Email:</strong> <?php echo $_SESSION['student_email']; ?></p>
-                        <p><strong>Logged in on:</strong> <?php echo isset($_SESSION['login_time']) ? date('l, F j, Y \a\t g:i A', $_SESSION['login_time']) : 'N/A'; ?></p>
                     </div>
                 </div>
             </div>

@@ -964,20 +964,11 @@ header nav ul li.dropdown:hover .dropdown_menu, header nav ul li.dropdown:hover 
 }
 
 
-/* Center the pagination at the bottom */
-.dataTables_wrapper .dataTables_paginate {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 10px; /* Space from the bottom */
-}
 
 /* Optional: Center the info text at the bottom */
 .dataTables_wrapper .dataTables_info {
     text-align: center;
 }
-
 
 
  /* Form signature */
@@ -1071,13 +1062,28 @@ canvas {
 }
 
 .adduserBtn{
-    font-size: 17pt;
+    font-size: 14pt;
+    max-width: 20%;
 }
 
 .adminapprovelecturermain, .manage_account_main{
     margin: 80px auto;
 }
 
+.adminimage{
+    width: 100px;
+    height: 100px;
+}
+
+#studentTable, #lecturerTable {
+    border: none;
+    margin-bottom: 0;
+}
+
+.totalusercontainer{
+    margin-bottom: 90px !important;
+    font-size: 13pt;
+}
 
 /*  Profile */
 .view_profile_main td{

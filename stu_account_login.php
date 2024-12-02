@@ -31,6 +31,7 @@
                 <h2>Please Log In</h2>
 
                 <?php
+                date_default_timezone_set('Asia/Kuala_Lumpur');
                 session_start(); 
                 $errors = '';
 

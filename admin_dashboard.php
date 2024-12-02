@@ -84,40 +84,31 @@ try {
 <main class="container-fluid py-5 lec_dashboard">
 
 
-
-        <div class="card shadow-sm mb-4 border-light rounded">
-            <div class="card-header bg-danger text-white">
-                <h6 class="mb-0">Website Features Overview</h6>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Home</strong></td>
-                            <td>The homepage provides a brief introduction to the platform and allows you to navigate to all key sections.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Certification Overview</strong></td>
-                            <td>View, edit and add certifications, along with their schedules, deadlines, and more detailed information.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Registration Overview</strong></td>
-                            <td>See all the exams registration of the student, along with payment status, deadlines, and upcoming exam dates.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
         
 <div class="container mt-5">
+<div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-sm mb-4 border-light rounded">
+                    <div class="card-body">
+                        <h5 class="card-title">Welcome, Admin</h5>
+                        <p class="card-text">
+                        In the admin dashboard, administrators have full control over user account management, 
+                        allowing them to efficiently oversee and maintain the system's user base. Administrators 
+                        can perform tasks such as creating new user accounts, editing existing user details, and 
+                        deleting inactive or unauthorized accounts. he dashboard typically provides a user-friendly 
+                        interface that allows admins to search, filter, and view user profiles, ensuring smooth 
+                        management of the system.
+                        </p>
+                        <p>Here's what you can do on our platform:</p>
+                        <ul>
+                            <li>Manage User Accounts.</li>
+                            <li>Approve Lecture Registrations.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
 
 <!-- Total Users Table -->
 <div class="card shadow-sm mb-4 border-light rounded">
@@ -130,29 +121,29 @@ try {
             <thead>
                 <tr>
                     <th scope="col">Category</th>
-                    <th scope="col">Total</th>
                     <th scope="col">Active</th>
                     <th scope="col">Inactive</th>
+                    <th scope="col">Total</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Lecturers</td>
-                    <td><?php echo $lecturers['total_lecturers']; ?></td>
                     <td><?php echo $lecturers['active_lecturers']; ?></td>
                     <td><?php echo $lecturers['inactive_lecturers']; ?></td>
+                    <td><?php echo $lecturers['total_lecturers']; ?></td>
                 </tr>
                 <tr>
                     <td>Students</td>
-                    <td><?php echo $students['total_students']; ?></td>
                     <td><?php echo $students['active_students']; ?></td>
                     <td><?php echo $students['inactive_students']; ?></td>
+                    <td><?php echo $students['total_students']; ?></td>
                 </tr>
                 <tr >
                     <td>Total Users</td>
-                    <td><?php echo $total_users; ?></td>
                     <td><?php echo $active_users; ?></td>
                     <td><?php echo $inactive_users; ?></td>
+                    <td><?php echo $total_users; ?></td>
                 </tr>
             </tbody>
         </table>
