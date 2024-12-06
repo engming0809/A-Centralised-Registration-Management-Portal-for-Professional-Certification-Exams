@@ -102,10 +102,10 @@
 
     // Handle Delete User (GET)
     if (isset($_GET['delete'])) {
-        $email = $_GET['delete'];
+        $lecturer_id = $_GET['delete'];
 
         // Delete lecturer from Lecturer table
-        $query = "DELETE FROM Lecturer WHERE email = '$email'";
+        $query = "DELETE FROM Lecturer WHERE lecturer_id = '$lecturer_id'";
         mysqli_query($conn, $query);
 
         // Redirect back to the user management page (optional)

@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
     <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js?v=1"></script>
+
     <!-- Include DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
@@ -135,12 +136,12 @@ LEFT JOIN reg_certificate cert ON r.registration_id = cert.registration_id
             <!-- Filter Section -->
             <section class="filter mb-4">
                 <form method="GET" action="" class="form-inline">
-                    <label for="result_status" class="mr-2">Filter by Result Status:</label>
+                    <label for="result_status" class="mr-2">Filter by Registration Status:</label>
                     <select name="result_status" id="result_status" class="form-control mr-2">
-                        <option value="" <?= ($result_status == '') ? 'selected' : '' ?>>All Result Status</option>
+                        <option value="" <?= ($result_status == '') ? 'selected' : '' ?>>All Registration Status</option>
                         <option value="pending" <?= ($result_status == 'pending') ? 'selected' : '' ?>>Pending</option>
                         <option value="completed" <?= ($result_status == 'completed') ? 'selected' : '' ?>>Completed</option>
-                        <option value="incomplete" <?= ($result_status == 'incomplete') ? 'selected' : '' ?>>Incomplete</option>
+                        <option value="incomplete" <?= ($result_status == 'incomplete') ? 'selected' : '' ?>>Cancelled</option>
                     </select>
 
                     <input type="submit" value="Filter" class="btn btn-primary">
@@ -1227,7 +1228,7 @@ data-regresultstatus-status="<?= htmlspecialchars($registration['result_status']
                                     </div>
                                     <div>
                                         <input type="radio" name="regresultStatusOption" id="regincomplete" value="incomplete">
-                                        <label for="regincomplete">Incomplete</label>
+                                        <label for="regincomplete">Cancelled</label>
                                     </div>
                                     <div>
                                         <input type="radio" name="regresultStatusOption" id="regpending" value="pending">
@@ -1278,6 +1279,22 @@ data-regresultstatus-status="<?= htmlspecialchars($registration['result_status']
     ?>
 
     <script>
+        // Data Table initialization
+        $(document).ready(function() {
+            $('#certificationTable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable column sorting
+                "info": true, // Show table information
+                "searching": true, // Enable search
+                "stateSave": true, // Enable state saving
+                "responsive": false
+            });
+
+            // Add custom placeholder text and icon to search input
+            $('.dataTables_filter input')
+                .attr('placeholder', 'Search...')
+                .before('<i class="fas fa-search" style="margin-right: 10px; color: #007BFF;"></i>');
+        });
         /////////////////////// Javascript //////////////////////////////// mysword
         // Display accurate information on modal table (Edit) 
         document.addEventListener("DOMContentLoaded", function () {
@@ -1519,56 +1536,60 @@ data-regresultstatus-status="<?= htmlspecialchars($registration['result_status']
             });
 
 
-        // drag and drop
-        document.querySelectorAll('.drop-zone').forEach(zone => {
-            const inputId = `${zone.dataset.target}-input`;
-            const fileInput = document.getElementById(inputId);
-            const preview = document.getElementById(`${zone.dataset.target}-preview`);
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+    const modal = zone.closest('.modal'); // Ensure we target the correct modal
+    const inputId = `${zone.dataset.target}-input`;
+    const fileInput = modal.querySelector(`#${inputId}`);
+    const preview = modal.querySelector(`#${zone.dataset.target}-preview`);
 
-            zone.addEventListener('click', () => {
-                fileInput.click();
-            });
+    if (fileInput) {
+        zone.addEventListener('click', () => fileInput.click());
 
-            fileInput.addEventListener('change', (event) => {
-                handleFileUpload(event.target.files, preview);
-            });
-
-            zone.addEventListener('dragover', (event) => {
-                event.preventDefault();
-                zone.classList.add('dragover');
-            });
-
-            zone.addEventListener('dragleave', () => {
-                zone.classList.remove('dragover');
-            });
-
-            zone.addEventListener('drop', (event) => {
-                event.preventDefault();
-                zone.classList.remove('dragover');
-                fileInput.files = event.dataTransfer.files; // Assign dropped files to input
-                handleFileUpload(event.dataTransfer.files, preview);
-            });
+        fileInput.addEventListener('change', (event) => {
+            handleFileUpload(event.target.files, preview);
         });
 
-        function handleFileUpload(files, preview) {
-            preview.innerHTML = ''; // Clear existing previews
-            Array.from(files).forEach(file => {
-                const fileReader = new FileReader();
-                fileReader.onload = () => {
-                    if (file.type.startsWith('image/')) {
-                        const img = document.createElement('img');
-                        img.src = fileReader.result;
-                        preview.appendChild(img);
-                    } else {
-                        const fileName = document.createElement('div');
-                        fileName.textContent = file.name;
-                        fileName.classList.add('file-name');
-                        preview.appendChild(fileName);
-                    }
-                };
-                fileReader.readAsDataURL(file);
-            });
-        }
+        zone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            zone.classList.add('dragover');
+        });
+
+        zone.addEventListener('dragleave', () => {
+            zone.classList.remove('dragover');
+        });
+
+        zone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            zone.classList.remove('dragover');
+            fileInput.files = event.dataTransfer.files; // Assign dropped files to input
+            handleFileUpload(event.dataTransfer.files, preview);
+        });
+    }
+});
+
+function handleFileUpload(files, preview) {
+    preview.innerHTML = ''; // Clear existing previews
+    Array.from(files).forEach(file => {
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            if (file.type.startsWith('image/')) {
+                // Check if the image is already displayed in the preview
+                const existingImage = preview.querySelector(`img[src="${fileReader.result}"]`);
+                if (!existingImage) {
+                    const img = document.createElement('img');
+                    img.src = fileReader.result;
+                    preview.appendChild(img);
+                }
+            } else {
+                const fileName = document.createElement('div');
+                fileName.textContent = file.name;
+                fileName.classList.add('file-name');
+                preview.appendChild(fileName);
+            }
+        };
+        fileReader.readAsDataURL(file);
+    });
+}
 
         
 
@@ -1870,22 +1891,7 @@ data-regresultstatus-status="<?= htmlspecialchars($registration['result_status']
         }
 
 
-       // Data Table
-        $(document).ready(function() {
-            $('#certificationTable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable column sorting
-                "info": true, // Show table information
-                "searching": true, // Enable search
-                "stateSave": true, // Enable state saving
-                "responsive": false
-            });
-
-            // Add custom placeholder text and icon
-            $('.dataTables_filter input')
-                .attr('placeholder', 'Search...')
-                .before('<i class="fas fa-search" style="margin-right: 10px; color: #007BFF;"></i>');
-            });
+       
 
         // Function for Basic Notificaiton 
         function handleNotification(registration_id) {

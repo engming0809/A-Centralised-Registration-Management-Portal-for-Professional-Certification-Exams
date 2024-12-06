@@ -102,10 +102,10 @@
 
    // Handle Delete User (GET)
     if (isset($_GET['delete'])) {
-        $email = $_GET['delete'];
+        $student_id = $_GET['delete'];
 
         // Get the student_id for the email to ensure we delete the correct student
-        $result = mysqli_query($conn, "SELECT student_id FROM Student WHERE email = '$email'");
+        $result = mysqli_query($conn, "SELECT student_id FROM Student WHERE student_id = '$student_id'");
         $row = mysqli_fetch_assoc($result);
         $student_id = $row['student_id'];
 

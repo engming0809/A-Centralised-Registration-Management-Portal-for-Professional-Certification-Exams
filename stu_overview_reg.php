@@ -159,12 +159,12 @@ if (!isset($_SESSION['student_full_name'])) {
             <!-- Filter Section -->
             <section class="filter mb-4">
                 <form method="GET" action="" class="form-inline">
-                    <label for="result_status" class="mr-2">Filter by Result Status:</label>
+                    <label for="result_status" class="mr-2">Filter by Registration Status:</label>
                     <select name="result_status" id="result_status" class="form-control mr-2">
-                        <option value="" <?= ($result_status == '') ? 'selected' : '' ?>>All Result Status</option>
+                        <option value="" <?= ($result_status == '') ? 'selected' : '' ?>>All Registration Status</option>
                         <option value="pending" <?= ($result_status == 'pending') ? 'selected' : '' ?>>Pending</option>
                         <option value="completed" <?= ($result_status == 'completed') ? 'selected' : '' ?>>Completed</option>
-                        <option value="incomplete" <?= ($result_status == 'incomplete') ? 'selected' : '' ?>>Incomplete</option>
+                        <option value="incomplete" <?= ($result_status == 'incomplete') ? 'selected' : '' ?>>Cancelled</option>
                     </select>
 
                     <input type="submit" value="Filter" class="btn btn-primary">
@@ -463,14 +463,6 @@ Reupload
                        <input type="text" name="displayfilepath" id="oldTransactionFilePathModal" class="form-control filePathDisplay" readonly>
                    </div>
                </div>
-               <!-- <div class="form-row align-items-center mb-3">
-                   <div class="col-md-4">
-                       <label class="col-form-label">Select File:</label>
-                   </div>
-                   <div class="col-md-8">
-                       <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
-                   </div>
-               </div> -->
                <div class="form-row align-items-center mb-3">
         <div class="col-md-4">
             <label class="col-form-label">Transaction Slip:</label>
@@ -529,25 +521,6 @@ Reupload
                     <div class="modal-body">
                         <!-- Form for file upload -->
                         <form method="POST" enctype="multipart/form-data" action="upload_transactionslip.php" class="mt-2">
-                            <!-- <div class="form-row align-items-center mb-3">
-                                <div class="col-md-4">
-                                    <label for="TransactionFilePathModal" class="col-form-label">Uploaded File:</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="text" name="displayfilepath" id="TransactionFilePathModal" class="form-control filePathDisplay" readonly>
-                                </div>
-                            </div> -->
-
-                            
-                            <!-- <div class="form-row align-items-center mb-3">
-                                <div class="col-md-4">
-                                    <label class="col-form-label">Select File:</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="file" name="transaction_slip" accept=".png, .jpg, .jpeg, .pdf" class="form-control-file" id="selectfile">
-                                </div>
-                            </div> -->
-
     <div class="form-row align-items-center mb-3">
         <div class="col-md-4">
             <label class="col-form-label">Transaction Slip:</label>
@@ -960,6 +933,23 @@ Please wait for Lecturer to reupload this Certificate
     
     <script>
 
+        // Data Table 
+        $(document).ready(function() {
+            $('#certificationTable').DataTable({
+                "paging": true, // Enable pagination
+                "ordering": true, // Enable column sorting
+                "info": true, // Show table information
+                "searching": true, // Enable search
+                "stateSave": true, // Enable state saving
+                "responsive": false
+            });
+
+            // Add custom placeholder text and icon
+            $('.dataTables_filter input')
+                .attr('placeholder', 'Search...')
+                .before('<i class="fas fa-search" style="margin-right: 10px; color: #007BFF;"></i>');
+            });
+
         /////////////////////// Javascript ////////////////////////////////
         // Display accurate information on modal table (Edit) 
         document.addEventListener("DOMContentLoaded", function () {
@@ -1131,6 +1121,7 @@ Please wait for Lecturer to reupload this Certificate
                 fileReader.readAsDataURL(file);
             });
         }
+        
 
         });
 
@@ -1376,22 +1367,7 @@ Please wait for Lecturer to reupload this Certificate
         });
 
     
-        // Data Table 
-        $(document).ready(function() {
-            $('#certificationTable').DataTable({
-                "paging": true, // Enable pagination
-                "ordering": true, // Enable column sorting
-                "info": true, // Show table information
-                "searching": true, // Enable search
-                "stateSave": true, // Enable state saving
-                "responsive": false
-            });
-
-            // Add custom placeholder text and icon
-            $('.dataTables_filter input')
-                .attr('placeholder', 'Search...')
-                .before('<i class="fas fa-search" style="margin-right: 10px; color: #007BFF;"></i>');
-            });
+        
 
             function handleNotification(registration_id) {
 

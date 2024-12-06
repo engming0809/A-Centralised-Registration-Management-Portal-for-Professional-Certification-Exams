@@ -1,0 +1,56 @@
+%FDF-1.2
+1 0 obj << /FDF << /Fields [
+<< /V /cpre /T (type) >>
+<< /V /cash_che /T (payment) >>
+<< /V (CHIN CHUN KIAT) /T (full_name) >>
+<< /V (MALAYSIA) /T (nationality) >>
+<< /V (021113) /T (ic_num_1) >>
+<< /V (13) /T (ic_num_2) >>
+<< /V (1561) /T (ic_num_3) >>
+<< /V (13) /T (dob_day) >>
+<< /V (11) /T (dob_month) >>
+<< /V (2002) /T (dob_year) >>
+<< /V /male /T (gender) >>
+<< /V (KUCHING, SARAWAK) /T (pob) >>
+<< /V /chinese /T (race) >>
+<< /V (SWINBURN) /T (company_name) >>
+<< /V (STUDENT) /T (job) >>
+<< /V /fresh_entry /T (position_level) >>
+<< /V (NO 1615 LORONG 20A2) /T (address) >>
+<< /V (KUCHING) /T (city) >>
+<< /V (93350) /T (postcode) >>
+<< /V (SARAWAK) /T (state_country) >>
+<< /V (016) /T (phone_code) >>
+<< /V (3122750) /T (phone) >>
+<< /V (014) /T (phone_alt_code) >>
+<< /V (3422567) /T (phone_alt) >>
+<< /V (012) /T (phone_work_code) >>
+<< /V (2344543) /T (phone_work) >>
+<< /V (CCKIAT2002@GMAIL.COM) /T (email_pri) >>
+<< /V (JODOE@GMAIL.COM) /T (email_sec) >>
+<< /V /bachelor /T (education) >>
+<< /V /less /T (work_exp) >>
+<< /V (JALAN SIMPANG TIGA) /T (comp_add) >>
+<< /V (KUCHING) /T (comp_city) >>
+<< /V (93350) /T (comp_post) >>
+<< /V (SARAWAK) /T (comp_state_country) >>
+<< /V (CHIN CHUN KIAT) /T (comp_con_name) >>
+<< /V (014) /T (comp_con_num_code) >>
+<< /V (5677324) /T (comp_con_num) >>
+<< /V (CCKIAT2002@GMAIL.COM) /T (comp_email) >>
+<< /V /first /T (exam_type) >>
+<< /V /online /T (exam_mode) >>
+<< /V (BCCK) /T (exam_location) >>
+<< /V (31) /T (exam_date_day) >>
+<< /V (12) /T (exam_date_month) >>
+<< /V (2024) /T (exam_date_year) >>
+<< /V /lang_yes /T (lang_spoke) >>
+<< /V /lang_writ_yes /T (lang_writ) >>
+<< /V /agree /T (privacy) >>
+<< /V (CHIN CHUN KIAT) /T (app_name) >>
+<< /V (data:image/png;base64,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) /T (signature) >>
+] >> >>
+endobj
+trailer
+<</Root 1 0 R>>
+%%EOF

@@ -1,13 +1,10 @@
 <?php
-// process_register.php
 
-// Load Composer's autoloader for PHPMailer
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-require 'PHPMailer/src/Exception.php';
+require 'vendor/autoload.php'; // Include the Mailjet library
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use \Mailjet\Resources;
+
+session_start();
 
 // Initialize error array
 $errors = [];
@@ -16,10 +13,14 @@ $error_status = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection parameters
-    $servername = "localhost"; 
-    $username = "root"; 
-    $password = ""; 
-    $dbname = "cert_reg_management_db"; 
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "cert_reg_management_db";
+
+    // Mailjet API credentials
+    $mailjetApiKey = 'f3a4ec9a624b3edc801f0260aa17d9d6';
+    $mailjetApiSecret = 'd87dc2068c46050e544b2111350caa8e';
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -85,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 // Send verification email
-                sendVerificationEmail($email, $verification_token);
+                sendVerificationEmail($email, $verification_token, $mailjetApiKey, $mailjetApiSecret);
                 $success_message = "Registration successful! Please check your email to verify your account.";
             } else {
                 $error_status[] = "Error: " . $stmt->error;
@@ -101,35 +102,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Function to send verification email
-function sendVerificationEmail($email, $verification_token) {
-    $verification_link = "http://localhost/verification.php?token=$verification_token";
+function sendVerificationEmail($email, $verification_token, $mailjetApiKey, $mailjetApiSecret) {
+    $verification_link = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . "/verification.php?token=$verification_token";
 
-    $mail = new PHPMailer(true);
-    try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'adolf4201989@gmail.com'; // Replace with your SMTP username
-        $mail->Password = 'upcu ewmg inmo wrxb'; // Replace with your SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
 
-        // Recipients
-        $mail->setFrom('adolf4201989@gmail.com', 'Mailer');
-        $mail->addAddress($email);
+    // Mailjet client
+    $mj = new \Mailjet\Client($mailjetApiKey, $mailjetApiSecret, true, ['version' => 'v3.1']);
 
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Email Verification';
-        $mail->Body = "Click on this link to verify your email: <a href='$verification_link'>$verification_link</a>";
+    // Email body
+    $body = [
+        'Messages' => [
+            [
+                'From' => [
+                    'Email' => "cckiat2002@gmail.com",
+                    'Name' => "Certification Registration Management Portal"
+                ],
+                'To' => [
+                    [
+                        'Email' => $email,
+                        'Name' => "Student"
+                    ]
+                ],
+                'Subject' => "Email Verification",
+                'TextPart' => "Click the link to verify your email: $verification_link",
+                'HTMLPart' => "<h3>Welcome!</h3><p>Please click <a href='$verification_link'>here</a> to verify your email.</p>"
+            ]
+        ]
+    ];
 
-        $mail->send();
-        echo "Verification email has been sent.";
-    } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
+    $response = $mj->post(Resources::$Email, ['body' => $body]);
 }
+
+
 ?>
 
 

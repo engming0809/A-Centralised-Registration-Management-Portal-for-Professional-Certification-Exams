@@ -81,7 +81,7 @@
             } else {
                 // Insert the new record
                 insertRecord($cert_name, $description, $requirements, $schedule, $cost, $conn);
-                echo "<script>alert('Certification added successfully!');</script>";
+                echo "<script>alert('Certification Added successfully.'); window.location.href='lec_overview_cert.php';</script>";
             }
         } else {
             echo "<script>alert('localhost said: Error checking for duplicate certification: " . $conn->error . "');</script>";

@@ -131,8 +131,7 @@ if (isset($_GET['certificationID'])) {
         // Close the connection
         $conn->close();
         ?>
-    <div class="container">
-        <h1 class="text-center mb-4">Certification Application Form</h1>
+    <div class="container formmain">
         <form onsubmit="return validateForm()" action="stu_overview_cert_formfiller.php" method="post">
             <!---------- Reupload Form ------->
             <input type="hidden" name="reupload_form_id" id="modalReuploadRegFormId" value="<?php echo htmlspecialchars($reuploadformID ?? ''); ?>">
@@ -839,6 +838,7 @@ if (isset($_GET['certificationID'])) {
     <div class="col-sm-9">
         <input type="text" class="form-control" id="app_name_textbox" name="app_name_textbox" required placeholder="Enter your Full Name"
         oninput="toUpperCase(this)" title="Please enter alphabetic characters only (spaces allowed)." 
+        value="<?php echo htmlspecialchars($form_data['app_name_textbox'] ?? ''); ?>"
         pattern="[A-Za-z\s]+" maxlength="82">
     </div>
 </div>
